@@ -1,0 +1,102 @@
+/**************************************************************************
+ * Copyright(c) 1998-1999, ALICE Experiment at CERN, All rights reserved. *
+ *                                                                        *
+ * Author: The ALICE Off-line Project.                                    *
+ * Contributors are mentioned in the code where appropriate.              *
+ *                                                                        *
+ * Permission to use, copy, modify and distribute this software and its   *
+ * documentation strictly for non-commercial purposes is hereby granted   *
+ * without fee, provided that the above copyright notice appears in all   *
+ * copies and that both the copyright notice and this permission notice   *
+ * appear in the supporting documentation. The authors make no claims     *
+ * about the suitability of this software for any purpose. It is          *
+ * provided "as is" without express or implied warranty.                  *
+ **************************************************************************/
+
+$Id: $
+
+
+Fluka VMC - VirtualMC implementation for FLUKA
+==============================================
+
+Licence:
+--------
+
+The ALICE code of Fluka VMC can of course be distributed freely. 
+FLUKA is obtained via the standard licensing procedure described 
+on the FLUKA web page. To be able to use Fluka VMC together with FLUKA, 
+a special derogation must be asked to the FLUKA project. 
+This procedure is not formalised, but it is a necessary step
+in using of this package.
+
+
+Files:
+------
+  README     - this file
+  history    - the tags history
+  source     - source code
+  input      - common input files
+	      
+   
+Environment:
+------------
+  Fluka VMC requires the Root and FLUKA installations.
+  The paths to these installations are defined using their
+  standard environment variables:
+
+  ROOTSYS  - path to Root installation
+  FLUPRO   - path to FLUKA installation
+  FLUVMC   - path to Fluka VMC installation
+
+  The load paths to shared libraries for Root and Fluka VMC
+  have to be added to the environment variable  
+  LD_LIBRARY_PATH - on Linux, Solaris, SGI, Alpha/OSF;
+  SHLIB_PATH - on HP-UX.
+    
+Compilation:
+------------
+  Fluka VMC requires Root and FLUKA installation.
+  Instructions for these installations can be found in their
+  own documentation, they are not provided in this README. 
+
+  cd fluka_vmc/source
+  gmake
+
+  Compilation targets:
+  default    builds shared libraries
+  static     builds static libraries
+  clean      removes tmp
+  cleanall   removes lib, tmp
+  dist       creates tar file with distribution of source + binary files
+  distsrc    creates tar file with distribution of source
+  
+  Note: dist, distsrc not yet available
+  
+Examples
+============
+  Several simple examples of usage of VMC are included in geant4_vmc. 
+  In spite of being provided within Geant4 VMC, they are built independently 
+  and do not require Geant4 installation in case you want to run them 
+  with Geant3 or Fluka only.
+  See more details in the README files provided with the examples sources.
+  
+  A shell script for preparing the working directory for
+  running VMC application with FLUKA is provided with the examples
+  (geant4_vmc/examples/macro/run_fluka.sh).
+  It links all the necessary files in the working directory: 
+  neuxsc.bin -> $FLUPRO/neuxsc_72.bin
+  random.dat -> $FLUPRO/random.dat
+  coreFlukaVmc.inp -> $FLUVMC/input/coreFlukaVmc.inp
+
+  To build VMC examples libraries:
+  cd geant4_vmc/examples
+  gmake  
+
+  To run examples:
+  cd geant4_vmc/examples/E01
+  root
+  root [0] .x run_g3.C   // to run with Geant3
+  root [0] .x run_g4.C   // to run with Geant4
+  root [0] .x run_fl.C   // to run with Fluka
+  
+
