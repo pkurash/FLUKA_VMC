@@ -13,7 +13,7 @@
  * provided "as is" without express or implied warranty.                  *
  **************************************************************************/
 
-/* $Id: TFlukaCerenkov.cxx,v 1.9 2006/09/21 09:32:57 morsch Exp $*/
+/* $Id$*/
 
 //
 // Stores user defined cerenkov properties of media like 

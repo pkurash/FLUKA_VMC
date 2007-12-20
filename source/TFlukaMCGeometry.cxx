@@ -13,7 +13,7 @@
  * provided "as is" without express or implied warranty.                  *
  **************************************************************************/
 
-// $Id: TFlukaMCGeometry.cxx,v 1.37 2007/10/30 19:19:56 morsch Exp $
+// $Id$
 
 // Class TFlukaMCGeometry
 // --------------------

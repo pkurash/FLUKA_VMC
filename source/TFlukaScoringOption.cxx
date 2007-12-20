@@ -13,7 +13,7 @@
  * provided "as is" without express or implied warranty.                  *
  **************************************************************************/
 
-/* $Id: TFlukaScoringOption.cxx,v 1.5 2006/11/20 10:24:11 morsch Exp $*/
+/* $Id$*/
 
 #include "TFlukaScoringOption.h"
 #include "TFlukaMCGeometry.h"
