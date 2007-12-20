@@ -1,9 +1,11 @@
-$Id: history 295 2007-10-04 23:17:33Z rdm $
+$Id$
 
      
 Tags (history):
 ===============     
-  12/12/2007:   
-  First revision:
+  20/12/2007
+  v0-1:  
     Implementation of TVirtualMC interface (in Root) for Fluka;
     source: AliRoot/TFluka.
+
+  Tested with FLUKA .v2006.3b.8, Root 5.17/08.
