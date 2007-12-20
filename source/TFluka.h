@@ -3,7 +3,7 @@
 /* Copyright(c) 1998-1999, ALICE Experiment at CERN, All rights reserved. *
  * See cxx source for full Copyright notice                               */
 
-/* $Id: TFluka.h,v 1.72 2007/11/28 15:46:20 morsch Exp $ */
+/* $Id: TFluka.h,v 1.73 2007/11/29 14:04:07 morsch Exp $ */
 
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
@@ -306,9 +306,9 @@ class TFluka : public TVirtualMC {
   // -------------------
   //
   virtual Bool_t DefineParticle(Int_t, const char*, TMCParticleType, Double_t, Double_t, Double_t) {return kFALSE;}
-  virtual Bool_t DefineParticle(Int_t, const char*, TMCParticleType, Double_t, Double_t, Double_t, 
-                   const TString&, Double_t, Int_t, Int_t, Int_t, Int_t, Int_t, Int_t, Int_t, Int_t, 
-                   Bool_t, Bool_t = kFALSE, const TString& = "", Int_t = 0, Double_t = 0.0, Double_t = 0.0) {return kFALSE;}
+  virtual Bool_t DefineParticle(Int_t, const char*, TMCParticleType, Double_t, Double_t, Double_t,
+				const TString&, Double_t, Int_t, Int_t, Int_t, Int_t, Int_t, Int_t, Int_t, Int_t,
+				Bool_t, Bool_t = kFALSE, const TString& = "", Int_t = 0, Double_t = 0.0, Double_t = 0.0) {return kFALSE;}
   virtual Bool_t DefineIon(const char*, int, int, int, double, double) {return kFALSE;}
   virtual TString  ParticleName(int pdg)      const;
   virtual Double_t ParticleMass(int pdg)      const;
