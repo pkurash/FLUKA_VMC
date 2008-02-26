@@ -138,6 +138,7 @@ TFluka::TFluka()
    fStopEvent(kFALSE),
    fStopRun(kFALSE),
    fPrimaryElectronIndex(-1),
+   fLowEnergyNeutronTransport(kFALSE),
    fMaterials(0),
    fNVolumes(0),
    fCurrentFlukaRegion(-1),
@@ -176,6 +177,7 @@ TFluka::TFluka(const char *title, Int_t verbosity, Bool_t isRootGeometrySupporte
    fStopEvent(kFALSE),
    fStopRun(kFALSE),
    fPrimaryElectronIndex(-1),
+   fLowEnergyNeutronTransport(kFALSE),
    fMaterials(0),
    fNVolumes(0),
    fCurrentFlukaRegion(-1),
@@ -495,8 +497,6 @@ void TFluka::Mixture(Int_t& kmat, const char *name, Double_t *a,
   // In this case, WMAT in output is changed to relative
   // weigths.
   //
-    printf("Mixture %5d %10s %5d \n", kmat, name, nlmat);
-    
   Int_t i,j;
   if (nlmat < 0) {
      nlmat = - nlmat;
@@ -593,7 +593,6 @@ void TFluka::Mixture(Int_t& kmat, const char *name, Double_t *a,
      delete [] wmatnew;
      return;     
    }
-  printf("Mixture (2) %5d %10s %5d \n", kmat, name, nlmat);
   gGeoManager->Mixture(name, a, z, dens, nlmat, wmat, kmat);
 } 
 
