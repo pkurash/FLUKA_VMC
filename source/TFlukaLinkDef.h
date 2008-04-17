@@ -13,6 +13,7 @@
 #pragma link C++ class  TFlukaCerenkov+;
 #pragma link C++ class  TFlukaConfigOption+;
 #pragma link C++ class  TFlukaScoringOption+;
+#pragma link C++ class  TFlukaIon+;
 #endif
 
 

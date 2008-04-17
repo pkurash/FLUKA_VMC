@@ -66,7 +66,7 @@ DHDR    := TFlukaLinkDef.h
 
 # C++ Headers copied to include
 #
-HDRS    := TFlukaCerenkov.h TFlukaCodes.h TFlukaConfigOption.h TFluka.h TFlukaMCGeometry.h TFlukaScoringOption.h TFlukaLinkDef.h  
+HDRS    := TFlukaCerenkov.h TFlukaCodes.h TFlukaConfigOption.h TFluka.h TFlukaMCGeometry.h TFlukaScoringOption.h TFlukaIon.h TFlukaLinkDef.h  
 HEADERS	:= $(wildcard *.h)
 
 # Objects
