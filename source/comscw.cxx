@@ -13,8 +13,8 @@
 #endif
 const Double_t  oned  = 1.00000e+00;
 const Double_t  factr = 1.60217e-07;
-extern "C" double type_of_call comscw(int& ij, double& xa, double& ya, double& za,
-				    int& mreg, double& rull, int& llo, int& icall)
+extern "C" double type_of_call comscw(int& /*ij*/, double& /*xa*/, double& /*ya*/, double& /*za*/,
+				      int& mreg, double& /*rull*/, int& /*llo*/, int& /*icall*/)
 
 {
 //
