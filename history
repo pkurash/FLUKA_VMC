@@ -3,6 +3,17 @@ $Id$
      
 Tags (history):
 ===============     
+  21/07/2008
+  v0-2:  
+    - Support for user defined primary ions
+    - Support for isomers
+    - Corrections for primary ionisation steps. 
+      (TrackTime(), TrackLength() and TrackStep())
+    - Option to force low-energy neutron transport added.
+
+  Tested with FLUKA .v2006.3b.10, Root 5.20/00.
+    
+
   20/12/2007
   v0-1:  
     Implementation of TVirtualMC interface (in Root) for Fluka;
