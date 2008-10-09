@@ -45,6 +45,7 @@ extern "C" {
 *              dedxmvax/t0zffc.f                                       *
 *              elsmvax/sigtab.f                                        *
 *              emfmvax/ededxf.f                                        *
+*              emfmvax/emenio.f                                        *
 *              emfmvax/emfin.f                                         *
 *              emfmvax/emfret.f                                        *
 *              emfmvax/emfsco.f                                        *
@@ -62,6 +63,11 @@ extern "C" {
 *              mainmvax/matcrd.f                                       *
 *              mainmvax/zeroin.f                                       *
 *                                                                      *
+*
+*         Dedxmp (i,m) = restricted (up to Tmxmip(m)) MIP dE/dx        *
+*                        (GeV/cm) for particle type i and medium m     *
+*         Tmxmip (i,m) = maximum secondary electron energy (GeV) used  *
+*                        when computing Dedxmp(i,m),  for medium m     *
 *           Avionp (m) = average ionization potential (eV) of medium m *
 *           Ccster (m) = Sternheimer cbar   parameter for medium m     *
 *           X0ster (m) = Sternheimer x0     parameter for medium m     *
@@ -78,15 +84,24 @@ extern "C" {
 *           Pthrmx     = maximum momentum of the tabulations           *
 *           Anpicm (m) = average number of primary ionization per cm   *
 *                        for a mip for medium m (at NTP for a gas)     *
+*           Ansicm (m) = average number of secondary ionization per cm *
+*                        for a mip for medium m (at NTP for a gas)     *
 *           Frstip (m) = first ionization potential for medium m (GeV) *
+*           Aenioc (m) = average energy spent per ion couple in medium *
+*                        m (GeV)                                       *
 *           Faltmt (m) = density modifying factor for a possible alt-  *
 *                        ernate material for medium m                  *
 *           Maltmt (m) = alternate material for medium m               *
 *           Msdpdx (m) = possible "special material" flag for medium m *
 *                        0: no special treatment                       *
-*                        1: implicit delta production down to Avionr   *
-*                           inside ..dedxf.. routines with recording   *
-*                           of the selected values activated           *
+*                        i>0: primary ionization production with i_th  *
+*                             (i=1,2,3,4) model inside ..dedxf.. rout- *
+*                             ines with recording of the selected val- *
+*                             ues activated                            *
+*           Liopos (m) = (primary) ionization positions requested for  *
+*                        medium m                                      *
+*           Lsecio (m) = secondary ionizations requested for medium m  *
+*                                                                      *
 *----------------------------------------------------------------------*
 *
       PARAMETER ( MNDPDX = 50 )
@@ -95,11 +110,20 @@ extern "C" {
       PARAMETER ( DPDXR2 = 0.70D+00 )
       PARAMETER ( ERDEDX = 0.15D+00 * 0.15D+00 )
       PARAMETER ( MDPDXH =  4 )
+*  "MIP" related parameters:
+      PARAMETER ( ETAMIP = THRTHR )
+      PARAMETER ( BETMIP = 0.9486832980505138D+00 )
+      PARAMETER ( GAMMIP = ETAMIP / BETMIP )
+      PARAMETER ( TAUMIP = GAMMIP - ONEONE )
+      PARAMETER ( GMIPSQ = GAMMIP * GAMMIP )
+      PARAMETER ( BMIPSQ = BETMIP * BETMIP )
 *  Toln10 = 2 x log (10)
       PARAMETER ( TOLN10 = 4.605170185988091 D+00 )
 *
-      LOGICAL LDELTA, LPDETB, LETFUN
+      LOGICAL LDELTA, LPDETB, LETFUN, LHVNFF, LIOPOS, LSECIO
       COMMON / DPDXCM / P0DPDX (MPDPDX,MXXMDF), P1DPDX (MPDPDX,MXXMDF),
+     &                  DEDXMP (-2:MPDPDX,MXXMDF),
+     &                  TMXMIP (-2:MPDPDX,MXXMDF),
      &                  TMDPDX (MXXMDF), T0DPDX (MXXMDF),
      &                  TEDPDX (MXXMDF), D0DPDX (MXXMDF),
      &                  AVIONP (MXXMDF), RHORFL (MXXMDF),
@@ -109,11 +133,13 @@ extern "C" {
      &                  D0STER (MXXMDF), AVIONT (MXXMDF),
      &                  ETDPDX (MXXMDF), ALMASS (MPDPDX), PTHRMX,
      &                  FRSTIP (MXXMDF), ANPICM (MXXMDF),
+     &                  AENIOC (MXXMDF), ANSICM (MXXMDF),
      &                  FALTMT (MXXMDF), MALTMT (MXXMDF),
      &                  MSDPDX (MXXMDF), NBDPDX (MXXMDF),
      &                  KDPDXT (MPDPDX,MXXMDF),
      &                  LDELTA (MXXMDF), LPDETB (MXXMDF),
-     &                  IJDPDX (-6:NALLWP), LETFUN
+     &                  LIOPOS (MXXMDF), LSECIO (MXXMDF),
+     &                  IJDPDX (-6:NALLWP), LETFUN, LHVNFF
       SAVE / DPDXCM /
 */
 
@@ -123,10 +149,19 @@ extern "C" {
     const Double_t  dpdxr2 = 0.70e0;
     const Double_t  erdedx = 0.15e0 * 0.15e0;
     const Int_t     mdpdxh = 4;
+    
+    const Double_t  etamip = thrthr;
+    const Double_t  betmip = 0.9486832980505138e+00; 
+    const Double_t  gammip = etamip / betmip;
+    const Double_t  taumip = gammip - oneone;
+    const Double_t  gmipsq = gammip * gammip;
+    const Double_t  bmipsq = betmip * betmip;
 
     typedef struct {
 	Double_t p0dpdx [mxxmdf][mpdpdx];
 	Double_t p1dpdx [mxxmdf][mpdpdx];
+        Double_t dedxmp [mxxmdf][mpdpdx +3];
+        Double_t tmxmip [mxxmdf][mpdpdx +3];
 	Double_t tmdpdx [mxxmdf];
 	Double_t t0dpdx [mxxmdf];
 	Double_t tedpdx [mxxmdf];
@@ -146,6 +181,8 @@ extern "C" {
 	Double_t pthrmx;
 	Double_t frstip [mxxmdf];
 	Double_t anpicm [mxxmdf];
+        Double_t aenioc [mxxmdf]; 
+        Double_t ansicm [mxxmdf];      
 	Double_t faltmt [mxxmdf];
 	Int_t    maltmt [mxxmdf];
 	Int_t    msdpdx [mxxmdf];
@@ -153,8 +190,11 @@ extern "C" {
 	Int_t    kdpdxt [mxxmdf][mpdpdx];
 	Int_t    ldelta [mxxmdf];
 	Int_t    lpdetb [mxxmdf];
+        Int_t    liopos [mxxmdf];
+        Int_t    lsecio [mxxmdf];
 	Int_t    ijdpdx [nallwp + 7];
 	Int_t    letfun;
+        Int_t    lhvnff;
     } dpdxcmCommon;
 #define DPDXCM COMMON_BLOCK(DPDXCM,dpdxcm)
 COMMON_BLOCK_DEF(dpdxcmCommon, DPDXCM);

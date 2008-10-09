@@ -4,109 +4,156 @@
 #include "Fdimpar.h"
 
 extern "C" {
-//*$ create trackr.add
-//*copy trackr
-//*                                                                      *
-//*=== trackr ===========================================================*
-//*                                                                      *
-//*----------------------------------------------------------------------*
-//*                                                                      *
-//*     tracks recording       by  alfredo ferrari, infn - milan         *
-//*                                                                      *
-//*     last change    31 january 2001    by   alfredo ferrari           *
-//*                                                                      *
-//*            included in :                                             *
-//*                          electr                                      *
-//*                          emfsco                                      *
-//*                          kaskad (new version)                        *
-//*                          kashea                                      *
-//*                          kasneu                                      *
-//*                          geoden (new version)                        *
-//*                          mageas                                      *
-//*                          magmov                                      *
-//*                          magnew                                      *
-//*                          move                                        *
-//*                          photon                                      *
-//*                          usrsco                                      *
-//*                                                                      *
-//*          ntrack = number of track segments                           *
-//*          mtrack = number of energy deposition events along the track *
-//*   0 < i < ntrack                                                     *
-//*          xtrack = end x-point of the ith track segment               *
-//*          ytrack = end y-point of the ith track segment               *
-//*          ztrack = end z-point of the ith track segment               *
-//*   1 < i < ntrack                                                     *
-//*          ttrack = length of the ith track segment                    *
-//*   1 < j < mtrack                                                     *
-//*          dtrack = energy deposition of the jth deposition event      *
-//*          dptrck = momentum loss of the jth deposition event          *
-//*                                                                      *
-//*          Jtrack = identity number of the particle: for recoils or    *
-//*                   kerma deposition it can be outside the allowed     *
-//*                   particle id range, assuming values like:           *
-//*                     208: "heavy" recoil                              *
-//*                     211: EM below threshold                          *
-//*                     308: low energy neutron kerma                    *
-//*                   in those cases the id of the particle originating  *
-//*                   the interaction is saved inside J0trck (which othe-*
-//*                   rwise is zero)                                     *
-//*          J0trck = see above                                          *
-//*          Ifltrk = flag used for internal debugging (trying to solve  *
-//*                   possible residual issues with Mgdraw driven        *
-//*                   quenching)                                         *
-//*          etrack = total energy of the particle                       *
-//*          ptrack = momentum of the particle (not always defined, if   *
-//*                 < 0 must be obtained from etrack)                    *
-//*      cx,y,ztrck = direction cosines of the current particle          *
-//*      cx,y,ztrpl = polarization cosines of the current particle       *
-//*          wtrack = weight of the particle                             *
-//*          wscrng = scoring weight: it can differ from wtrack if some  *
-//*                   biasing techniques are used (for example inelastic *
-//*                   interaction length biasing)                        *
-//*          ctrack = total curved path                                  *
-//*          cmtrck = cumulative curved path since particle birth        *
-//*          zfftrk = <z_eff> of the particle                            *
-//*          zfrttk = actual z_eff of the particle                       *
-//*          atrack = age of the particle                                *
-//*          akshrt = kshrt amplitude for k0/k0bar                       *
-//*          aklong = klong amplitude for k0/k0bar                       *
-//*          wninou = neutron algebraic balance of interactions (both    *
-//*                   for "high" energy particles and "low" energy       *
-//*                   neutrons)                                          *
-//*          spausr = user defined spare variables for the current       *
-//*                   particle                                           *
-//*          sttrck = macroscopic total cross section for low energy     *
-//*                   neutron collisions                                 *
-//*          satrck = macroscopic absorption cross section for low energy*
-//*                   neutron collisions (it can be negative for pnab>1) *
-//*          ktrack = if > 0 neutron group of the particle (neutron)     *
-//*                                                                      *
-//*          ntrack > 0, mtrack > 0 : energy loss distributed along the  *
-//*                                   track                              *
-//*          ntrack > 0, mtrack = 0 : no energy loss along the track     *
-//*          ntrack = 0, mtrack = 0 : local energy deposition (the       *
-//*                                   value and the point are not re-    *
-//*                                   corded in trackr)                  *
-//*          mmtrck = flag recording the material index for low energy   *
-//*                   neutron collisions                                 *
-//*          lt1trk = initial lattice cell of the current track          *
-//*                  (or lattice cell for a point energy deposition)     *
-//*          lt2trk = final   lattice cell of the current track          *
-//*          ihspnt = current geometry history pointer (not set if -1)   *
-//*          ltrack = flag recording the generation number               *
-//*          llouse = user defined flag for the current particle         *
-//*          ispusr = user defined spare flags for the current particle  *
-//*          lfsssc = logical flag for inelastic interactions ending with*
-//*                   fission (used also for low energy neutrons)        *
-//*                                                                      *
-//*----------------------------------------------------------------------*
-//
-
-//
-// TFluka specific:
-// ispusr[mkbmx2 - 1] : track index in vmcstack
-// ispusr[mkbmx2 - 2] : flag for "interrupted" track
-//
+  
+/*
+*                                                                      *
+*=== trackr ===========================================================*
+*                                                                      *
+*----------------------------------------------------------------------*
+*                                                                      *
+*     Copyright (C) 1990-2008           by   Alfredo Ferrari           *
+*     All Rights Reserved.                                             *
+*                                                                      *
+*                                                                      *
+*     TRACKs Recording       by  Alfredo Ferrari, INFN - Milan         *
+*                                                                      *
+*     last change      18 July 2008     by   Alfredo Ferrari           *
+*                                                                      *
+*            included in :                                             *
+*                          bdnopt                                      *
+*                          crnkvp                                      *
+*                          dedx                                        *
+*                          delthr                                      *
+*                          doeimb                                      *
+*                          dohimb                                      *
+*                          doiosp                                      *
+*                          donimb                                      *
+*                          estprf                                      *
+*                          electr                                      *
+*                          em2fls                                      *
+*                          emdedx                                      *
+*                          emfgeo                                      *
+*                          emfsco                                      *
+*                          emnwnp                                      *
+*                          eventv                                      *
+*                          evxtes                                      *
+*                          fkbirk                                      *
+*                          flnwst                                      *
+*                          kasemf                                      *
+*                          kaskad                                      *
+*                          kashea                                      *
+*                          kasneu                                      *
+*                          kasoph                                      *
+*                          kasray                                      *
+*                          geoden                                      *
+*                          geofar                                      *
+*                          geomag                                      *
+*                          geomtr                                      *
+*                          geonor                                      *
+*                          lbxrfl                                      *
+*                          mageas                                      *
+*                          magnew                                      *
+*                          photfl                                      *
+*                          photon                                      *
+*                          propph                                      *
+*                          prtstp                                      *
+*                          scntlp                                      *
+*                          stprnc                                      *
+*                          usrsco                                      *
+*                          usrsrn                                      *
+*                          zeroin                                      *
+*                                                                      *
+*          Ntrack = number of track segments                           *
+*          Mtrack = number of energy deposition events along the track *
+*   0 < i < Ntrack                                                     *
+*          Xtrack = end x-point of the ith track segment               *
+*          Ytrack = end y-point of the ith track segment               *
+*          Ztrack = end z-point of the ith track segment               *
+*   1 < i < Ntrack                                                     *
+*          Ttrack = length of the ith track segment                    *
+*   1 < j < Mtrack                                                     *
+*          Dtrack = energy deposition of the jth deposition event      *
+*          Dptrck = momentum loss of the jth deposition event          *
+*                                                                      *
+*          Jtrack = identity number of the particle: for recoils or    *
+*                   kerma deposition it can be outside the allowed     *
+*                   particle id range, assuming values like:           *
+*                     208: "heavy" recoil                              *
+*                     211: EM below threshold                          *
+*                     308: low energy neutron kerma                    *
+*                   in those cases the id of the particle originating  *
+*                   the interaction is saved inside J0trck (which othe-*
+*                   rwise is zero)                                     *
+*          J0trck = see above                                          *
+*          Ifltrk = flag used for internal debugging (trying to solve  *
+*                   possible residual issues with Mgdraw driven        *
+*                   quenching)                                         *
+*          Etrack = total energy of the particle                       *
+*          Ptrack = momentum of the particle (not always defined, if   *
+*                 < 0 must be obtained from Etrack)                    *
+*      Cx,y,ztrck = direction cosines of the current particle          *
+*      Cx,y,ztrpl = polarization cosines of the current particle       *
+*          Wtrack = weight of the particle                             *
+*          Wscrng = scoring weight: it can differ from Wtrack if some  *
+*                   biasing techniques are used (for example inelastic *
+*                   interaction length biasing)                        *
+*          Ctrack = total curved path                                  *
+*          Cmtrck = cumulative curved path since particle birth        *
+*          Zfftrk = <Z_eff> of the particle                            *
+*          Zfrttk = actual Z_eff of the particle                       *
+*          Atrack = age of the particle                                *
+*          Akshrt = Kshrt amplitude for K0/K0bar                       *
+*          Aklong = Klong amplitude for K0/K0bar                       *
+*          Wninou = neutron algebraic balance of interactions (both    *
+*                   for "high" energy particles and "low" energy       *
+*                   neutrons)                                          *
+*          Spausr = user defined spare variables for the current       *
+*                   particle                                           *
+*          Sttrck = macroscopic total cross section for low energy     *
+*                   neutron collisions                                 *
+*          Satrck = macroscopic absorption cross section for low energy*
+*                   neutron collisions (it can be negative for Pnab>1) *
+*          Tkniel = fraction of energy deposition going into NIEL      *
+*          Tkedpa = fraction of energy deposition going into DPAs      *
+*          Ktrack = if > 0 neutron group of the particle (neutron)     *
+*                                                                      *
+*          Ntrack > 0, Mtrack > 0 : energy loss distributed along the  *
+*                                   track                              *
+*          Ntrack > 0, Mtrack = 0 : no energy loss along the track     *
+*          Ntrack = 0, Mtrack = 0 : local energy deposition (the       *
+*                                   value and the point are not re-    *
+*                                   corded in Trackr)                  *
+*          Mmtrck = flag recording the material index for low energy   *
+*                   neutron collisions                                 *
+*          Lt1trk = initial lattice cell of the current track          *
+*                  (or lattice cell for a point energy deposition)     *
+*          Lt2trk = final   lattice cell of the current track          *
+*          Ihspnt = current geometry history pointer (not set if -1)   *
+*          Ltrack = flag recording the generation number               *
+*          Llouse = user defined flag for the current particle         *
+*          Ispusr = user defined spare flags for the current particle  *
+*          Lfsssc = logical flag for inelastic interactions ending with*
+*                   fission (used also for low energy neutrons)        *
+*          Lpkill = logical (user) flag for sudden particle death      *
+*                                                                      *
+*----------------------------------------------------------------------*
+*                                                                      *
+      PARAMETER ( MXTRCK = 2500 )
+      LOGICAL LFSSSC, LPKILL
+      COMMON / TRACKR /  XTRACK ( 0:MXTRCK ), YTRACK ( 0:MXTRCK ),
+     &                   ZTRACK ( 0:MXTRCK ), TTRACK   ( MXTRCK ),
+     &                   DTRACK   ( MXTRCK ), DPTRCK ( 3,MXTRCK ),
+     &                   ETRACK, PTRACK, CXTRCK, CYTRCK, CZTRCK, WTRACK,
+     &                   CXTRPL, CYTRPL, CZTRPL, ZFFTRK, ZFRTTK, ATRACK,
+     &                   CTRACK, CMTRCK, AKSHRT, AKLONG, WSCRNG, WNINOU,
+     &                   SPAUSR(MKBMX1), STTRCK, SATRCK, TKNIEL, TKEDPA,
+     &                   NTRACK, MTRACK, IFLTRK, JTRACK, J0TRCK, KTRACK,
+     &                   MMTRCK, LT1TRK, LT2TRK, IHSPNT, LTRACK, LLOUSE,
+     &                   ISPUSR(MKBMX2), LFSSSC, LPKILL
+      EQUIVALENCE ( SPAUSE, SPAUSR (1) )
+      EQUIVALENCE ( ISPUSE, ISPUSR (1) )
+      SAVE / TRACKR /
+*/
     
 const Int_t mxtrck = 2500;
 
@@ -138,6 +185,8 @@ typedef struct {
     Double_t spausr[mkbmx1];
     Double_t sttrck;
     Double_t satrck;
+    Double_t tkniel;
+    Double_t tkedpa;
     Int_t    ntrack;
     Int_t    mtrack;
     Int_t    ifltrk;

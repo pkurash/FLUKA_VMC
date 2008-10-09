@@ -12,15 +12,15 @@ extern "C" {
 *----------------------------------------------------------------------*
 *                                                                      *
 *     Partial (some variables come from FLUKA87)                       *
-*     Copyright (C) 1996-2005      by        Alfredo Ferrari           *
+*     Copyright (C) 1996-2008      by        Alfredo Ferrari           *
 *     All Rights Reserved.                                             *
 *                                                                      *
 *                                                                      *
 *     FLuKa MATerial properties and atomic data                        *
 *                                                                      *
-*     Version for Fluka91/.../2005/...:                                *
+*     Version for Fluka91/.../2008/...:                                *
 *                                                                      *
-*     Last change on  28-Apr-05    by  Alfredo Ferrari, INFN-Milan     *
+*     Last change on  04-Jun-08    by  Alfredo Ferrari, INFN-Milan     *
 *                                                                      *
 *                                                                      *
 *     This common contains the basic properties of the materials used  *
@@ -43,7 +43,8 @@ extern "C" {
 *                 for beam particles at the average beam energy in cm  *
 *     Aellng(i) = Elastic scattering length of the i_th material for   *
 *                 beam particles at average beam energy in cm          *
-*      X0rad(i) = Radiation lengths of the materials in cm             *
+*      X0rad(i) = Radiation length of the i_th material in cm          *
+*     Dmgene(i) = Damage energy of the i_th material (GeV)             *
 *     Ainnth(i) = Inelastic scattering length of the i_th material     *
 *                 for neutrons at threshold energy in cm               *
 *     Medium(k) = Material number of the k_th region                   *
@@ -58,12 +59,14 @@ extern "C" {
 *                 target nucleus (meaningful only for mssnum > 0)      *
 *                 that it is in the natural isotopic composition       *
 *     Lcmpnd(i) = logical flag for real compounds versus mixtures      *
+*     Libsnm(i) = flag whether inelastic interaction biasing must be   *
+*                 done for this medium                                 *
 *     Matnam(i) = Alphabetical name of the i_th material number        *
+*        Nmtibs = number of materials to which inelastic biasing       *
+*                 applies                                              *
 *        Nregs  = total number of regions                              *
 *        Nregcg = total number of combinatorial geometry regions       *
 *        Nmat   = total number of materials used in the problem        *
-*        Mtbsnm = medium for which inelastic interaction biasing must  *
-*                 be done                                              *
 *                                                                      *
 *                        Mxxmdf = maximum number of materials          *
 *                        Mxxrgn = maximum number of regions            *
@@ -71,14 +74,15 @@ extern "C" {
 *----------------------------------------------------------------------*
 *
       CHARACTER*8 MATNAM
-      LOGICAL     LCMPND
+      LOGICAL     LCMPND, LIBSNM
       COMMON / FLKMAT / AOCMBM(MXXMDF), EOCMBM(MXXMDF), AMSS  (MXXMDF),
      &                  AMSSEM(MXXMDF), RHO   (MXXMDF), ZTAR  (MXXMDF),
      &                  ZTAREM(MXXMDF), ZSQTAR(MXXMDF), AINLNG(MXXMDF),
      &                  AELLNG(MXXMDF), X0RAD (MXXMDF), AINNTH(MXXMDF),
+     &                  DMGENE(MXXMDF),
      &                  MEDIUM(MXXRGN), MULFLG(MXXMDF), ICOMP (MXXMDF),
      &                  MSSNUM(MXXMDF), MSINDX(MXXMDF), LCMPND(MXXMDF),
-     &                  NREGS , NMAT  , MTBSNM, NREGCG
+     &                  LIBSNM(MXXMDF), NMTIBS, NREGS , NMAT  , NREGCG
       COMMON / CHFLKM / MATNAM(MXXMDF)
       SAVE / FLKMAT /
       SAVE / CHFLKM /
@@ -97,15 +101,17 @@ extern "C" {
 	Double_t aellng[mxxmdf];
 	Double_t x0rad [mxxmdf];
 	Double_t ainnth[mxxmdf];
+        Double_t dmgene[mxxmdf];
 	Int_t    medium[mxxrgn];
 	Int_t    mulflg[mxxmdf];
 	Int_t    icomp [mxxmdf];
 	Int_t    mssnum[mxxmdf];
 	Int_t    msindx[mxxmdf];
 	Int_t    lcmpnd[mxxmdf];
+        Int_t    libsnm[mxxmdf];
+        Int_t    nmtibs;
 	Int_t    nregs;
 	Int_t    nmat;
-	Int_t    mtbsnm;
 	Int_t    nregcg;
     } flkmatCommon;
 #define FLKMAT COMMON_BLOCK(FLKMAT,flkmat)

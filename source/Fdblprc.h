@@ -139,6 +139,7 @@ const Double_t rhflmn = 1.0e-10;
 //*         pip5o2 = 5/2 x pipipi                                        *
 //*         pipisq = pipipi x pipipi                                     *
 //*         pihalf = 1/2 x pipipi                                        *
+//*         R3tovl = 4/3 x Pipipi                                        *
 //*         erfa00 = erf (oo) = 1/2 x square root of pi                  *
 //*         sqtwpi = square root of 2xpi                                 *
 //*         eulero = eulero's constant                                   *
@@ -189,6 +190,7 @@ const Double_t rhflmn = 1.0e-10;
     const Double_t pip5o2 = 7.853981633974483096156608458199e+00;
     const Double_t pipisq = 9.869604401089358618834490999876e+00;
     const Double_t pihalf = 1.570796326794896619231321691640e+00;
+    const Double_t r3tovl = foufou * pipipi / thrthr; // 2008.3
     const Double_t erfa00 = 0.886226925452758013649083741671e+00;
     const Double_t sqrtpi = 1.772453850905516027298167483341e+00;
     const Double_t sqtwpi = 2.506628274631000502415765284811e+00;
@@ -292,6 +294,8 @@ const Double_t rhflmn = 1.0e-10;
 //*                    b_atomic (z) = fertho x z^expebn (gev)            *
 //*         bexc12 = fermi-thomas approximated expression for 12-c ato-  *
 //*                  mic binding energies (gev)                          *
+//*         Ba2cmq = from barns to square centimetres                    *
+//*         Cmq2ba = from square centimetres to barns                    *
 //*         amunmu = difference between the atomic and nuclear mass units*
 //*         amuc12 = "nuclear" mass unit = 1/12 m_nucl (12-c),           *
 //*                  m_nucl (12-c) = m_atom (12-c) - 6 m_e + b_atom(12-c)*
@@ -373,6 +377,8 @@ const Double_t s0thms = eigeig / thrthr * pipipi * rclsel * rclsel * cmq2mb;
 //*  new Fermi-Thomas parametrization of atomic binding energies:
 const Double_t fertho = 14.33e-9;
 const Double_t expebn = 2.39e+00;
+const Double_t ba2cmq = 1.00e-24; // 2008.3
+const Double_t cmq2ba = 1.00e+24; // 2008.3
 const Double_t bexc12 = fertho*72.40715579499394e+00;
 const Double_t amunmu = hlfhlf*amelct-bexc12/12.e+00;
 const Double_t amuc12 = amugev-amunmu;

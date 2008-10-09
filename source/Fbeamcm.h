@@ -50,6 +50,7 @@ extern "C" {
 //*        Dzvlmn = minimum Dz for a cartesian/cylindrical volume source *
 //*        Ijbeam = beam particle type (see btype in /paprop/)           *
 //*        Ijhion = heavy ion type if ijbeam = -2                        *
+//*        Nucdbm = neutrino intraction codeword for a neutrino beam     *
 //*        Ldpgss = true for a gaussian momentum distribution of the     *
 //*                 beam particles, false for a rectangular one          *
 //*        Ldvgss = true for a gaussian angular divergence distribution  *
@@ -106,6 +107,7 @@ typedef struct {
     Double_t dzvlmx;
     Int_t    ijbeam;
     Int_t    ijhion;
+    Int_t    nucdbm;
     Int_t    ldpgss;
     Int_t    ldvgss;
     Int_t    ldxgss;

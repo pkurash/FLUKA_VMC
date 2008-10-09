@@ -24,6 +24,7 @@ extern "C" {
 //*          Mpdpdx = number of particle types for which EM dE/dx pro-   *
 //*                   cesses (ion,pair,bremss) have to be computed       *
 //*          Mxhttr = maximum number of (hit) target nucleons for a      *
+//*          Mxglwn = maximum neutron group number                       *
 //*                   given collision generation                         *
 //*          Icomax = maximum number of materials for compounds/mixtures *
 //*                  (equal to the sum of the number of materials for    *
@@ -50,6 +51,7 @@ extern "C" {
 //*          Mxirrd = maximum number of irradiation sub-intervals        *
 //*          Mxtrdc = maximum number of decay (cooling) times            *
 //*          Nktl   = overall dimension parameter for EMF bremsstrahlung *
+//*          Nblnmx = blank common dimension in real*8 units!            *
 //*                                                                      *
 //*----------------------------------------------------------------------*   
 
@@ -58,12 +60,13 @@ extern "C" {
 //    const Int_t mxxmde = 502;
     const Int_t mxxmdf = 710;   // 2006.3
     const Int_t mxxmde = 702;   // 2006.3
-    const Int_t mfstck = 6500;
+    const Int_t mfstck = 40000; // 2008.3
     const Int_t mestck = 100;
     const Int_t mostck = 2000;
     const Int_t mxprsn = 100;
     const Int_t mxpdpm = 800;
-    const Int_t mxpscs = 4999;
+    const Int_t mxpscs = 30000; // 2008.3
+    const Int_t mxglwn = 300;   // 2008.3
     const Int_t mxoutu = 50;
     const Int_t nallwp = 64;
     const Int_t nelemx = 80;
@@ -90,9 +93,10 @@ extern "C" {
 //*     const Int_t mkbmx2 =    3;
     const Int_t mkbmx1 = 11;
     const Int_t mkbmx2 = 11;
-    const Int_t mxirrd = 500;
-    const Int_t mxtrdc = 500;
+    const Int_t mxirrd = 2500;  // 2008.3
+    const Int_t mxtrdc = 1500;  // 2008.3
     const Int_t nktl   = 17;
-}
+    const Int_t nblnmx = 40000000;  // 2008.3 
+}  
 
 #endif

@@ -58,7 +58,7 @@ extern "C" {
 
 
 //    const Int_t mxgnpr =  33; // 2006.3
-    const Int_t mxgnpr =  35;
+    const Int_t mxgnpr =  45;   // 2008.3
     typedef struct {
 	Double_t am[nallwp+7];         //(-6:NALLWP)
 	Double_t amdisc[nallwp+7];     //(-6:NALLWP)
