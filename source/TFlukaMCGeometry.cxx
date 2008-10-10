@@ -692,7 +692,7 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
             out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << Double_t(mat->GetIndex());
             out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << 18.;
             out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << -2.;
-            out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << 293.;
+            out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << 296.;
             out << setw(10) << " ";
             out << setw(10) << " ";
 //            out << setw(8) << matname.Data() << endl;
