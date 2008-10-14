@@ -1852,7 +1852,7 @@ Double_t TFluka::TrackCharge() const
   if (caller != kEEDRAW && caller != kSODRAW) 
      return PAPROP.ichrge[CorrectFlukaId() + 6];
   else if (caller == kSODRAW) {
-      Int_t ifl =  PDGFromId(FLKSTK.iloflk[FLKSTK.npflka]);
+      Int_t ifl =  FLKSTK.iloflk[FLKSTK.npflka];
       return PAPROP.ichrge[ifl + 6];
   }
   else
