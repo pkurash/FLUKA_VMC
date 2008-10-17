@@ -40,26 +40,27 @@ GDICTO   := $(patsubst %.cxx,%.o,$(GDICT))
 # Sources
 #
 
-FSRC	:= FLUKA_input.f crnkvp.f
+FSRC	:= FLUKA_input.f crnkvp.f genout.f frfxfm.f
 
 ifeq ($(FLUSCW),1MEVN)
-FSRCS+=fluscw_1mevn.f
+FSRC+=fluscw_1mevn.f
 endif
 
 ifeq ($(FLUSCW),DEQ99C)
-FSRCS+=fluscw_deq99c.f
+FSRC+=fluscw_deq99c.f
 endif
+
+ifeq ($(COMSCW),ACTIVITY)
+FSRC+=comscw_activity.f
+endif
+
+CXXSRC	:= $(filter-out comscw.cxx,$(wildcard *.cxx))
+SRCS	:= $(FSRC) $(CXXSRC)
 
 ifeq ($(COMSCW),DEFAULT)
 SRCS+=comscw.cxx
 endif
 
-ifeq ($(COMSCW),ACTIVITY)
-FSRCS+=comscw_activity.f
-endif
-
-CXXSRC	:= $(wildcard *.cxx) 
-SRCS	:= $(FSRC) $(CXXSRC)
 
 # ROOT Dictionary
 DHDR    := TFlukaLinkDef.h
