@@ -3,6 +3,15 @@ $Id$
      
 Tags (history):
 ===============     
+  17/10/2008
+  v0-3:  
+    - Migration to Fluka 2008.3
+    - Bug fix TrackCharge() (visible only when loading a particle from the 
+      primary stack)
+    
+  Tested with FLUKA 2008.3.2, Root 5.21/04.
+    
+
   21/07/2008
   v0-2:  
     - Support for user defined primary ions
