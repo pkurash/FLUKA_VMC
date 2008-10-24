@@ -40,7 +40,7 @@ GDICTO   := $(patsubst %.cxx,%.o,$(GDICT))
 # Sources
 #
 
-FSRC	:= FLUKA_input.f crnkvp.f genout.f frfxfm.f
+FSRC	:= FLUKA_input.f crnkvp.f
 
 ifeq ($(FLUSCW),1MEVN)
 FSRC+=fluscw_1mevn.f
