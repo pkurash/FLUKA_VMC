@@ -79,7 +79,7 @@ OBJS	:= $(CXXOBJ) $(FOBJ) $(GDICTO)
 
 # External libs
 #
-ELIBS   := -L$(FLUPRO) -lflukahp -lg2c
+ELIBS   := -L$(FLUPRO) -lflukahp
 
 # Make include list
 #
