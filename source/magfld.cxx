@@ -52,7 +52,20 @@ extern "C" void type_of_call magfld(double& x,   double& y,   double& z,
 	idisc = 1;
     }
     
-    (TVirtualMCApplication::Instance())->Field(xc, bc);
+    
+    if ( gMC->GetMagField() ) {
+      gMC->GetMagField()->Field(xc, bc);
+    }
+    else {  
+      static Bool_t warn = true;   
+      if (warn) { 
+        Warning("magfld", "Using deprecated function TVirtualMCApplication::Field().");
+        Warning("magfld", "New TVirtualMagField interface should be used instead.");
+        warn = false;
+      }        
+
+      TVirtualMCApplication::Instance()->Field(xc, bc);
+    }  
     
     b = sqrt(bc[0] * bc[0] + bc[1] * bc[1] + bc[2] * bc[2]);
     if (b) {
