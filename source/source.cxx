@@ -90,7 +90,8 @@ extern "C" {
     static Bool_t lastParticleWasPrimary = true;
 
     nomore = 0;
-
+    SOURCM.lsouit = kTRUE;
+    
     
 //  Get the stack 
     TVirtualMCStack* cppstack = fluka->GetStack();
