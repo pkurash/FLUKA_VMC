@@ -3,6 +3,15 @@ $Id$
      
 Tags (history):
 ===============     
+  06/03/2009
+  v0-4:  
+    - Adaptation to the new VMC mag field interface
+    - Migration to FLUKA 2008.3.7
+    - Minor fixes in Makefile for Mac, COMSCW option.
+    
+  Tested with FLUKA 2008.3.7, Root 5.23/02.
+    
+
   17/10/2008
   v0-3:  
     - Migration to Fluka 2008.3
