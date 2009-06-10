@@ -394,11 +394,11 @@ Bool_t TFluka::ProcessRun(Int_t nevent) {
   return kTRUE;
 }
 
-//_____________________________________________________________________________
+//______________________________________________________________________________
 // methods for building/management of geometry
 
 // functions from GCONS 
-//____________________________________________________________________________ 
+//______________________________________________________________________________ 
 void TFluka::Gfmate(Int_t imat, char *name, Float_t &a, Float_t &z,  
                     Float_t &dens, Float_t &radl, Float_t &absl,
                     Float_t* /*ubuf*/, Int_t& /*nbuf*/) {
@@ -687,7 +687,7 @@ void TFluka::Gstpar(Int_t itmed, const char* param, Double_t parval) {
 }    
 
 // functions from GGEOM 
-//_____________________________________________________________________________
+//______________________________________________________________________________
 void TFluka::Gsatt(const char *name, const char *att, Int_t val)
 { 
   // Set visualisation attributes for one volume
@@ -776,7 +776,7 @@ void TFluka::Gsbool(const char* /*onlyVolName*/, const char* /*manyVolName*/) {
 // Nothing to do with TGeo
 }
 
-//______________________________________________________________________
+//______________________________________________________________________________
 Bool_t TFluka::GetTransformation(const TString &volumePath,TGeoHMatrix &mat)
 {
     // Returns the Transformation matrix between the volume specified
@@ -802,7 +802,7 @@ Bool_t TFluka::GetTransformation(const TString &volumePath,TGeoHMatrix &mat)
    return fMCGeo->GetTransformation(volumePath, mat);
 }   
    
-//______________________________________________________________________
+//______________________________________________________________________________
 Bool_t TFluka::GetShape(const TString &volumePath,TString &shapeType,
                         TArrayD &par)
 {
@@ -820,7 +820,7 @@ Bool_t TFluka::GetShape(const TString &volumePath,TString &shapeType,
    return fMCGeo->GetShape(volumePath, shapeType, par);
 }
    
-//______________________________________________________________________
+//______________________________________________________________________________
 Bool_t TFluka::GetMaterial(const TString &volumeName,
                             TString &name,Int_t &imat,
                             Double_t &a,Double_t &z,Double_t &dens,
@@ -847,7 +847,7 @@ Bool_t TFluka::GetMaterial(const TString &volumeName,
    return fMCGeo->GetMaterial(volumeName,name,imat,a,z,dens,radl,inter,par);
 }
 
-//______________________________________________________________________
+//______________________________________________________________________________
 Bool_t TFluka::GetMedium(const TString &volumeName,TString &name,
                          Int_t &imed,Int_t &nmat,Int_t &isvol,Int_t &ifield,
                          Double_t &fieldm,Double_t &tmaxfd,Double_t &stemax,
@@ -994,9 +994,9 @@ void TFluka::WriteEuclid(const char* /*fileName*/, const char* /*topVol*/,
 
 
 
-//_____________________________________________________________________________
+//______________________________________________________________________________
 // methods needed by the stepping
-//____________________________________________________________________________ 
+//______________________________________________________________________________ 
 
 Int_t TFluka::GetMedium() const {
 //
@@ -1009,24 +1009,24 @@ Int_t TFluka::GetMedium() const {
     }
 }
 
-//____________________________________________________________________________ 
+//______________________________________________________________________________ 
 Int_t TFluka::GetDummyRegion() const
 {
 // Returns index of the dummy region.
    return fGeom->GetDummyRegion();
 }   
 
-//____________________________________________________________________________ 
+//______________________________________________________________________________ 
 Int_t TFluka::GetDummyLattice() const
 {
 // Returns index of the dummy lattice.
    return fGeom->GetDummyLattice();
 }   
 
-//____________________________________________________________________________ 
+//______________________________________________________________________________ 
 // particle table usage
 // ID <--> PDG transformations
-//_____________________________________________________________________________
+//______________________________________________________________________________
 Int_t TFluka::IdFromPDG(Int_t pdg) const 
 {
 
@@ -1099,6 +1099,7 @@ Int_t TFluka::PDGFromId(Int_t id) const
     }
 }
 
+//______________________________________________________________________________ 
 void TFluka::StopTrack()
 {
     // Set stopping conditions
@@ -1106,13 +1107,14 @@ void TFluka::StopTrack()
     fStopped = kTRUE;
 }
   
-//_____________________________________________________________________________
+//______________________________________________________________________________
 // methods for physics management
-//____________________________________________________________________________ 
+//______________________________________________________________________________ 
 //
 // set methods
 //
 
+//______________________________________________________________________________ 
 void TFluka::SetProcess(const char* flagName, Int_t flagValue, Int_t imed)
 {
 //  Set process user flag for material imat
@@ -1196,6 +1198,7 @@ Bool_t TFluka::SetCut(const char* cutName, Double_t cutValue)
 }
 
 
+//______________________________________________________________________________ 
 void TFluka::SetUserScoring(const char* option, const char* sdum, Int_t npr, char* outfile, Float_t* what)
 {
 //
@@ -1373,6 +1376,7 @@ void TFluka::SetMaxStep(Double_t step)
 }
 
 
+//______________________________________________________________________________ 
 Double_t TFluka::MaxStep() const
 {
 // Return the maximum for current medium
@@ -1923,6 +1927,7 @@ Bool_t   TFluka::IsNewTrack() const
    return fTrackIsNew;
 }
 
+//______________________________________________________________________________ 
 void     TFluka::SetTrackIsNew(Bool_t flag)
 {
 // Return true for the first call of Stepping()
@@ -2162,6 +2167,7 @@ TMCProcess TFluka::ProdProcess(Int_t) const
 }
 
 
+//______________________________________________________________________________ 
 Int_t TFluka::StepProcesses(TArrayI &proc) const
 {
   //
@@ -2260,6 +2266,7 @@ const char* TFluka::VolName(Int_t id) const
    return fMCGeo->VolName(id);
 }
 
+//______________________________________________________________________________ 
 Int_t TFluka::MediumId(const Text_t* mediumName) const
 {
     //
@@ -2340,6 +2347,7 @@ const char* TFluka::CurrentVolOffName(Int_t off) const
   return node->GetVolume()->GetName();
 }
 
+//______________________________________________________________________________ 
 const char* TFluka::CurrentVolPath() {
   // Return the current volume path
   return gGeoManager->GetPath(); 
@@ -2447,6 +2455,17 @@ TObjArray *TFluka::GetFlukaMaterials()
 // Get array of Fluka materials
    return fGeom->GetMatList();
 }   
+
+//______________________________________________________________________________
+void  TFluka::SetUserParameters(Bool_t /*isUserParameters*/)
+{
+// Activate the parameters defined in tracking media
+// (DEEMAX, STMIN, STEMAX), which are, be default, ignored.
+// As all parameters are ignored in FLUKA, just give a warning.
+
+   Warning("SetUserParameters", 
+           "User defined parameters in tracking media are ignored in FLUKA.");
+}
 
 //______________________________________________________________________________
 void TFluka::SetMreg(Int_t l, Int_t lttc) 
@@ -2678,7 +2697,7 @@ void TFluka::GetPrimaryElectronPosition(Int_t i, Double_t& x, Double_t& y, Doubl
 }
 
 
-//__________________________________________________________________
+//______________________________________________________________________________
 Int_t TFluka::GetSpecialPdg(Int_t number) const
 {
 // Numbering for special particles
@@ -2711,7 +2730,7 @@ void  TFluka::PrimaryIonisationStepping(Int_t nprim)
     SetCurrentPrimaryElectronIndex(-1);
 }
 
-//______________________________________________________________________
+//______________________________________________________________________________
 Float_t* TFluka::CreateFloatArray(Double_t* array, Int_t size) const
 {
 // Converts Double_t* array to Float_t*,
@@ -2734,6 +2753,7 @@ Float_t* TFluka::CreateFloatArray(Double_t* array, Int_t size) const
   return floatArray;
 }
 
+//______________________________________________________________________________
 void TFluka::CalcPrimaryIonisationTime()
 {
     // Calculates the primary ionisation time
@@ -2763,6 +2783,7 @@ void TFluka::CalcPrimaryIonisationTime()
     
 }
 
+//______________________________________________________________________________
 Bool_t TFluka::DefineIon(const char* name , Int_t z, Int_t a, Int_t q, Double_t exE, Double_t mass)
 {
     // User defined ion that can be used as a primary
