@@ -73,13 +73,24 @@ HEADERS	:= $(wildcard *.h)
 
 # Objects
 #
+HIAR1   := $(FLUPRO)/libdpmmvax.a 
+HIAR2   := $(FLUPRO)/librqmdmvax.a   
+
 FOBJ	:= $(patsubst %.f,$(BINDIR)/%.o,$(FSRC))
 CXXOBJ	:= $(patsubst %.cxx,$(BINDIR)/%.o,$(CXXSRC))
 OBJS	:= $(CXXOBJ) $(FOBJ) $(GDICTO)
 
+# Needed for hadronic ion interactions
+ifeq ($(FLUKAWITHDPMJET),YES) 
+OBJS    := $(OBJS) $(shell mkdir -p hitmp && cd hitmp && ar -x $(HIAR1) && ar -x $(HIAR2) && ls  $(TOPDIR)/source/hitmp/*.o) 
+endif
+
 # External libs
 #
-ELIBS   := -L$(FLUPRO) -lflukahp
+ELIBS   := -L$(FLUPRO) -lflukahp  
+ifeq ($(FLUKAWITHDPMJET),YES) 
+ELIBS    := $(ELIBS) -L$(FLUPRO)/interface -L$(FLUPRO)/latestRQMD -ldpmjet3 -lrqmd
+endif
 
 # Make include list
 #
