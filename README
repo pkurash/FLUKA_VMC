@@ -70,8 +70,14 @@ Compilation:
   dist       creates tar file with distribution of source + binary files
   distsrc    creates tar file with distribution of source
   
-  Note: dist, distsrc not yet available
-  
+  Note: 
+  (a) dist, distsrc not yet available
+
+  (b) In case you want to simulate heavy ion hadronic reactions you have to link with 
+  the dpmjet3 libraries and interfaces. To do so, you have define the environment 
+  variable FLUKAWITHDPMJET
+  export FLUKAWITHDPMJET=YES
+ 
 Examples
 ============
   Several simple examples of usage of VMC are included in geant4_vmc. 
