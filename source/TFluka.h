@@ -396,7 +396,7 @@ class TFluka : public TVirtualMC {
 
   TObjArray *          GetFlukaMaterials();
   virtual void         SetRootGeometry() {;} // Dummy
-  virtual void         SetUserParameters(Bool_t /*isUserParameters*/);
+  virtual void         SetUserParameters(Bool_t /*isUserParameters*/) {}
   virtual Int_t        NofVolDaughters(const char* volName) const;
   virtual const char*  VolDaughterName(const char* volName, Int_t i) const;
   virtual Int_t        VolDaughterCopyNo(const char* volName, Int_t i) const;
