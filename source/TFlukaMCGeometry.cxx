@@ -1024,7 +1024,6 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    // Initialize FLUKa point and direction;
    static Int_t ierr = 0;
    gNstep++;
-//      gMCGeom->SetDebugMode(kTRUE);
    
    NORLAT.xn[0] = pSx;
    NORLAT.xn[1] = pSy;
@@ -1038,7 +1037,7 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    }
 
    if (gMCGeom->IsDebugging()) {
-      cout << "g1wr gNstep=" << gNstep << " oldReg="<< oldReg <<" olttc="<< olttc
+      cout << "g1wr gNstep=" << gNstep << " oldReg="<< oldReg <<" olttc="<< olttc << "pstep=" << propStep
            << " track=" << TRACKR.ispusr[mkbmx2-1] << endl;
       cout << " point: (" << pSx << ", " << pSy << ", " << pSz << ")  dir: ("
            << pV[0] << ", " << pV[1] << ", " << pV[2] << ")" << endl;
@@ -1113,7 +1112,7 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    const Double_t epsil = 0.9999999 * TGeoShape::Tolerance();
    // This should never happen !!!
    if (pstep<TGeoShape::Tolerance()) {
-      printf("Proposed step is 0 !!!\n");
+      printf("#%d Proposed step is %f !!!\n", gNstep, pstep);
       pstep = 2.*TGeoShape::Tolerance();
    }   
    if (crossed) {
@@ -1148,7 +1147,7 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
 //      printf("%d snext=%g\n", ierr, snext);
 //   }   
    if (ierr == 10) {
-//      printf("Too many null steps - sending error code -33...\n");
+      printf("Too many null steps - sending error code -33...\n");
       newReg = -33;   // Error code
       ierr = 0;
       return;
@@ -1324,7 +1323,7 @@ void lkwr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
       return;
    }
 
-   if (oldReg==newReg && oldLttc!=newLttc) {
+   if (oldReg==newReg && oldLttc!=newLttc && oldLttc!=TFlukaMCGeometry::kLttcVirtual) {
       newReg  = dummy;
       newLttc = TFlukaMCGeometry::kLttcVirtual;
       if (gMCGeom->IsDebugging()) printf("  virtual boundary!! newReg=%i newLttc=%i\n", newReg, newLttc);
