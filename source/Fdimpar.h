@@ -72,7 +72,7 @@ extern "C" {
     const Int_t nelemx = 80;
     const Int_t mpdpdx = 18;
     const Int_t mxhttr = 260;
-    const Int_t mxseax = 20;         // 2006.3
+    const Int_t mxseax = 30;         // 2008.3b2
     const Int_t mxhtnc = mxseax + 1; // 2006.3
 //    const Int_t icomax = 1000;
     const Int_t icomax = 2400; // 2006.3   
