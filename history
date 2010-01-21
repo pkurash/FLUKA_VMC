@@ -3,6 +3,18 @@ $Id$
      
 Tags (history):
 ===============     
+  20/10/2010
+  v0-5:
+    - Implemented new TVirtualMC function:
+      virtual void SetUserParameters(Bool_t isUserParameters)
+    - Possibility to load dpmjet libraries for hadronic ion collisions. 
+    - Correct EVENTYPE card for heavy ion hadronic collisions.
+    - A patch in lkwr() wrapper when dealing with virtual boundaries. 
+      Problem signaled by AMS
+    - Update to 2008.3b2
+
+  Tested with FLUKA 2008.3c_vmc, Root 5.26/00.
+      
   06/03/2009
   v0-4:  
     - Adaptation to the new VMC mag field interface
