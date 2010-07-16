@@ -729,10 +729,11 @@ void TFlukaConfigOption::ProcessCUTNEU()
         Float_t cutV = fCutValue[kCUTNEU];
         // 8.0 = Neutron
         // 9.0 = Antineutron
-        fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -neutronCut,  8.0,  9.0);
+	// obsolete
+        // fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -neutronCut,  8.0,  9.0);
         fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
-              Float_t(groupCut), Float_t(nGroup), 0.95, 2., Float_t(fgGeom->NofVolumes()), 1.);
-        //
+		Float_t(groupCut), Float_t(nGroup), 0.95, 2., Float_t(fgGeom->NofVolumes()), 1.);
+       //
        //
        // 12.0 = Kaon zero long
        fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -cutV, 12.0, 12.0);
