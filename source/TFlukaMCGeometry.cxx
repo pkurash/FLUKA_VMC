@@ -712,16 +712,15 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
                out << setw(10) << " ";
                out << setw(10) << " ";
                // missing material at Low Energy Cross Section Table
-               if( (int)z==10 || (int)z==21 || (int)z==34 || (int)z==37 || (int)z==39 || (int)z==44 ||
-                   (int)z==45 || (int)z==46 || (int)z==52 || (int)z==57 || (int)z==59 || (int)z==60 ||
-                   (int)z==61 || (int)z==65 || (int)z==66 || (int)z==67 || (int)z==68 || (int)z==69 ||
-                   (int)z==70 || (int)z==71 || (int)z==72 || (int)z==76 || (int)z==77 || (int)z==78 ||
-                   (int)z==81 || (int)z==84 || (int)z==85 || (int)z==86 || (int)z==87 || (int)z==88 ||
-                   (int)z==89 || (int)z==91 )
+               if( (int)z==10 || (int)z==34 || (int)z==37 || (int)z==44 || (int)z==45 || 
+		   (int)z==46 || (int)z==52 || (int)z==57 || (int)z==59 || (int)z==61 || 
+		   (int)z==66 || (int)z==67 || (int)z==68 || (int)z==69 || (int)z==70 || 
+		   (int)z==71 || (int)z==76 || (int)z==78 || (int)z==81 || (int)z==84 || 
+		   (int)z==85 || (int)z==86 || (int)z==87 || (int)z==88 || (int)z==89 || 
+		   (int)z==91 )
                   out << setw(8) << "UNKNOWN " << endl;
                else
                   out << setw(8) << elename.Data() << endl;
-   //               out << setw(8) << " " << endl;
             }
          }
          continue;
