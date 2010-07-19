@@ -239,9 +239,9 @@ void TFlukaConfigOption::ProcessPAIR()
     // gamma -> e+ e-
     //
     if (fProcessFlag[kPAIR] > 0) {
-       fprintf(fgFile,"EMFCUT    %10.1f%10.1f%10.4g%10.1f%10.1f%10.1fPHOT-THR\n",0., 0., 0.0, fCMatMin, fCMatMax, 1.);
+       fprintf(fgFile,"EMFCUT    %10.1f%10.1f%10.4g%10.1f%10.1f%10.1fPHOT-THR\n",0., 0., 0.,                 fCMatMin, fCMatMax, 1.);
     } else {
-       fprintf(fgFile,"EMFCUT    %10.1f%10.1f%10.4g%10.1f%10.1f%10.1fPHOT-THR\n",0., 0., 1e10,  fCMatMin, fCMatMax, 1.);
+       fprintf(fgFile,"EMFCUT    %10.1f%10.1f%10.4g%10.1f%10.1f%10.1fPHOT-THR\n",0., 0., 1e10,               fCMatMin, fCMatMax, 1.);
     }
     
     //
@@ -714,9 +714,8 @@ void TFlukaConfigOption::ProcessCUTNEU()
   // Find the FLUKA neutron group corresponding to the cut
   //
   Float_t neutronCut = cut;
-  Int_t groupCut = 1; // if cut is > 19.6 MeV no low energy neutron transport is performed
-  if (neutronCut < 0.0196) {
-    neutronCut = 0.0196;
+  Int_t groupCut = 0; // if cut is > 20.0 MeV no low energy neutron transport is performed
+  if (neutronCut < 0.020) {
     // Search the group cutoff for the energy cut
     Int_t i;
     for( i=0; i<nGroup; i++ ) {
@@ -730,9 +729,12 @@ void TFlukaConfigOption::ProcessCUTNEU()
         // 8.0 = Neutron
         // 9.0 = Antineutron
 	// obsolete
-        // fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -neutronCut,  8.0,  9.0);
-        fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
-		Float_t(groupCut), Float_t(nGroup), 0.95, 2., Float_t(fgGeom->NofVolumes()), 1.);
+	if (groupCut > 0) {
+	  fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
+		  Float_t(groupCut), 0., 0.95, 2., Float_t(fgGeom->NofVolumes()), 1.);
+	} else {
+	  fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -cutV, 8.0, 9.0);
+	}
        //
        //
        // 12.0 = Kaon zero long
@@ -774,7 +776,7 @@ void TFlukaConfigOption::ProcessCUTNEU()
 	    for (Int_t k = 0; k < nreg; k++) {
 		ireg = reglist[k];
 		fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
-			Float_t(groupCut), Float_t(nGroup), 0.95, ireg, ireg, 1.);
+			Float_t(groupCut), 0., 0.95, ireg, ireg, 1.);
 	    }
 	}
 	Warning("ProcessCUTNEU",
