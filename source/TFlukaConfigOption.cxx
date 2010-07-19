@@ -774,7 +774,7 @@ void TFlukaConfigOption::ProcessCUTNEU()
 	    for (Int_t k = 0; k < nreg; k++) {
 		ireg = reglist[k];
 		fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
-			Float_t(groupCut), 73.0, 0.95, ireg, ireg, 1.);
+			Float_t(groupCut), Float_t(nGroup), 0.95, ireg, ireg, 1.);
 	    }
 	}
 	Warning("ProcessCUTNEU",
