@@ -1364,17 +1364,13 @@ void TFluka::InitPhysics()
 
 
 //______________________________________________________________________________ 
-void TFluka::SetMaxStep(Double_t step)
+void TFluka::SetMaxStep(Double_t /*step*/)
 {
+    printf("This method is not supported by FLUKA !");
+    
 // Set the maximum step size
-//    if (step > 1.e4) return;
-    
-//    Int_t mreg=0, latt=0;
-//    fGeom->GetCurrentRegion(mreg, latt);
-
-    
-    Int_t mreg = fGeom->GetCurrentRegion();
-    STEPSZ.stepmx[mreg - 1] = step;
+//    Int_t mreg = fGeom->GetCurrentRegion();
+//    STEPSZ.stepmx[mreg - 1] = step;
 }
 
 
