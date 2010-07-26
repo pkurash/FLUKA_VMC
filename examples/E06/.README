@@ -1,0 +1,33 @@
+/*! 
+
+/// \file "E06/.README"
+/// \brief The Example E06 README page for Fluka
+
+
+\page README_E06 Example E06 with Fluka
+
+\section e06_s1 Description
+
+  For the complete description of this example see:
+  http://ivana.home.cern.ch/ivana/examples_html/README_E06.html
+
+\section e06_s2 Macros
+
+  For running example with Fluka:
+  <pre>
+  \link   E06/run_fl.C run_fl.C  \endlink - macro for running example 
+  \link E06/flConfig.C flConfig.C\endlink - configuration macro for Fluka
+  </pre>
+
+\section e06_s3 To run example 
+  <pre>
+  With Fluka:
+  root[0] .x \link E06/run_fl.C run_fl.C\endlink 
+  </pre>
+  
+\section e06_s4 Classes
+
+The documentation of all classes and the basic macros for this example
+is availabe on \link E06 this page \endlink. 
+
+*/

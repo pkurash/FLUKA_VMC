@@ -1,0 +1,33 @@
+/*! 
+
+\file "E02/.README"
+\brief The Example E02 README page for Fluka
+
+\page README_E02 Example E02 with Fluka
+
+\section e02_s1 Description
+
+  For the complete description of this example see:
+  http://ivana.home.cern.ch/ivana/examples_html/README_E02.html
+
+\section e02_s2 Macros
+
+  For running example with Fluka:
+  <pre>
+  \link   E02/run_fl.C run_fl.C  \endlink - macro for running example 
+  \link E02/flConfig.C flConfig.C\endlink - configuration macro for Fluka
+  </pre>
+
+
+\section e02_s3 To run example
+
+  <pre>
+  root[0] .x \link E02/run_fl.C run_fl.C\endlink 
+  </pre>
+  
+\section e02_s4 Classes
+
+The documentation of all classes and the basic macros for this example
+is availabe on \link E02 this page \endlink. 
+
+*/

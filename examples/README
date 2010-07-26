@@ -1,0 +1,70 @@
+$Id: README 381 2009-02-12 11:12:15Z ivana $
+
+------------------------------------------------
+ The Virtual Monte Carlo examples
+ Copyright (C) 2007, 2008 Ivana Hrivnacova
+ All rights reserved.
+
+ For the licensing terms see geant4_vmc/LICENSE.
+ Contact: vmc@pcroot.cern.ch
+-------------------------------------------------
+
+
+Introduction
+------------
+  To demonstrate use of VirtualMC, four Geant4 novice
+  examples (N01, N02, N03, N06) has been rewritten
+  as VMC applications.
+  
+  For the complete description of the examples see:
+  http://root.cern.ch/drupal/content/examples
+
+  Here we give only instructions how to run the exammples with Fluka.
+
+
+Macros:
+-------
+
+  In all examples there are provided macro:
+  
+  run_fl.C        - macro for running example 
+  flConfig.C      - configuration macro for Fluka
+ 
+To run example:
+---------------
+  
+  With Fluka:
+  root[0] .x run_fl.C  
+  
+Test macros:
+------------
+
+  To test all possible configurations, there is provided a test
+  macro for each examples
+
+  test_En.C(const TString& configMacro, Bool_t oldGeometry)
+     
+  with parameters:
+     - configMacro: configuration macro loaded in initialization 
+     - oldGeometry: if true - geometry is defined via VMC, otherwise via TGeo
+     
+  The tests with all configurations can be run within
+  the test suite:
+
+  test_suite.sh
+  
+  which saves all test outputs in the files which names correspond
+  to run configuration:
+    test_fl_tgeo.out  - Fluka, geometry defined via TGeo
+    test_fl_vmc.out   - Fluka, geometry defined via VMC
+
+  The files are saved in log/E0n directory.
+  The reference output files, which are updated with each release,
+  can be found at log_ref directory.  
+   
+  All run_*.C macros can be run via run suite script:
+
+  run_suite.sh
+  
+  which saves all output in run_*.out files.
+  
