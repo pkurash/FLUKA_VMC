@@ -56,47 +56,40 @@ extern "C" {
 //*----------------------------------------------------------------------*   
 
     const Int_t mxxrgn = 20000;
-//    const Int_t mxxmdf = 510;
-//    const Int_t mxxmde = 502;
-    const Int_t mxxmdf = 710;   // 2006.3
-    const Int_t mxxmde = 702;   // 2006.3
-    const Int_t mfstck = 40000; // 2008.3
+    const Int_t mxxmdf = 710;
+    const Int_t mxxmde = 702;
+    const Int_t mfstck = 40000;
     const Int_t mestck = 100;
     const Int_t mostck = 2000;
     const Int_t mxprsn = 100;
     const Int_t mxpdpm = 800;
-    const Int_t mxpscs = 30000; // 2008.3
-    const Int_t mxglwn = 300;   // 2008.3
+    const Int_t mxpscs = 30000;
+    const Int_t mxglwn = 300;
     const Int_t mxoutu = 50;
+    const Int_t mxknwc = 13;
+    const Int_t mxeshl = 32;
     const Int_t nallwp = 64;
     const Int_t nelemx = 80;
-    const Int_t mpdpdx = 18;
+    const Int_t mpdpdx = 33;
     const Int_t mxhttr = 260;
-    const Int_t mxseax = 30;         // 2008.3b2
-    const Int_t mxhtnc = mxseax + 1; // 2006.3
-//    const Int_t icomax = 1000;
-    const Int_t icomax = 2400; // 2006.3   
+    const Int_t mxseax = 30;
+    const Int_t mxhtnc = mxseax + 1;
+    const Int_t icomax = 2400;
     const Int_t ichmax = icomax+mxxmdf;
     const Int_t nstbis = 304;
     const Int_t nqstis = 46;
     const Int_t ntstis = nstbis + nqstis;
-    
-//* till 3-aug-99:
-//*     const Int_t mxpabl =  110;
     const Int_t mxpabl = 120;
     const Int_t idmaxp = 450;
     const Int_t idmxdc = 2000;
     const Int_t mxmcin = 410;
     const Int_t ihypmx = 4;
-//* till 19-jul-2000:
-//*     const Int_t mkbmx1 =    9;
-//*     const Int_t mkbmx2 =    3;
     const Int_t mkbmx1 = 11;
     const Int_t mkbmx2 = 11;
-    const Int_t mxirrd = 2500;  // 2008.3
-    const Int_t mxtrdc = 1500;  // 2008.3
+    const Int_t mxirrd = 2500;
+    const Int_t mxtrdc = 1500;
     const Int_t nktl   = 17;
-    const Int_t nblnmx = 40000000;  // 2008.3 
+    const Int_t nblnmx = 45000000;
 }  
 
 #endif

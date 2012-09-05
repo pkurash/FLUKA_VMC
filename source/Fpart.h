@@ -83,6 +83,9 @@ typedef struct {
    Double_t amdisc[idmaxp+7];
    Double_t zmnabs[idmaxp+7];
    Double_t atnmna[idmaxp+7];
+   Double_t atxn14;
+   Double_t atmn14;
+   Double_t rnrn14[21]; 
    Int_t    ich[idmaxp+7];
    Int_t    ibar[idmaxp+7];
    Int_t    isosym[idmaxp+7];

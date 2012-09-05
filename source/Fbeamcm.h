@@ -51,6 +51,7 @@ extern "C" {
 //*        Ijbeam = beam particle type (see btype in /paprop/)           *
 //*        Ijhion = heavy ion type if ijbeam = -2                        *
 //*        Nucdbm = neutrino intraction codeword for a neutrino beam     *
+//*        Isourc = Isourc_th special source routine invoked, if > 0     *
 //*        Ldpgss = true for a gaussian momentum distribution of the     *
 //*                 beam particles, false for a rectangular one          *
 //*        Ldvgss = true for a gaussian angular divergence distribution  *
@@ -74,7 +75,9 @@ extern "C" {
 //*        Lvlcyl = logical flag for using a cylindrical volume source   *
 //*        Lvlsph = logical flag for using a spherical   volume source   *
 //*        Lsourc = logical flag for a user written source routine       *
-//*        Lrdbea = logical flag for a radioactive isotope beam          * 2006.3
+//*        Lrdbea = logical flag for a radioactive isotope beam          *
+//*        Lnufin = logical flag for (anti)neutrino (forced) interactions*
+//*                 when used as primary beams                           *
 //*                                                                      *
 //*----------------------------------------------------------------------*
 
@@ -97,6 +100,7 @@ typedef struct {
     Double_t polfra;
     Double_t beawei;
     Double_t bmaxis[3][3];
+    Double_t rflood;
     Double_t rvlmin;
     Double_t rvlmax;
     Double_t dxvlmn;
@@ -108,6 +112,7 @@ typedef struct {
     Int_t    ijbeam;
     Int_t    ijhion;
     Int_t    nucdbm;
+    Int_t    isourc;
     Int_t    ldpgss;
     Int_t    ldvgss;
     Int_t    ldxgss;
@@ -121,7 +126,8 @@ typedef struct {
     Int_t    lvlcyl;
     Int_t    lvlsph;
     Int_t    lsourc;
-    Int_t    lrdbea; // 2006.3
+    Int_t    lrdbea; 
+    Int_t    lnufin;
 } beamcmCommon;
 #define BEAMCM COMMON_BLOCK(BEAMCM,beamcm)
 COMMON_BLOCK_DEF(beamcmCommon,BEAMCM);

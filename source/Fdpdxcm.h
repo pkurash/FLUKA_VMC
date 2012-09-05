@@ -91,6 +91,19 @@ extern "C" {
 *                        m (GeV)                                       *
 *           Faltmt (m) = density modifying factor for a possible alt-  *
 *                        ernate material for medium m                  *
+*            Ijdpdx(i) = index translation from (paprop) i_th particle *
+*                        index to dp/dx j_th particle index            *
+*            Kwdpdx(m) = index of the material in the pre-defined      *
+*                        I, Sternheimer, "known" compounds, arrays     *
+*                        for the m_th medium                           *
+*          Kdpdxt(j,m) = total dp/dx tabulation pointer for the j_th   *
+*                        dp/dx particle in the m_th medium             *
+*        Ndpdxt(k,j,m) = nuclear and NIEL dp/dx tabulation pointer for *
+*                        the j_th dp/dx particle in the m_th medium,   *
+*                        k=1 -> nuclear,                               *
+*                        k=2 -> NIEL unrestricted,                     *
+*                        k=3 -> NIEL restricted,                       *
+*                        k=4 -> DPA  restricted  
 *           Maltmt (m) = alternate material for medium m               *
 *           Msdpdx (m) = possible "special material" flag for medium m *
 *                        0: no special treatment                       *
@@ -98,9 +111,18 @@ extern "C" {
 *                             (i=1,2,3,4) model inside ..dedxf.. rout- *
 *                             ines with recording of the selected val- *
 *                             ues activated                            *
+*               Iazmdp = A x 100 + Z x 100000 + m x 10000000 of the ion*
+*                        whose dE/dx is tabulated                      *
 *           Liopos (m) = (primary) ionization positions requested for  *
 *                        medium m                                      *
 *           Lsecio (m) = secondary ionizations requested for medium m  *
+*               Lncdxx = flag for accounitng for nuclear stopping power*
+*               Lzl1bk = flag for accoutning for zL1  (Barkas) correc- *
+*                        tion term                                     *
+*               Lz2l2b = flag for accounting for z^2L2 (Bloch) correc- *
+*                        tion term                                     *
+*               Lhmott = flag for accounting for Mott corrections in   *
+*                        computing heavy ion stopping power            *
 *                                                                      *
 *----------------------------------------------------------------------*
 *
@@ -149,14 +171,15 @@ extern "C" {
     const Double_t  dpdxr2 = 0.70e0;
     const Double_t  erdedx = 0.15e0 * 0.15e0;
     const Int_t     mdpdxh = 4;
-    
+  // "MIP" related parameters    
     const Double_t  etamip = thrthr;
     const Double_t  betmip = 0.9486832980505138e+00; 
     const Double_t  gammip = etamip / betmip;
     const Double_t  taumip = gammip - oneone;
     const Double_t  gmipsq = gammip * gammip;
     const Double_t  bmipsq = betmip * betmip;
-
+  //  Toln10 = 2 x log (10)
+    const Double_t  toln10 = 4.605170185988091e+00;
     typedef struct {
 	Double_t p0dpdx [mxxmdf][mpdpdx];
 	Double_t p1dpdx [mxxmdf][mpdpdx];
@@ -188,6 +211,9 @@ extern "C" {
 	Int_t    msdpdx [mxxmdf];
 	Int_t    nbdpdx [mxxmdf];
 	Int_t    kdpdxt [mxxmdf][mpdpdx];
+        Int_t    kwdpdx [mxxmdf];
+        Int_t    ndpdxt [mxxmdf][mpdpdx][4];
+        Int_t    iazmdp;
 	Int_t    ldelta [mxxmdf];
 	Int_t    lpdetb [mxxmdf];
         Int_t    liopos [mxxmdf];
@@ -195,6 +221,10 @@ extern "C" {
 	Int_t    ijdpdx [nallwp + 7];
 	Int_t    letfun;
         Int_t    lhvnff;
+        Int_t    lncddx; 
+        Int_t    lzl1bk;
+        Int_t    lz2l2b;
+        Int_t    lhmott;
     } dpdxcmCommon;
 #define DPDXCM COMMON_BLOCK(DPDXCM,dpdxcm)
 COMMON_BLOCK_DEF(dpdxcmCommon, DPDXCM);

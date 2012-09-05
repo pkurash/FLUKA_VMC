@@ -186,7 +186,9 @@ typedef struct {
     Double_t sttrck;
     Double_t satrck;
     Double_t tkniel;
+    Double_t tkrnie;
     Double_t tkedpa;
+    Double_t wcinou;  
     Int_t    ntrack;
     Int_t    mtrack;
     Int_t    ifltrk;
@@ -199,6 +201,7 @@ typedef struct {
     Int_t    ihspnt;
     Int_t    ltrack;
     Int_t    llouse;
+    Int_t    iprodc;
     Int_t    ispusr[mkbmx2];
     Int_t    lfsssc;
     Int_t    lpkill;

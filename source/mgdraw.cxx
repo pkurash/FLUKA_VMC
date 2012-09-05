@@ -84,8 +84,8 @@ void mgdraw(Int_t& icode, Int_t& mreg)
     // *****************************************************
 
     
-    Int_t med   = FLKMAT.medium[mreg - 1];  // Medium
-    Int_t msd   = DPDXCM.msdpdx[med  - 1];  // Iionisation model
+    Int_t med   = FLKMAT.medflk[0][mreg - 1];  // Medium
+    Int_t msd   = DPDXCM.msdpdx[med  - 1];     // Iionisation model
 
     if (!TRACKR.ispusr[mkbmx2 - 2]) {
 	if (verbosityLevel >= 3) {

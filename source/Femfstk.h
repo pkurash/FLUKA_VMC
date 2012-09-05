@@ -39,8 +39,9 @@ typedef struct {
    Double_t wtemf[mestck]; // weight
    Double_t agemf[mestck]; // age
    Double_t cmpemf[mestck];
-   Double_t espark[mestck][mkbmx1];
    Double_t rdlyem[mestck];
+   Double_t dchemf[mestck];
+   Double_t espark[mestck][mkbmx1];
    Int_t    iespak[mestck][mkbmx2];
    Int_t    ichemf[mestck]; // charge
    Int_t    iremf[mestck];  // region
@@ -49,6 +50,7 @@ typedef struct {
    Int_t    lloemf[mestck]; // generation number
    Int_t    louemf[mestck];
    Int_t    lrdemf[mestck];
+   Int_t    lchemf[mestck];
    Int_t    npemf;  // number of particles in stack
    Int_t    npstrt; // EMF stack index before the interaction (since
                     // the projectile disappears it is also the starting

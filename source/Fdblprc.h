@@ -185,7 +185,6 @@ const Double_t rhflmn = 1.0e-10;
     const Double_t thrtwo = thrthr/twotwo;
     const Double_t fouthr = foufou/thrthr;    
     const Double_t pipipi = 3.141592653589793238462643383279e+00;
-    const Double_t two2o3 = 1.587401051968199e+00; // 2006.3
     const Double_t twopip = 6.283185307179586476925286766559e+00;
     const Double_t pip5o2 = 7.853981633974483096156608458199e+00;
     const Double_t pipisq = 9.869604401089358618834490999876e+00;
@@ -208,6 +207,11 @@ const Double_t rhflmn = 1.0e-10;
     const Double_t sqrt12 = 3.464101615137754587054892683012e+00;
     const Double_t s2fwhm = 2.354820045030949e+00;
     const Double_t twolog = 0.693147180559945309417232121458e+00;
+    const Double_t two2o3 = 1.587401051968199e+00; 
+    const Double_t tenlog = 2.302585092994045684017991454684e+00;
+    const Double_t atnfou = 1.3258176636680326e+00;
+    const Double_t atnsix = 1.4056476493802699e+00;
+
 //*
 //*======================================================================*
 //*======================================================================*
@@ -393,13 +397,14 @@ typedef struct {
     Int_t    lflgeo;
     Int_t    loflts;
     Int_t    lusrin;
-    Int_t    lusrgl; // 2006.3
+    Int_t    lusrgl;
     Int_t    lnmgeo;
     Int_t    lnminp;
     Int_t    lfrfmt;
-    Int_t    lfdrtr;
+    Int_t    ldmpcr;
     Int_t    kflgeo;
     Int_t    kfldnr;
+    Int_t    lfdrtr;
 } globalCommon;
 #define GLOBAL COMMON_BLOCK(GLOBAL,global)
 COMMON_BLOCK_DEF(globalCommon,GLOBAL);
