@@ -8,6 +8,10 @@ extern "C" {
 *
 *----------------------------------------------------------------------*
 *                                                                      *
+*     Copyright (C) 1990-2010      by    Alfredo Ferrari & Paola Sala  *
+*     All Rights Reserved.                                             *
+*                                                                      *
+*                                                                      *
 *   Common stepsz for setting the minimum and maximum step sizes on a  *
 *                 a region by region basis: very useful for vacuum re- *
 *                 gions with magnetic filed and for saving time ( and  *
@@ -21,29 +25,32 @@ extern "C" {
 *                                                                      *
 *                  created by A. Ferrari & P. Sala on 14-jan-1990      *
 *                                                                      *
+*          Last change   on  25-may-2010     by    Alfredo Ferrari     *
+*                                                                      *
 *          included in:                                                *
 *                        fiprou                                        *
 *                        flukam (main)                                 *
 *                        kashea                                        *
 *                        kaskad                                        *
-*                        electr (new version)                          *
+*                        electr                                        *
 *                        mageas                                        *
 *                        magnew                                        *
 *                        zeroin                                        *
 *                                                                      *
-*                        Stepmn  = minimum step size (cm)              *
-*                        Stepmx  = maximum step size (cm)              *
-*                        Mxxrgn = maximum number of regions            *
+*                        Ismbgn  = starting address (real*8, 0 index)  *
+*                                  for minimum step size (cm)          *
+*                        Isxbgn  = starting address (real*8, 0 index)  *
+*                                  for maximum step size (cm)          *
 *                                                                      *
 *----------------------------------------------------------------------*
+*
+*  Statement functions:
+      COMMON / STEPSZ / ISMBGN, ISXBGN
 */
-
-//      COMMON / STEPSZ / STEPMN ( MXXRGN ), STEPMX ( MXXRGN )
 typedef struct {
-    Double_t stepmn[mxxrgn];
-    Double_t stepmx[mxxrgn];
+  Int_t ismbgn;
+  Int_t isxbgn;
 } stepszCommon;
-
 #define STEPSZ COMMON_BLOCK(STEPSZ,stepsz)
 COMMON_BLOCK_DEF(stepszCommon,STEPSZ);
  

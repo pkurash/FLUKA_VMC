@@ -1377,9 +1377,12 @@ void TFluka::SetMaxStep(Double_t /*step*/)
 Double_t TFluka::MaxStep() const
 {
 // Return the maximum for current medium
+    printf("This method is not supported by FLUKA !");
+    /*
     Int_t mreg, latt;
     fGeom->GetCurrentRegion(mreg, latt);
     return (STEPSZ.stepmx[mreg - 1]);
+    */
 }
 
 //______________________________________________________________________________ 
