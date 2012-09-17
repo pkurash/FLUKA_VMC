@@ -194,7 +194,16 @@ class TFluka : public TVirtualMC {
   virtual Bool_t   SetDecayMode(Int_t /*pdg*/,
                                 Float_t /*bratio*/[6], Int_t /*mode*/[6][3])
       {return kFALSE;}
+  // 17/9/2012
+  // (In)Activate collecting TGeo tracks 
+  virtual void SetCollectTracks(Bool_t /*collectTracks*/) {;}
   
+  // Return the info if collecting tracks is activated
+  virtual Bool_t IsCollectTracks() const {return 0;}
+  Bool_t CurrentBoundaryNormal(Double_t &/*x*/, Double_t &/*y*/, Double_t &/*z*/) const {return 0;}
+  virtual Bool_t GetMaterial(Int_t /*imat*/, TString& /*name*/,
+                             Double_t& /*a*/, Double_t& /*z*/, Double_t& /*density*/,
+                             Double_t& /*radl*/, Double_t& /*inter*/, TArrayD& /*par*/) {return 0;}
 
   //
   // methods for step management
