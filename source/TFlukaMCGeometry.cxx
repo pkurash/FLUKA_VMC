@@ -771,18 +771,22 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    for (i=1; i<=nvols; i++) {
       TGeoMedium* med;
       vol = gGeoManager->GetVolume(i);
-      if ((med = vol->GetMedium()) == 0) continue;
-      mat = med->GetMaterial();
-      idmat = mat->GetIndex();
-      for (Int_t jmat = 0; jmat < nfmater; jmat++) {
-         mat = (TGeoMaterial*)fMatList->At(jmat);
-         if (mat->GetIndex() == idmat) mat->SetUsed(kTRUE);
-      }   
-
-      Float_t hasfield  = (vol->GetMedium()->GetParam(1) > 0) ? flagfield : 0.;
-      out << "* Assigning material:   " << vol->GetMedium()->GetMaterial()->GetName() << "   to Volume: " << vol->GetName();
-      out << endl;
-
+      Float_t hasfield = 0.;
+      if ((med = vol->GetMedium()) != 0) {
+	mat = med->GetMaterial();
+	idmat = mat->GetIndex();
+	for (Int_t jmat = 0; jmat < nfmater; jmat++) {
+	  mat = (TGeoMaterial*)fMatList->At(jmat);
+	  if (mat->GetIndex() == idmat) mat->SetUsed(kTRUE);
+	}   
+	hasfield  = (vol->GetMedium()->GetParam(1) > 0) ? flagfield : 0.;
+	out << "* Assigning material:   " << vol->GetMedium()->GetMaterial()->GetName() << "   to Volume: " << vol->GetName();
+	out << endl;
+      } else {
+	idmat = 2;
+	out << "* No medium for volume" <<  i << "  " << vol->GetName();
+	out << endl;
+     }
       out << setw(10) << "ASSIGNMAT ";
       out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
       out << setw(10) << setiosflags(ios::fixed) << Double_t(idmat);
@@ -805,6 +809,17 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    out << setw(10) << "0.0";
    out << setw(10) << "0.0";
    out << setw(10) << "0.0" << endl;
+   fDummyRegion = nvols+2;
+   out << "* Dummy region:   " << endl;
+   out << setw(10) << "ASSIGNMAT ";
+   out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
+   out << setw(10) << setiosflags(ios::fixed) << idmat;
+   out << setw(10) << setiosflags(ios::fixed) << fDummyRegion;
+   out << setw(10) << "0.0";
+   out << setw(10) << "0.0";
+   out << setw(10) << "0.0";
+   out << setw(10) << "0.0" << endl;
+
    out.close();
 //   fLastMaterial = nfmater+2;
    fLastMaterial = newind;
