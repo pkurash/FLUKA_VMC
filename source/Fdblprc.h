@@ -402,9 +402,9 @@ typedef struct {
     Int_t    lnminp;
     Int_t    lfrfmt;
     Int_t    ldmpcr;
+    Int_t    lfdrtr;
     Int_t    kflgeo;
     Int_t    kfldnr;
-    Int_t    lfdrtr;
 } globalCommon;
 #define GLOBAL COMMON_BLOCK(GLOBAL,global)
 COMMON_BLOCK_DEF(globalCommon,GLOBAL);
