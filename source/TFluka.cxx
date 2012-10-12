@@ -119,7 +119,7 @@ ClassImp(TFluka)
 //______________________________________________________________________________
 TFluka::TFluka()
   :TVirtualMC(),
-   fVerbosityLevel(0),
+   fVerbosityLevel(10),
    fNEvent(0),
    fInputFileName(""),
    fCoreInputFileName(""),

@@ -809,12 +809,15 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    out << setw(10) << "0.0";
    out << setw(10) << "0.0";
    out << setw(10) << "0.0" << endl;
-   fDummyRegion = nvols+2;
-   out << "* Dummy region:   " << endl;
+   // Out of world (black-hole region)
+   idmat = 1; // black-hole
+   Int_t dummy = nvols+2;
+//   fDummyRegion = nvols+2;
+   out << "* Outside region with black-hole material:   " << endl;
    out << setw(10) << "ASSIGNMAT ";
    out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
    out << setw(10) << setiosflags(ios::fixed) << idmat;
-   out << setw(10) << setiosflags(ios::fixed) << fDummyRegion;
+   out << setw(10) << setiosflags(ios::fixed) << dummy;
    out << setw(10) << "0.0";
    out << setw(10) << "0.0";
    out << setw(10) << "0.0";
@@ -1072,12 +1075,17 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    newReg = oldReg;
    newLttc = olttc;
    Bool_t crossedDummy = (oldReg == gFluka->GetDummyRegion())?kTRUE:kFALSE;
-   Int_t curLttc, curReg;
+   Int_t curLttc;
+//   Int_t curReg;
    if (crossedDummy) {
    // FLUKA crossed the dummy boundary - update new region/history
       retStep = TGeoShape::Tolerance();
       saf = 0.;
       gMCGeom->GetNextRegion(newReg, newLttc);
+      if (newReg == oldReg) {
+         // Error: the new region does not point to a real region
+         printf("=> error: next region %d dummy while current dummy\n", newReg);
+      }
       gMCGeom->SetMreg(newReg, newLttc);
       sLt[lttcFlag] = TGeoShape::Tolerance(); // null step in current region
       lttcFlag++;
@@ -1093,26 +1101,26 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    gGeoManager->SetOutside(kFALSE);
 
    curLttc = gGeoManager->GetCurrentNodeId()+1;
-   curReg = gGeoManager->GetCurrentVolume()->GetNumber();
+//   curReg = gGeoManager->GetCurrentVolume()->GetNumber();
    if (olttc != curLttc) {
       // FLUKA crossed the boundary : we trust that the given point is really there,
       // so we just update TGeo state
       gGeoManager->CdNode(olttc-1);
       curLttc = gGeoManager->GetCurrentNodeId()+1;
-      curReg  = gGeoManager->GetCurrentVolume()->GetNumber();
+//      curReg  = gGeoManager->GetCurrentVolume()->GetNumber();
    }
    // Now the current TGeo state reflects the FLUKA state 
 
+   Int_t pid = TRACKR.jtrack;
    gGeoManager->SetCurrentPoint(pSx, pSy, pSz);
    gGeoManager->SetCurrentDirection(pV);
+/*
    Double_t pt[3], local[3], ldir[3];
-   Int_t pid = TRACKR.jtrack;
    pt[0] = pSx;
    pt[1] = pSy;
    pt[2] = pSz;
    gGeoManager->MasterToLocal(pt,local);
    gGeoManager->MasterToLocalVect(pV,ldir);
-/*
    Bool_t valid = gGeoManager->GetCurrentVolume()->Contains(local);
    if (!valid) {
       printf("location not valid in %s pid=%i\n", gGeoManager->GetPath(),pid);
@@ -1249,12 +1257,13 @@ void inihwr(Int_t &intHist)
 }
 
 //_____________________________________________________________________________
-void  jomiwr(const Int_t & /*nge*/, const Int_t & /*lin*/, const Int_t & /*lou*/,
+void  jomiwr(Int_t & nge, const Int_t & /*lin*/, const Int_t & /*lou*/,
              Int_t &flukaReg)
 {
 // Geometry initialization wrapper called by FLUKAM. Provides to FLUKA the
 // number of regions (volumes in TGeo)
    // build application geometry
+   nge = 3; // FLUGG returns this...
    if (gMCGeom->IsDebugging()) printf("========== Inside JOMIWR\n");
    flukaReg = gGeoManager->GetListOfUVolumes()->GetEntriesFast()+1;
    if (gMCGeom->IsDebugging()) printf("<= JOMIWR: last region=%i\n", flukaReg);
