@@ -31,7 +31,7 @@ typedef struct {
   Double_t emreje;
   Double_t emsamp;
   Double_t emsngl;
-  Int_t    medemf[mxxrgn];
+  Int_t    medemf[2][mxxrgn];
   Int_t    iraylr[mxxrgn];
   Int_t    nrgemf;
   Int_t    noscat;
