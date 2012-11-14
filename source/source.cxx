@@ -325,6 +325,7 @@ extern "C" {
         Int_t igeohsm2 = -11;
         geohsm ( FLKSTK.nhspnt[FLKSTK.npflka], igeohsm1, igeohsm2, LTCLCM.mlattc );
         FLKSTK.nlattc[FLKSTK.npflka] = LTCLCM.mlattc;
+        FLKSTK.cmpath[FLKSTK.npflka] = 0;
         soevsv();
     } else {
         //
