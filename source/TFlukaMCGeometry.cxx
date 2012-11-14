@@ -88,7 +88,7 @@ extern "C"
    void  type_of_call g1rtwr();
    void  type_of_call conhwr(Int_t & /*intHist*/, Int_t & /*incrCount*/);
    void  type_of_call inihwr(Int_t & /*intHist*/);
-   void  type_of_call jomiwr(const Int_t & /*nge*/, const Int_t & /*lin*/, const Int_t & /*lou*/,
+   void  type_of_call jomiwr(Int_t & /*nge*/, const Int_t & /*lin*/, const Int_t & /*lou*/,
                              Int_t & /*flukaReg*/);
    void  type_of_call lkdbwr(Double_t & /*pSx*/, Double_t & /*pSy*/, Double_t & /*pSz*/,
                              Double_t * /*pV*/, const Int_t & /*oldReg*/, const Int_t & /*oldLttc*/,
@@ -660,7 +660,6 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    // Dump all elements with MATERIAL cards         
    for (i=0; i<nfmater; i++) {
       mat = (TGeoMaterial*)fMatList->At(i);
-//      mat->SetUsed(kFALSE);
       mix = 0;
       out << setw(10) << "MATERIAL  ";
       out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
@@ -798,6 +797,7 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
       out << endl;
    }
    // dummy region
+
    idmat = 2; // vacuum
    fDummyRegion = nvols+1;
    out << "* Dummy region:   " << endl;
@@ -809,10 +809,11 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    out << setw(10) << "0.0";
    out << setw(10) << "0.0";
    out << setw(10) << "0.0" << endl;
+   //
    // Out of world (black-hole region)
+   //
    idmat = 1; // black-hole
    Int_t dummy = nvols+2;
-//   fDummyRegion = nvols+2;
    out << "* Outside region with black-hole material:   " << endl;
    out << setw(10) << "ASSIGNMAT ";
    out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
