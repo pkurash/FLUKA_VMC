@@ -401,7 +401,7 @@ typedef struct {
     Int_t    lnmgeo;
     Int_t    lnminp;
     Int_t    lfrfmt;
-    Int_t    ldmpcr;
+    Int_t    ldpmcr;
     Int_t    lfdrtr;
     Int_t    kflgeo;
     Int_t    kfldnr;
