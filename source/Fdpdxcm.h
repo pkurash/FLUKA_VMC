@@ -142,8 +142,7 @@ extern "C" {
 *  Toln10 = 2 x log (10)
       PARAMETER ( TOLN10 = 4.605170185988091 D+00 )
 *
-      LOGICAL LDELTA, LPDETB, LETFUN, LHVNFF, LIOPOS, LSECIO
-      COMMON / DPDXCM / P0DPDX (MPDPDX,MXXMDF), P1DPDX (MPDPDX,MXXMDF),
+    COMMON / DPDXCM / P0DPDX (MPDPDX,MXXMDF), P1DPDX (MPDPDX,MXXMDF),
      &                  DEDXMP (-2:MPDPDX,MXXMDF),
      &                  TMXMIP (-2:MPDPDX,MXXMDF),
      &                  TMDPDX (MXXMDF), T0DPDX (MXXMDF),
@@ -158,13 +157,13 @@ extern "C" {
      &                  AENIOC (MXXMDF), ANSICM (MXXMDF),
      &                  FALTMT (MXXMDF), MALTMT (MXXMDF),
      &                  MSDPDX (MXXMDF), NBDPDX (MXXMDF),
-     &                  KDPDXT (MPDPDX,MXXMDF),
+     &                  KDPDXT   (MPDPDX,MXXMDF), KWDPDX (MXXMDF),
+     &                  NDPDXT (4,MPDPDX,MXXMDF), IAZMDP,
      &                  LDELTA (MXXMDF), LPDETB (MXXMDF),
      &                  LIOPOS (MXXMDF), LSECIO (MXXMDF),
-     &                  IJDPDX (-6:NALLWP), LETFUN, LHVNFF
-      SAVE / DPDXCM /
+     &                  IJDPDX (-6:NALLWP), LETFUN, LHVNFF, LNCDDX,
+     &                  LZL1BK, LZ2L2B, LHMOTT
 */
-
     const Int_t     mndpdx = 50;
     const Double_t  rmdpdx = 1.15e0;
     const Double_t  dpdxr1 = 0.15e0;
@@ -201,7 +200,6 @@ extern "C" {
 	Double_t aviont [mxxmdf];
 	Double_t etdpdx [mxxmdf];
 	Double_t almass [mpdpdx];
-	Double_t pthrmx;
 	Double_t frstip [mxxmdf];
 	Double_t anpicm [mxxmdf];
         Double_t aenioc [mxxmdf]; 
