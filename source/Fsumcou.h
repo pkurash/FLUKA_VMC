@@ -108,7 +108,7 @@ typedef struct {
    Double_t deccts[2][nallwp+7];
    Double_t wdecct[2][nallwp+7];
    Double_t weprdc[2][nallwp+7];
-   Double_t wlwnsc[2][4];
+   Double_t wlwnsc[2][8];
    Double_t wophsc[2][4];
    Double_t edpsco[2][11];
    Double_t woptph;
