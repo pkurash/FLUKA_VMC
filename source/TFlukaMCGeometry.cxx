@@ -1264,10 +1264,11 @@ void  jomiwr(Int_t & nge, const Int_t & /*lin*/, const Int_t & /*lou*/,
 // Geometry initialization wrapper called by FLUKAM. Provides to FLUKA the
 // number of regions (volumes in TGeo)
    // build application geometry
-  //   nge = 3; // FLUGG returns this...
-   if (gMCGeom->IsDebugging()) printf("========== Inside JOMIWR\n");
-   flukaReg = gGeoManager->GetListOfUVolumes()->GetEntriesFast()+1;
-   if (gMCGeom->IsDebugging()) printf("<= JOMIWR: last region=%i\n", flukaReg);
+  //   nge = 1 for vmc (same as argument of flukam call
+  nge = 1;
+  if (gMCGeom->IsDebugging()) printf("========== Inside JOMIWR\n");
+  flukaReg = gGeoManager->GetListOfUVolumes()->GetEntriesFast()+1;
+  if (gMCGeom->IsDebugging()) printf("<= JOMIWR: last region=%i\n", flukaReg);
 }   
 
 //_____________________________________________________________________________
