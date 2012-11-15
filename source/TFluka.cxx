@@ -51,7 +51,8 @@
 #include "Fopphst.h"       //(OPPHST) fluka common
 #include "Fltclcm.h"       //(LTCLCM) fluka common
 #include "Falldlt.h"       //(ALLDLT) fluka common
-
+#include "Fflkmat.h"
+#include "Femfrgn.h"
 #include "TVirtualMC.h"
 #include "TMCProcess.h"
 #include "TGeoManager.h"
@@ -1329,12 +1330,12 @@ void TFluka::InitPhysics()
     }
 
 // Add RANDOMIZ card
-    fprintf(pFlukaVmcInp,"RANDOMIZ  %10.1f%10.0f\n", 1., Float_t(gRandom->GetSeed()));
+//    fprintf(pFlukaVmcInp,"RANDOMIZ  %10.1f%10.0f\n", 1., Float_t(gRandom->GetSeed()));
 // User defined ion
     if (fUserIons) {
       TFlukaIon::WriteUserInputCard(pFlukaVmcInp);
     } else {
-      fprintf(pFlukaVmcInp,"EVENTYPE          0.        0.        0.        0.        0.        0.      \n");
+      //      fprintf(pFlukaVmcInp,"EVENTYPE          0.        0.        0.        0.        0.        0.      \n");
     }
 
 // Add START and STOP card
@@ -1366,7 +1367,7 @@ void TFluka::InitPhysics()
 //______________________________________________________________________________ 
 void TFluka::SetMaxStep(Double_t /*step*/)
 {
-    printf("This method is not supported by FLUKA !");
+  if (fVerbosityLevel >=3) printf("This method is not supported by FLUKA !");
     
 // Set the maximum step size
 //    Int_t mreg = fGeom->GetCurrentRegion();
@@ -1377,7 +1378,7 @@ void TFluka::SetMaxStep(Double_t /*step*/)
 Double_t TFluka::MaxStep() const
 {
 // Return the maximum for current medium
-    printf("This method is not supported by FLUKA !");
+  if (fVerbosityLevel >=3) printf("This method is not supported by FLUKA !");
     /*
     Int_t mreg, latt;
     fGeom->GetCurrentRegion(mreg, latt);
@@ -2285,7 +2286,7 @@ Int_t TFluka::VolId(const Text_t* volName) const
 // Time consuming. (Only used during set-up)
 // Could be replaced by hash-table
 //
-    char sname[20];
+    char sname[256];
     Int_t len;
     strncpy(sname, volName, len = strlen(volName));
     sname[len] = 0;
