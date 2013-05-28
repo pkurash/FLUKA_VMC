@@ -1115,27 +1115,13 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    Int_t pid = TRACKR.jtrack;
    gGeoManager->SetCurrentPoint(pSx, pSy, pSz);
    gGeoManager->SetCurrentDirection(pV);
-/*
-   Double_t pt[3], local[3], ldir[3];
-   pt[0] = pSx;
-   pt[1] = pSy;
-   pt[2] = pSz;
-   gGeoManager->MasterToLocal(pt,local);
-   gGeoManager->MasterToLocalVect(pV,ldir);
-   Bool_t valid = gGeoManager->GetCurrentVolume()->Contains(local);
-   if (!valid) {
-      printf("location not valid in %s pid=%i\n", gGeoManager->GetPath(),pid);
-      printf("local:(%f, %f, %f)  ldir:(%f, %f, %f)\n", local[0],local[1],local[2],ldir[0],ldir[1],ldir[2]);
-//      gGeoManager->FindNode();
-//      printf("   -> actual location: %s\n", gGeoManager->GetPath());
-   }   
-*/
    Double_t pstep = propStep;
    Double_t snext = propStep;
+   TGeoVolume *crtVol = gGeoManager->GetCurrentVolume();
    const Double_t epsil = 0.9999999 * TGeoShape::Tolerance();
    // This should never happen !!!
    if (pstep<TGeoShape::Tolerance()) {
-      printf("#%d Proposed step is %f !!!\n", gNstep, pstep);
+//      printf("#%d Proposed step is %f !!!\n", gNstep, pstep);
       pstep = 2.*TGeoShape::Tolerance();
    }   
    if (crossed) {
@@ -1157,7 +1143,7 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
       if (snext <= TGeoShape::Tolerance()) {
 //         printf("FLUKA put particle on bondary without crossing\n");
          ierr++;
-         snext = epsil;
+         snext = 1.E-6;
          saf = 0.;
       } else {
          snext += TGeoShape::Tolerance();
@@ -1166,11 +1152,10 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
       if (saf<0) saf=0.;
       saf -= saf*3.0e-09;
    }
-//   if (ierr>1) {
-//      printf("%d snext=%g\n", ierr, snext);
-//   }   
-   if (ierr == 10) {
+   if (ierr == 100) {
       printf("Too many null steps - sending error code -33...\n");
+      printf("old = %s   new=%s\n", crtVol->GetName(),
+      gGeoManager->GetCurrentVolume()->GetName());
       newReg = -33;   // Error code
       ierr = 0;
       return;

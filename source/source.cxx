@@ -87,7 +87,7 @@ extern "C" {
 
     static Bool_t lfirst = true;
     static Bool_t particleIsPrimary = true;
-    static Bool_t lastParticleWasPrimary = true;
+//    static Bool_t lastParticleWasPrimary = true;
 
     nomore = 0;
     SOURCM.lsouit = kTRUE;
@@ -104,7 +104,7 @@ extern "C" {
     fluka->SetTrackIsNew(kTRUE);
     if (itrack == (nprim - 1)) lfirst = true;
 //  Is this a secondary not handled by Fluka, i.e. a particle added by user action ?
-    lastParticleWasPrimary = particleIsPrimary;
+//    lastParticleWasPrimary = particleIsPrimary;
     
     if (itrack >= nprim) {
         particleIsPrimary = kFALSE;

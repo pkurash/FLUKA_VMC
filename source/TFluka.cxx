@@ -1379,6 +1379,7 @@ Double_t TFluka::MaxStep() const
 {
 // Return the maximum for current medium
   if (fVerbosityLevel >=3) printf("This method is not supported by FLUKA !");
+  return -1.;
     /*
     Int_t mreg, latt;
     fGeom->GetCurrentRegion(mreg, latt);
@@ -2579,7 +2580,7 @@ extern "C" {
    Int_t volId = fluka->CurrentVolID(nodeId);
    Int_t crtlttc = gGeoManager->GetCurrentNodeId()+1;
 
-   if( mreg != volId  && !gGeoManager->IsOutside() ) {
+   if( mreg != volId  && !gGeoManager->IsOutside() && fluka->GetVerbosityLevel()>=3) {
        cout << "  ustckv:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
             << " icode=" << fluka->GetIcode() << " gNstep=" << fluka->GetNstep() << endl
             << "               fluka   mreg=" << mreg << " mlttc=" << TRACKR.lt1trk << endl
