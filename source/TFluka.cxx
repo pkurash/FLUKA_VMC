@@ -1292,7 +1292,7 @@ void TFluka::InitPhysics()
 // Process Fluka specific scoring options
 //
     TFlukaScoringOption::SetStaticInfo(pFlukaVmcInp, fGeom);
-    Float_t loginp        = -49.0;
+    Float_t loginp        = 49.0;
     Int_t inp             = 0;
     Int_t nscore          = fUserScore->GetEntries();
     
