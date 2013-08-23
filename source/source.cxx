@@ -79,7 +79,7 @@ extern "C" {
     TFluka* fluka = (TFluka*)gMC;
 
     Int_t verbosityLevel = fluka->GetVerbosityLevel();
-    Bool_t debug = (verbosityLevel>=3)?kTRUE:kFALSE;
+    Bool_t debug = (verbosityLevel>=1)?kTRUE:kFALSE;
     if (debug) {
       cout << "==> source(" << nomore << ")" << endl;
       cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << endl;
