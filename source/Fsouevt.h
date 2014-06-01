@@ -78,6 +78,8 @@ typedef struct {
    Double_t tksoev[mxsoev];
    Double_t agsoev[mxsoev];
    Double_t aksoev[mxsoev];
+   Double_t rdsoev[mxsoev];
+   Double_t dcsoev[mxsoev];
    Double_t ussoev[mkbmx1][mxsoev];
    Int_t    ijsoev[mxsoev];
    Int_t    igsoev[mxsoev];

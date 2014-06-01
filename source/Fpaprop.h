@@ -58,7 +58,10 @@ extern "C" {
 
 
 //    const Int_t mxgnpr =  33; // 2006.3
-    const Int_t mxgnpr =  45;   // 2008.3
+//
+//   const Int_t mxgnpr =  45;   // 2008.3
+     const Int_t mxgnpr =  60;   // 2011.2b
+ 
     typedef struct {
 	Double_t am[nallwp+7];         //(-6:NALLWP)
 	Double_t amdisc[nallwp+7];     //(-6:NALLWP)
@@ -83,8 +86,7 @@ extern "C" {
 COMMON_BLOCK_DEF(papropCommon,PAPROP);
 
     typedef struct {
-	Char_t   btype[nallwp+7][8];     //(-6:NALLWP)
-//	Char_t   genpar[mxgnpr][8];          // 2006.3 
+	Char_t   prname[nallwp+7][8];        //(-6:NALLWP)
 	Char_t   gnname[mxgnpr][8];          // 2006.3
     } chpprpCommon;
 #define CHPPRP COMMON_BLOCK(CHPPRP,chpprp)
