@@ -2470,7 +2470,7 @@ TString TFluka::ParticleName(Int_t pdg) const
 {
     // Return particle name for particle with pdg code pdg.
     Int_t ifluka = IdFromPDG(pdg);
-    return TString((CHPPRP.btype[ifluka - kFLUKAcodemin]), 8);
+    return TString((CHPPRP.prname[ifluka - kFLUKAcodemin]), 8);
 }
  
 
