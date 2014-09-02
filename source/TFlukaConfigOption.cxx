@@ -124,16 +124,14 @@ void TFlukaConfigOption::WriteFlukaInputCards()
     TGeoMedium*   med    = 0x0;
     TGeoMedium*   medium = 0x0;    
     TGeoMaterial* mat    = 0x0;
-
     if (fMedium != -1) {
        TFluka* fluka = (TFluka*) gMC;
        fMedium = fgGeom->GetFlukaMaterial(fMedium);
        //
        // Check if material is actually used
-//       Int_t* reglist;
        Int_t nreg;
-       /*reglist = */fgGeom->GetMaterialList(fMedium, nreg);
-       if (nreg == 0) {
+       fgGeom->GetMaterialList(fMedium, nreg);
+       if (nreg == 0 || fMedium == -1) {
            // Material not used -- return
            return;
        }
@@ -163,7 +161,6 @@ void TFlukaConfigOption::WriteFlukaInputCards()
        //
        // Check if sensitive
        if (medium->GetParam(0) != 0.) mediumIsSensitive = kTRUE;
-
        fprintf(fgFile,"*\n*Material specific process and cut settings for #%8d %s\n", fMedium, fCMaterial->GetName());
        fCMatMin = fMedium;
        fCMatMax = fMedium;
@@ -172,7 +169,6 @@ void TFlukaConfigOption::WriteFlukaInputCards()
        fCMatMin = fgMatMin;
        fCMatMax = fgMatMax;
     }
-
 //
 // Handle Process Flags 
 //
@@ -200,7 +196,6 @@ void TFlukaConfigOption::WriteFlukaInputCards()
 
     if (fProcessFlag[kLOSS] != -1 || fProcessFlag[kDRAY] != -1)                                    ProcessLOSS();
     if ((fMedium == -1 && fProcessFlag[kCKOV] > 0) || (fMedium > -1 && fProcessFlag[kCKOV] != -1)) ProcessCKOV();
-    
 //
 // Handle Cuts
 //
