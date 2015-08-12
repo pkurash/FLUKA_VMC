@@ -63,10 +63,10 @@ extern "C" {
     const Int_t mostck = 2000;
     const Int_t mxprsn = 100;
     const Int_t mxpdpm = 800;
-    const Int_t mxpscs = 30000;
+    const Int_t mxpscs = 60000;
     const Int_t mxglwn = 300;
     const Int_t mxoutu = 50;
-    const Int_t mxknwc = 13;
+    const Int_t mxknwc = 45;
     const Int_t mxeshl = 32;
     const Int_t nallwp = 64;
     const Int_t nelemx = 80;
@@ -89,7 +89,7 @@ extern "C" {
     const Int_t mxirrd = 2500;
     const Int_t mxtrdc = 1500;
     const Int_t nktl   = 17;
-    const Int_t nblnmx = 45000000;
+    const Int_t nblnmx = 60000000;
 }  
 
 #endif
