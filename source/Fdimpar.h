@@ -69,12 +69,12 @@ extern "C" {
     const Int_t mxknwc = 45;
     const Int_t mxeshl = 32;
     const Int_t nallwp = 64;
-    const Int_t nelemx = 80;
+    const Int_t nelemx = 90;
     const Int_t mpdpdx = 33;
     const Int_t mxhttr = 260;
     const Int_t mxseax = 30;
     const Int_t mxhtnc = mxseax + 1;
-    const Int_t icomax = 2400;
+    const Int_t icomax = 4000;
     const Int_t ichmax = icomax+mxxmdf;
     const Int_t nstbis = 304;
     const Int_t nqstis = 46;
