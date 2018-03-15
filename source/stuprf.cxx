@@ -134,7 +134,7 @@ extern "C" {
     TMCProcess mech = kPHadronic;
     if (EVTFLG.ldecay == 1) {
         mech = kPDecay;
-        if (debug) cout << endl << "Decay" << endl;
+        if (debug) std::cout << std::endl << "Decay" << std::endl;
         FLKSTK.nlattc[FLKSTK.npflka] = TRACKR.lt1trk;
     } else if (EVTFLG.ldltry == 1) {
         mech = kPDeltaRay;
@@ -150,16 +150,16 @@ extern "C" {
            polx = FLKSTK.txpol[FLKSTK.npflka];
            poly = FLKSTK.typol[FLKSTK.npflka];
            polz = FLKSTK.tzpol[FLKSTK.npflka];
-           if (debug) cout << endl << "Delta Ray from KASHEA...." << " pdg from FLKSTK=" << pdg << endl;
+           if (debug) std::cout << std::endl << "Delta Ray from KASHEA...." << " pdg from FLKSTK=" << pdg << std::endl;
         } else {
-	    if (debug) cout << endl << "Delta Ray" << endl;
+	    if (debug) std::cout << std::endl << "Delta Ray" << std::endl;
 	}
     } else if (EVTFLG.lpairp == 1) {
         mech = kPPair;
-        if (debug) cout << endl << "Pair Production" << endl;
+        if (debug) std::cout << std::endl << "Pair Production" << std::endl;
     } else if (EVTFLG.lbrmsp == 1) {
         mech = kPBrem;
-        if (debug) cout << endl << "Bremsstrahlung" << endl;
+        if (debug) std::cout << std::endl << "Bremsstrahlung" << std::endl;
     }
 
     Double_t weight = GENSTK.wei[numsec-1];
@@ -174,10 +174,10 @@ extern "C" {
 			mech, ntr, weight, is);
     if (debug) {
 	
-	cout << endl << " !!! stuprf: ntr=" << ntr << " pdg " << pdg << " parent=" << parent
+	std::cout << std::endl << " !!! stuprf: ntr=" << ntr << " pdg " << pdg << " parent=" << parent
 	     << " parent_pdg="<< fluka->PDGFromId(TRACKR.jtrack) << " numsec "
 	     << numsec << " npprmr " << npprmr << " icode=" << fluka->GetIcode() 
-	     << "kin. energy [keV] = " <<  GENSTK.tki[numsec-1] * 1.e6 << endl << endl;
+	     << "kin. energy [keV] = " <<  GENSTK.tki[numsec-1] * 1.e6 << std::endl << std::endl;
 	
     }
     
@@ -189,9 +189,9 @@ extern "C" {
   } // end of if (numsec > npprmr)
 //  else {
 //     if(debug) {
-//        cout << endl << " !!! stuprf: skipping pushtrack   track=" << TRACKR.ispusr[mkbmx2-1]
+//        std::cout << std::endl << " !!! stuprf: skipping pushtrack   track=" << TRACKR.ispusr[mkbmx2-1]
 //              << " pdg " << fluka->PDGFromId(TRACKR.jtrack) << " numsec=" << numsec<< " npprmr=" << npprmr
-//              << " GENSTK pdg=" << fluka->PDGFromId(GENSTK.kpart[numsec-1]) << endl;
+//              << " GENSTK pdg=" << fluka->PDGFromId(GENSTK.kpart[numsec-1]) << std::endl;
 //     }
 //  }
 } // end of stuprf

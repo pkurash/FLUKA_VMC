@@ -55,15 +55,15 @@ void bxdraw(Int_t& icode, Int_t& mreg, Int_t& newreg,
 	Int_t volId = fluka->CurrentVolID(nodeId);
 	Int_t crtlttc = gGeoManager->GetCurrentNodeId()+1;
 	if(debug && mreg != volId  && !gGeoManager->IsOutside()) {
-	    cout << "  bxdraw:   track=" << TRACKR.ispusr[mkbmx2-1]<< " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
-		 << " icode=" << icode << " gNstep=" << fluka->GetNstep() << endl
-		 << "               fluka   mreg=" << mreg << " oldlttc=" << oldlttc << " newreg=" << newreg << " newlttc=" << newlttc << endl
-		 << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << endl
-		 << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << endl
-		 << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << endl
-		 << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << endl
-		 << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << endl;
-	    if( oldlttc == crtlttc ) cout << "   **************************** Exit *********************************" << endl;
+	    std::cout << "  bxdraw:   track=" << TRACKR.ispusr[mkbmx2-1]<< " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
+		 << " icode=" << icode << " gNstep=" << fluka->GetNstep() << std::endl
+		 << "               fluka   mreg=" << mreg << " oldlttc=" << oldlttc << " newreg=" << newreg << " newlttc=" << newlttc << std::endl
+		 << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << std::endl
+		 << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << std::endl
+		 << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << std::endl
+		 << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << std::endl
+		 << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << std::endl;
+	    if( oldlttc == crtlttc ) std::cout << "   **************************** Exit *********************************" << std::endl;
 	}
 	// *****************************************************
 	
@@ -92,15 +92,15 @@ void bxdraw(Int_t& icode, Int_t& mreg, Int_t& newreg,
 	Int_t volId = fluka->CurrentVolID(nodeId);
 	Int_t crtlttc = gGeoManager->GetCurrentNodeId()+1;
 	if(debug && newreg != volId  && !gGeoManager->IsOutside()) {
-	    cout << "  bxdraw:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
-		 << " icode=" << icode << " gNstep=" << fluka->GetNstep() << endl
-		 << "               fluka   mreg=" << mreg << " oldlttc=" << oldlttc << " newreg=" << newreg << " newlttc=" << newlttc << endl
-		 << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << endl
-		 << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << endl
-		 << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << endl
-		 << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << endl
-		 << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << endl;
-	    if( newlttc == crtlttc ) cout << "   ******************************** Enter *****************************" << endl;
+	    std::cout << "  bxdraw:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
+		 << " icode=" << icode << " gNstep=" << fluka->GetNstep() << std::endl
+		 << "               fluka   mreg=" << mreg << " oldlttc=" << oldlttc << " newreg=" << newreg << " newlttc=" << newlttc << std::endl
+		 << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << std::endl
+		 << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << std::endl
+		 << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << std::endl
+		 << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << std::endl
+		 << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << std::endl;
+	    if( newlttc == crtlttc ) std::cout << "   ******************************** Enter *****************************" << std::endl;
 	}
 	// *****************************************************
 	

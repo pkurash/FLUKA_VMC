@@ -201,7 +201,7 @@ TFluka::TFluka(const char *title, Int_t verbosity, Bool_t isRootGeometrySupporte
     for (Int_t i = 0; i < 4; i++) fPint[i] = 0.;
     
    if (fVerbosityLevel >=3)
-       cout << "<== TFluka::TFluka(" << title << ") constructor called." << endl;
+       std::cout << "<== TFluka::TFluka(" << title << ") constructor called." << std::endl;
    SetCoreInputFileName();
    SetInputFileName();
    fMCGeo = new TGeoMCGeometry("MCGeo", "TGeo Implementation of VirtualMCGeometry", kFALSE);
@@ -215,7 +215,7 @@ TFluka::~TFluka()
 {
     // Destructor
     if (fVerbosityLevel >=3)
-        cout << "<== TFluka::~TFluka() destructor called." << endl;
+        std::cout << "<== TFluka::~TFluka() destructor called." << std::endl;
     if (fMaterials) delete [] fMaterials;
     
 //    delete fGeom;
@@ -240,7 +240,7 @@ void TFluka::Init() {
 //
 //  Geometry initialisation
 //
-    if (fVerbosityLevel >=3) cout << "==> TFluka::Init() called." << endl;
+    if (fVerbosityLevel >=3) std::cout << "==> TFluka::Init() called." << std::endl;
     
     if (!gGeoManager) new TGeoManager("geom", "FLUKA geometry");
     fApplication->ConstructGeometry();
@@ -259,7 +259,7 @@ void TFluka::Init() {
     fGeom->CreateFlukaMatFile("flukaMat.inp");   
     if (fVerbosityLevel >=3) {
        printf("== Number of volumes: %i\n ==", fNVolumes);
-       cout << "\t* InitPhysics() - Prepare input file to be called" << endl; 
+       std::cout << "\t* InitPhysics() - Prepare input file to be called" << std::endl; 
     }
 
     fApplication->InitGeometry();
@@ -279,9 +279,9 @@ void TFluka::FinishGeometry() {
 // Build-up table with region to medium correspondance
 //
   if (fVerbosityLevel >=3) {
-    cout << "==> TFluka::FinishGeometry() called." << endl;
+    std::cout << "==> TFluka::FinishGeometry() called." << std::endl;
     printf("----FinishGeometry - applying misalignment if any\n");
-    cout << "<== TFluka::FinishGeometry() called." << endl;
+    std::cout << "<== TFluka::FinishGeometry() called." << std::endl;
   }  
   TVirtualMCApplication::Instance()->MisalignGeometry();
 } 
@@ -293,7 +293,7 @@ void TFluka::BuildPhysics() {
 //
     
     if (fVerbosityLevel >=3)
-        cout << "==> TFluka::BuildPhysics() called." << endl;
+        std::cout << "==> TFluka::BuildPhysics() called." << std::endl;
 
     
     if (fVerbosityLevel >=3) {
@@ -320,13 +320,13 @@ void TFluka::BuildPhysics() {
     fluka_openinp(lunin, PASSCHARA(fname));
     fluka_openout(11, PASSCHARA("fluka.out"));
 //  Read input cards    
-    cout << "==> TFluka::BuildPhysics() Read input cards." << endl;
+    std::cout << "==> TFluka::BuildPhysics() Read input cards." << std::endl;
     TStopwatch timer;
     timer.Start();
     GLOBAL.lfdrtr = true;
     flukam(1);
-    cout << "<== TFluka::BuildPhysics() Read input cards End"
-         << Form(" R:%.2fs C:%.2fs", timer.RealTime(),timer.CpuTime()) << endl;
+    std::cout << "<== TFluka::BuildPhysics() Read input cards End"
+         << Form(" R:%.2fs C:%.2fs", timer.RealTime(),timer.CpuTime()) << std::endl;
 //  Close input file
     fluka_closeinp(lunin);
 //  Finish geometry    
@@ -345,12 +345,12 @@ void TFluka::ProcessEvent() {
     }
 
     if (fVerbosityLevel >=3)
-        cout << "==> TFluka::ProcessEvent() called." << endl;
+        std::cout << "==> TFluka::ProcessEvent() called." << std::endl;
     fApplication->GeneratePrimaries();
     SOURCM.lsouit = true;
     flukam(1);
     if (fVerbosityLevel >=3)
-        cout << "<== TFluka::ProcessEvent() called." << endl;
+        std::cout << "<== TFluka::ProcessEvent() called." << std::endl;
     //
     // Increase event number
     //
@@ -364,12 +364,12 @@ Bool_t TFluka::ProcessRun(Int_t nevent) {
 //
     
   if (fVerbosityLevel >=3)
-    cout << "==> TFluka::ProcessRun(" << nevent << ") called." 
-         << endl;
+    std::cout << "==> TFluka::ProcessRun(" << nevent << ") called." 
+         << std::endl;
 
   if (fVerbosityLevel >=2) {
-    cout << "\t* GLOBAL.fdrtr = " << (GLOBAL.lfdrtr?'T':'F') << endl;
-    cout << "\t* Calling flukam again..." << endl;
+    std::cout << "\t* GLOBAL.fdrtr = " << (GLOBAL.lfdrtr?'T':'F') << std::endl;
+    std::cout << "\t* Calling flukam again..." << std::endl;
   }
 
   Int_t todo = TMath::Abs(nevent);
@@ -379,13 +379,13 @@ Bool_t TFluka::ProcessRun(Int_t nevent) {
       fApplication->BeginEvent();
       ProcessEvent();
       fApplication->FinishEvent();
-      cout << "Event: "<< ev
-           << Form(" R:%.2fs C:%.2fs", timer.RealTime(),timer.CpuTime()) << endl;
+      std::cout << "Event: "<< ev
+           << Form(" R:%.2fs C:%.2fs", timer.RealTime(),timer.CpuTime()) << std::endl;
   }
 
   if (fVerbosityLevel >=3)
-    cout << "<== TFluka::ProcessRun(" << nevent << ") called." 
-         << endl;
+    std::cout << "<== TFluka::ProcessRun(" << nevent << ") called." 
+         << std::endl;
   
   // Write fluka specific scoring output
   genout();
@@ -1392,7 +1392,7 @@ void TFluka::SetMaxNStep(Int_t)
 {
 // SetMaxNStep is dummy procedure in TFluka !
   if (fVerbosityLevel >=3)
-  cout << "SetMaxNStep is dummy procedure in TFluka !" << endl;
+  std::cout << "SetMaxNStep is dummy procedure in TFluka !" << std::endl;
 }
 
 //______________________________________________________________________________ 
@@ -1400,7 +1400,7 @@ void TFluka::SetUserDecay(Int_t)
 {
 // SetUserDecay is dummy procedure in TFluka !
   if (fVerbosityLevel >=3)
-  cout << "SetUserDecay is dummy procedure in TFluka !" << endl;
+  std::cout << "SetUserDecay is dummy procedure in TFluka !" << std::endl;
 }
 
 //
@@ -1817,10 +1817,10 @@ Int_t TFluka::CorrectFlukaId() const
         && TRACKR.ispusr[mkbmx2 - 4] == TRACKR.ispusr[mkbmx2 - 1]
         && TRACKR.jtrack != TRACKR.ispusr[mkbmx2 - 3] ) {
       if (fVerbosityLevel >=3)
-         cout << "CorrectFlukaId() for icode=" << GetIcode()
+         std::cout << "CorrectFlukaId() for icode=" << GetIcode()
                << " track=" << TRACKR.ispusr[mkbmx2 - 1]
                << " current PDG=" << PDGFromId(TRACKR.jtrack)
-               << " assign parent PDG=" << PDGFromId(TRACKR.ispusr[mkbmx2 - 3]) << endl;
+               << " assign parent PDG=" << PDGFromId(TRACKR.ispusr[mkbmx2 - 3]) << std::endl;
       return TRACKR.ispusr[mkbmx2 - 3]; // assign parent identity
    }
    if (TRACKR.jtrack <= 64){
@@ -2581,15 +2581,15 @@ extern "C" {
    Int_t crtlttc = gGeoManager->GetCurrentNodeId()+1;
 
    if( mreg != volId  && !gGeoManager->IsOutside() && fluka->GetVerbosityLevel()>=3) {
-       cout << "  ustckv:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
-            << " icode=" << fluka->GetIcode() << " gNstep=" << fluka->GetNstep() << endl
-            << "               fluka   mreg=" << mreg << " mlttc=" << TRACKR.lt1trk << endl
-            << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << endl
-            << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << endl
-            << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << endl
-            << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << endl
-            << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << endl;
-        if( TRACKR.lt1trk == crtlttc ) cout << "   *************************************************************" << endl;
+       std::cout << "  ustckv:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
+            << " icode=" << fluka->GetIcode() << " gNstep=" << fluka->GetNstep() << std::endl
+            << "               fluka   mreg=" << mreg << " mlttc=" << TRACKR.lt1trk << std::endl
+            << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << std::endl
+            << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << std::endl
+            << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << std::endl
+            << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << std::endl
+            << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << std::endl;
+        if( TRACKR.lt1trk == crtlttc ) std::cout << "   *************************************************************" << std::endl;
     }
     // *****************************************************
 

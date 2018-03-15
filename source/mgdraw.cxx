@@ -50,8 +50,8 @@ void mgdraw(Int_t& icode, Int_t& mreg)
        // assing parent id
        // id < -6 was skipped in stuprf =>   if (kpart < -6) return;
        if (verbosityLevel >= 3) {
-          cout << "mgdraw: (heavy fragment) jtrack < -6 =" << TRACKR.jtrack
-               << " assign parent pdg=" << fluka->PDGFromId(TRACKR.ispusr[mkbmx2 - 3]) << endl;
+          std::cout << "mgdraw: (heavy fragment) jtrack < -6 =" << TRACKR.jtrack
+               << " assign parent pdg=" << fluka->PDGFromId(TRACKR.ispusr[mkbmx2 - 3]) << std::endl;
        }
 //       TRACKR.jtrack = TRACKR.ispusr[mkbmx2 - 3];
     }
@@ -71,15 +71,15 @@ void mgdraw(Int_t& icode, Int_t& mreg)
     // check region lattice consistency (debug Ernesto)
     // *****************************************************
     if(verbosityLevel>=3 && mreg != volId  && !gGeoManager->IsOutside() ) {
-       cout << "  mgdraw:   track=" << trackId << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
-            << " icode=" << icode << " gNstep=" << fluka->GetNstep() << endl
-            << "               fluka   mreg=" << mreg << " mlttc=" << mlttc << endl
-            << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << endl
-            << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << endl
-            << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << endl
-            << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << endl
-            << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << endl;
-        if( mlttc == crtlttc ) cout << "   *************************************************************" << endl;
+       std::cout << "  mgdraw:   track=" << trackId << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
+            << " icode=" << icode << " gNstep=" << fluka->GetNstep() << std::endl
+            << "               fluka   mreg=" << mreg << " mlttc=" << mlttc << std::endl
+            << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << std::endl
+            << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << std::endl
+            << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << std::endl
+            << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << std::endl
+            << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << std::endl;
+        if( mlttc == crtlttc ) std::cout << "   *************************************************************" << std::endl;
     }
     // *****************************************************
 
@@ -89,13 +89,13 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 
     if (!TRACKR.ispusr[mkbmx2 - 2]) {
 	if (verbosityLevel >= 3) {
-	    cout << endl << "mgdraw: energy deposition for:" << trackId
+	    std::cout << std::endl << "mgdraw: energy deposition for:" << trackId
 		 << " icode=" << icode
 		 << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
 		 << " flukaid="<< TRACKR.jtrack
 		 << " mreg=" << mreg
 		 << " np  =" << ALLDLT.nalldl
-		 << endl;
+		 << std::endl;
 	         
 	}
 
@@ -124,7 +124,7 @@ void mgdraw(Int_t& icode, Int_t& mreg)
         // Tracking is being resumed after secondary tracking
         //
         if (verbosityLevel >= 3) {
-            cout << endl << "mgdraw: resuming Stepping(): " << trackId << endl;
+            std::cout << std::endl << "mgdraw: resuming Stepping(): " << trackId << std::endl;
         }
 
         fluka->SetTrackIsNew(kTRUE);
@@ -137,8 +137,8 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 
 
         if (verbosityLevel >= 3) {
-            cout << endl << " !!! I am in mgdraw - first Stepping() after resume: " << icode << endl;
-            cout << " Track= " << trackId << " region = " << mreg << endl;
+            std::cout << std::endl << " !!! I am in mgdraw - first Stepping() after resume: " << icode << std::endl;
+            std::cout << " Track= " << trackId << " region = " << mreg << std::endl;
         }
 
         fluka->SetTrackIsNew(kFALSE);

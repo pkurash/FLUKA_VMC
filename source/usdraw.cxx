@@ -80,15 +80,15 @@ void usdraw(Int_t& icode, Int_t& mreg,
     Int_t volId = fluka->CurrentVolID(nodeId);
     Int_t crtlttc = gGeoManager->GetCurrentNodeId()+1;
     if(verbosityLevel>=3 && mreg != volId  && !gGeoManager->IsOutside() ) {
-       cout << "  usdraw:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
-            << " icode=" << icode << " gNstep=" << fluka->GetNstep() << endl
-            << "               fluka   mreg=" << mreg << " mlttc=" << mlttc << endl
-            << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << endl
-            << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << endl
-            << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << endl
-            << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << endl
-            << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << endl;
-        if( mlttc == crtlttc ) cout << "   *************************************************************" << endl;
+       std::cout << "  usdraw:   track=" << TRACKR.ispusr[mkbmx2-1] << " pdg=" << fluka->PDGFromId(TRACKR.jtrack)
+            << " icode=" << icode << " gNstep=" << fluka->GetNstep() << std::endl
+            << "               fluka   mreg=" << mreg << " mlttc=" << mlttc << std::endl
+            << "               TGeo   volId=" << volId << " crtlttc=" << crtlttc << std::endl
+            << "     common TRACKR   lt1trk=" << TRACKR.lt1trk << " lt2trk=" << TRACKR.lt2trk << std::endl
+            << "     common LTCLCM   newlat=" << LTCLCM.newlat << " mlatld=" <<  LTCLCM.mlatld << std::endl
+            << "                     mlatm1=" << LTCLCM.mlatm1 << " mltsen=" <<  LTCLCM.mltsen << std::endl
+            << "                     mltsm1=" << LTCLCM.mltsm1 << " mlattc=" << LTCLCM.mlattc << std::endl;
+        if( mlttc == crtlttc ) std::cout << "   *************************************************************" << std::endl;
     }
     // *****************************************************
 

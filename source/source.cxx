@@ -81,8 +81,8 @@ extern "C" {
     Int_t verbosityLevel = fluka->GetVerbosityLevel();
     Bool_t debug = (verbosityLevel>=1)?kTRUE:kFALSE;
     if (debug) {
-      cout << "==> source(" << nomore << ")" << endl;
-      cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << endl;
+      std::cout << "==> source(" << nomore << ")" << std::endl;
+      std::cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << std::endl;
     }  
 
     static Bool_t lfirst = true;
@@ -124,7 +124,7 @@ extern "C" {
             TVirtualMCApplication::Instance()->PostTrack();
             TVirtualMCApplication::Instance()->FinishPrimary();
             if ((itrack%10)==0)
-                cout << "=== TRACKING PRIMARY "<< itrack <<" ===" << endl;
+                std::cout << "=== TRACKING PRIMARY "<< itrack <<" ===" << std::endl;
             //printf("=== TRACKING PRIMARY %d ===\n", itrack);
         }
     }
@@ -135,9 +135,9 @@ extern "C" {
       nomore = 1;
       SOURCM.lsouit = false;
       if (debug) {
-         cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << endl;
-         cout << "\t* No more particles. Exiting..." << endl;
-         cout << "<== source(" << nomore << ")" << endl;
+         std::cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << std::endl;
+         std::cout << "\t* No more particles. Exiting..." << std::endl;
+         std::cout << "<== source(" << nomore << ")" << std::endl;
       }   
       return;
     }
@@ -159,17 +159,17 @@ extern "C" {
     TVector3 polarisation;
     particle->GetPolarisation(polarisation);
     if (debug) {
-       cout << "\t* Particle " << itrack << " retrieved..." << endl;
-       cout << "\t\t+ Name = " << particle->GetName() << endl;
-       cout << "\t\t+ PDG/Fluka code = " << pdg 
-            << " / " << fluka->IdFromPDG(pdg) << endl;
-       cout << "\t\t+ P = (" 
+       std::cout << "\t* Particle " << itrack << " retrieved..." << std::endl;
+       std::cout << "\t\t+ Name = " << particle->GetName() << std::endl;
+       std::cout << "\t\t+ PDG/Fluka code = " << pdg 
+            << " / " << fluka->IdFromPDG(pdg) << std::endl;
+       std::cout << "\t\t+ P = (" 
             << particle->Px() << " , "
             << particle->Py() << " , "
             << particle->Pz() << " ) --> "
             << particle->P() << " GeV "
             << particle->Energy() << " GeV "
-            << particle->GetMass() << " GeV " << endl;
+            << particle->GetMass() << " GeV " << std::endl;
     }   
     /* Npflka is the stack counter: of course any time source is called it
      * must be =0
@@ -387,6 +387,6 @@ extern "C" {
         TVirtualMCApplication::Instance()->PreTrack();
     }
 //
-    if (debug) cout << "<== source(" << nomore << ")" << endl;
+    if (debug) std::cout << "<== source(" << nomore << ")" << std::endl;
   }
 }

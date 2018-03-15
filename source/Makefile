@@ -90,7 +90,7 @@ INCDIR  := -I$(FLUPRO)/flukapro
 
 # C++ compilation flags
 #
-CXXFLAGS := $(CXXOPTS) -I. $(INCDIR) -I$(ROOT_INCDIR) 
+CXXFLAGS := $(CXXOPTS) -I. $(INCDIR) -I$(ROOT_INCDIR) -DgFortran
 
 # FORTRAN compilation flags
 

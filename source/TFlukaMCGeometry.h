@@ -40,7 +40,7 @@ class TFlukaMCGeometry :public TNamed {
     virtual Int_t NofVolumes() const;
    // FLUKA specific methods
     void          CreateFlukaMatFile(const char *fname=0);
-    void          PrintHeader(ofstream &out, const char *text) const;
+    void          PrintHeader(std::ofstream &out, const char *text) const;
     Bool_t        IsDebugging() const {return fDebug;}
     void          SetDebugMode(Bool_t flag=kTRUE) {fDebug = flag;}
     void          SetMreg(Int_t mreg, Int_t lttc);

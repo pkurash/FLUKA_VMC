@@ -139,7 +139,7 @@ void stupre()
         cppstack->PushTrack(done, parent, pdg,
                            px, py, pz, e, vx, vy, vz, tof,
                            polx, poly, polz, mech, ntr, weight, is);
-        if (debug) cout << endl << " !!! stupre (PAIR, ..) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << " energy " << e-PAPROP.am[flukaid+6] << endl;
+        if (debug) std::cout << std::endl << " !!! stupre (PAIR, ..) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << " energy " << e-PAPROP.am[flukaid+6] << std::endl;
 
         EMFSTK.iespak[kp][mkbmx2-1] = ntr;
         EMFSTK.iespak[kp][mkbmx2-2] = 0;
@@ -153,7 +153,7 @@ void stupre()
             cppstack->PushTrack(done, parent, pdg,
                                px, py, pz, e, vx, vy, vz, tof,
                                polx, poly, polz, mech, ntr, weight, is);
-            if (debug) cout << endl << " !!! stupre (COMPTON) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << endl;
+            if (debug) std::cout << std::endl << " !!! stupre (COMPTON) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << std::endl;
             EMFSTK.iespak[kp][mkbmx2-1] = ntr;
             EMFSTK.iespak[kp][mkbmx2-2] = 0;
         } else {
@@ -168,7 +168,7 @@ void stupre()
             cppstack->PushTrack(done, parent, pdg,
                                px, py, pz, e, vx, vy, vz, tof,
                                polx, poly, polz, mech, ntr, weight, is);
-            if (debug) cout << endl << " !!! stupre (BREMS) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << endl;
+            if (debug) std::cout << std::endl << " !!! stupre (BREMS) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << std::endl;
             EMFSTK.iespak[kp][mkbmx2-1] = ntr;
             EMFSTK.iespak[kp][mkbmx2-2] = 0;
         } else {
@@ -187,7 +187,7 @@ void stupre()
 				    polx, poly, polz, mech, ntr, weight, is);
                 EMFSTK.iespak[kp][mkbmx2-1] = ntr;
                 EMFSTK.iespak[kp][mkbmx2-2] = 0;
-		if (debug) cout << endl << " !!! stupre (BHABA) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << endl;
+		if (debug) std::cout << std::endl << " !!! stupre (BHABA) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << std::endl;
             } else {
 		fluka->SetPint(px, py, pz, e);
 	    }
@@ -200,7 +200,7 @@ void stupre()
             cppstack->PushTrack(done, parent, pdg,
                                px, py, pz, e, vx, vy, vz, tof,
                                polx, poly, polz, mech, ntr, weight, is);
-            if (debug) cout << endl << " !!! stupre (Moller) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << endl;
+            if (debug) std::cout << std::endl << " !!! stupre (Moller) : ntr=" << ntr << " pdg " << pdg << " parent=" << parent << std::endl;
             EMFSTK.iespak[kp][mkbmx2-1] = ntr;
             EMFSTK.iespak[kp][mkbmx2-2] = 0;
         } else {

@@ -582,8 +582,8 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    gGeoManager->Export("geometry.root");
    if (fname) sname = fname;
    else       sname = "flukaMat.inp";
-   ofstream out;
-   out.open(sname.Data(), ios::out);
+   std::ofstream out;
+   out.open(sname.Data(), std::ios::out);
    if (!out.good()) {
       Fatal("CreateFlukaMatFile", "could not open file %s for writing", sname.Data());
       return;
@@ -661,55 +661,55 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
    for (i=0; i<nfmater; i++) {
       mat = (TGeoMaterial*)fMatList->At(i);
       mix = 0;
-      out << setw(10) << "MATERIAL  ";
-      out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
+      out << std::setw(10) << "MATERIAL  ";
+      out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
       objstr = (TObjString*)fMatNames->At(i);
       matname = objstr->GetString();
       z = mat->GetZ();
       a = mat->GetA();
       rho = mat->GetDensity();
       if (mat->IsMixture()) {
-         out << setw(10) << " ";
-         out << setw(10) << " ";
+         out << std::setw(10) << " ";
+         out << std::setw(10) << " ";
          mix = (TGeoMixture*)mat;
       } else {   
-         out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << z;
-         out << setw(10) << setprecision(3) << a;
+         out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << z;
+         out << std::setw(10) << std::setprecision(3) << a;
       }
-      out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-      out << setw(10) << setiosflags(ios::scientific) << setprecision(3) << rho;
-      out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-      out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << Double_t(mat->GetIndex());   
-      out << setw(10) << " ";
-      out << setw(10) << " ";
-      out << setw(8) << matname.Data() << endl;
+      out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+      out << std::setw(10) << std::setiosflags(std::ios_base::scientific) << std::setprecision(3) << rho;
+      out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+      out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << Double_t(mat->GetIndex());   
+      out << std::setw(10) << " ";
+      out << std::setw(10) << " ";
+      out << std::setw(8) << matname.Data() << std::endl;
       if (!mix) {
          // add LOW-MAT card for NEON to associate with ARGON neutron xsec
          if (z==10) {
-            out << setw(10) << "LOW-MAT   ";
-            out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-            out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << Double_t(mat->GetIndex());
-            out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << 18.;
-            out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << -2.;
-            out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << 296.;
-            out << setw(10) << " ";
-            out << setw(10) << " ";
-//            out << setw(8) << matname.Data() << endl;
-            out << setw(8) << " " << endl;
+            out << std::setw(10) << "LOW-MAT   ";
+            out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+            out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << Double_t(mat->GetIndex());
+            out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << 18.;
+            out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << -2.;
+            out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << 296.;
+            out << std::setw(10) << " ";
+            out << std::setw(10) << " ";
+//            out << std::setw(8) << matname.Data() << std::endl;
+            out << std::setw(8) << " " << std::endl;
          } 
          else { 
             element = table->GetElement((int)z);
             TString elename = element->GetTitle();
             ToFlukaString(elename);
             if( matname.CompareTo( elename ) != 0 ) {
-               out << setw(10) << "LOW-MAT   ";
-               out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-               out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << Double_t(mat->GetIndex());
-               out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << z;
-               out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << " ";
-               out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << " ";
-               out << setw(10) << " ";
-               out << setw(10) << " ";
+               out << std::setw(10) << "LOW-MAT   ";
+               out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+               out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << Double_t(mat->GetIndex());
+               out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << z;
+               out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << " ";
+               out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << " ";
+               out << std::setw(10) << " ";
+               out << std::setw(10) << " ";
                // missing material at Low Energy Cross Section Table
                if( (int)z==10 || (int)z==34 || (int)z==37 || (int)z==44 || (int)z==45 || 
 		   (int)z==46 || (int)z==52 || (int)z==57 || (int)z==59 || (int)z==61 || 
@@ -717,15 +717,15 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
 		   (int)z==71 || (int)z==76 || (int)z==78 || (int)z==81 || (int)z==84 || 
 		   (int)z==85 || (int)z==86 || (int)z==87 || (int)z==88 || (int)z==89 || 
 		   (int)z==91 )
-                  out << setw(8) << "UNKNOWN " << endl;
+                  out << std::setw(8) << "UNKNOWN " << std::endl;
                else
-                  out << setw(8) << elename.Data() << endl;
+                  out << std::setw(8) << elename.Data() << std::endl;
             }
          }
          continue;
       }   
       counttothree = 0;
-      out << setw(10) << "COMPOUND  ";
+      out << std::setw(10) << "COMPOUND  ";
       nelem = mix->GetNelements();
       objstr = (TObjString*)fMatNames->At(i);
       matname = objstr->GetString();
@@ -736,23 +736,23 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
          a = (mix->GetAmixt())[j];
          idmat = GetElementIndex(Int_t(z));
          if (!idmat) Error("CreateFlukaMatFile", "element with Z=%f not found", z);
-         out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-         out << setw(10) << setiosflags(ios::fixed) << setprecision(6) << -w;   
-         out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-         out << setw(10) << setiosflags(ios::fixed) << setprecision(1) << Double_t(idmat);
+         out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+         out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(6) << -w;   
+         out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+         out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << std::setprecision(1) << Double_t(idmat);
          counttothree++;
          if (counttothree == 3) {
             out << matname.Data();
-            out << endl;
-            if ( (j+1) != nelem) out << setw(10) << "COMPOUND  ";
+            out << std::endl;
+            if ( (j+1) != nelem) out << std::setw(10) << "COMPOUND  ";
             counttothree = 0;
          } 
       }               
       if (nelem%3) {
          for (j=0; j<(3-(nelem%3)); j++)
-            out << setw(10) << " " << setw(10) << " ";
+            out << std::setw(10) << " " << std::setw(10) << " ";
          out << matname.Data();
-         out << endl;
+         out << std::endl;
       } 
    }     
    Int_t nvols = gGeoManager->GetListOfUVolumes()->GetEntriesFast()-1;
@@ -780,49 +780,49 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
 	}   
 	hasfield  = (vol->GetMedium()->GetParam(1) > 0) ? flagfield : 0.;
 	out << "* Assigning material:   " << vol->GetMedium()->GetMaterial()->GetName() << "   to Volume: " << vol->GetName();
-	out << endl;
+	out << std::endl;
       } else {
 	idmat = 2;
 	out << "* No medium for volume" <<  i << "  " << vol->GetName();
-	out << endl;
+	out << std::endl;
      }
-      out << setw(10) << "ASSIGNMAT ";
-      out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-      out << setw(10) << setiosflags(ios::fixed) << Double_t(idmat);
-      out << setw(10) << setiosflags(ios::fixed) << Double_t(i);
-      out << setw(10) << "0.0";
-      out << setw(10) << "0.0";
-      out << setw(10) << setiosflags(ios::fixed) <<  hasfield;
-      out << setw(10) << "0.0";
-      out << endl;
+      out << std::setw(10) << "ASSIGNMAT ";
+      out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+      out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << Double_t(idmat);
+      out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << Double_t(i);
+      out << std::setw(10) << "0.0";
+      out << std::setw(10) << "0.0";
+      out << std::setw(10) << std::setiosflags(std::ios_base::fixed) <<  hasfield;
+      out << std::setw(10) << "0.0";
+      out << std::endl;
    }
    // dummy region
 
    idmat = 2; // vacuum
    fDummyRegion = nvols+1;
-   out << "* Dummy region:   " << endl;
-   out << setw(10) << "ASSIGNMAT ";
-   out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-   out << setw(10) << setiosflags(ios::fixed) << idmat;
-   out << setw(10) << setiosflags(ios::fixed) << fDummyRegion;
-   out << setw(10) << "0.0";
-   out << setw(10) << "0.0";
-   out << setw(10) << "0.0";
-   out << setw(10) << "0.0" << endl;
+   out << "* Dummy region:   " << std::endl;
+   out << std::setw(10) << "ASSIGNMAT ";
+   out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+   out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << idmat;
+   out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << fDummyRegion;
+   out << std::setw(10) << "0.0";
+   out << std::setw(10) << "0.0";
+   out << std::setw(10) << "0.0";
+   out << std::setw(10) << "0.0" << std::endl;
    //
    // Out of world (black-hole region)
    //
    idmat = 1; // black-hole
    Int_t dummy = nvols+2;
-   out << "* Outside region with black-hole material:   " << endl;
-   out << setw(10) << "ASSIGNMAT ";
-   out.setf(static_cast<std::ios::fmtflags>(0),std::ios::floatfield);
-   out << setw(10) << setiosflags(ios::fixed) << idmat;
-   out << setw(10) << setiosflags(ios::fixed) << dummy;
-   out << setw(10) << "0.0";
-   out << setw(10) << "0.0";
-   out << setw(10) << "0.0";
-   out << setw(10) << "0.0" << endl;
+   out << "* Outside region with black-hole material:   " << std::endl;
+   out << std::setw(10) << "ASSIGNMAT ";
+   out.setf(static_cast<std::ios_base::fmtflags>(0),std::ios::floatfield);
+   out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << idmat;
+   out << std::setw(10) << std::setiosflags(std::ios_base::fixed) << dummy;
+   out << std::setw(10) << "0.0";
+   out << std::setw(10) << "0.0";
+   out << std::setw(10) << "0.0";
+   out << std::setw(10) << "0.0" << std::endl;
 
    out.close();
 //   fLastMaterial = nfmater+2;
@@ -830,15 +830,15 @@ void TFlukaMCGeometry::CreateFlukaMatFile(const char *fname)
 }
 
 //_____________________________________________________________________________
-void TFlukaMCGeometry::PrintHeader(ofstream &out, const char *text) const
+void TFlukaMCGeometry::PrintHeader(std::ofstream &out, const char *text) const
 {
 // Print a FLUKA header.
   out << "*\n" << "*\n" << "*\n";
   out << "*********************  " << text << " *********************\n"
      << "*\n";
   out << "*...+....1....+....2....+....3....+....4....+....5....+....6....+....7..."
-     << endl;
-  out << "*" << endl;
+     << std::endl;
+  out << "*" << std::endl;
 }
 
 //_____________________________________________________________________________
@@ -1055,10 +1055,10 @@ void g1wr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
    }
 
    if (gMCGeom->IsDebugging()) {
-      cout << "g1wr gNstep=" << gNstep << " oldReg="<< oldReg <<" olttc="<< olttc << "pstep=" << propStep
-           << " track=" << TRACKR.ispusr[mkbmx2-1] << endl;
-      cout << " point: (" << pSx << ", " << pSy << ", " << pSz << ")  dir: ("
-           << pV[0] << ", " << pV[1] << ", " << pV[2] << ")" << endl;
+      std::cout << "g1wr gNstep=" << gNstep << " oldReg="<< oldReg <<" olttc="<< olttc << "pstep=" << propStep
+           << " track=" << TRACKR.ispusr[mkbmx2-1] << std::endl;
+      std::cout << " point: (" << pSx << ", " << pSy << ", " << pSz << ")  dir: ("
+           << pV[0] << ", " << pV[1] << ", " << pV[2] << ")" << std::endl;
    }        
            
 
@@ -1341,8 +1341,8 @@ void lkwr(Double_t &pSx, Double_t &pSy, Double_t &pSz,
 
    if( oldReg!=newReg && oldLttc==newLttc ) {
       // this should not happen!! ??? Ernesto
-//       cout << "  lkwr      oldReg!=newReg ("<< oldReg <<"!="<< newReg
-//            << ") && oldLttc==newLttc ("<< newLttc <<") !!!!!!!!!!!!!!!!!" << endl;
+//       std::cout << "  lkwr      oldReg!=newReg ("<< oldReg <<"!="<< newReg
+//            << ") && oldLttc==newLttc ("<< newLttc <<") !!!!!!!!!!!!!!!!!" << std::endl;
       newReg  = dummy;
       newLttc = TFlukaMCGeometry::kLttcVirtual;
       flagErr = newReg;
