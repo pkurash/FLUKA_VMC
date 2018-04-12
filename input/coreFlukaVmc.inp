@@ -1,7 +1,5 @@
-GLOBAL        10000.
+GLOBAL        10000.                           4.0
 DEFAULTS                                                              NEW-DEFA
-*OPEN             15.                                                  UNKNOWN
-*FlukaVmc.err
 OPEN              1.                                                  OLD
 random.dat
 GEOBEGIN                                                              COMBINAT
@@ -9,6 +7,7 @@ GEOEND
 *
 *...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+ 
 *
+EVENTYPE                             1.0
 BEAM          7000.0                                                  MUON-
 MGNFIELD        10.0
 SOURCE
