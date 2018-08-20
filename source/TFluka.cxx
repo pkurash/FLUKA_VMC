@@ -1452,7 +1452,13 @@ void TFluka::TrackPosition(TLorentzVector& position) const
       position.SetY(TRACKR.spausr[1]);
       position.SetZ(TRACKR.spausr[2]);
       position.SetT(TRACKR.spausr[3]);
+  } else if (caller == kMGNewTrack) {
+    Int_t ist  = FLKSTK.npflka;
+    position.SetX(FLKSTK.xflk[ist]);
+    position.SetY(FLKSTK.yflk[ist]);
+    position.SetZ(FLKSTK.zflk[ist]);
   }
+
   else
       Warning("TrackPosition","position not available");
 }
@@ -1495,6 +1501,12 @@ void TFluka::TrackPosition(Double_t& x, Double_t& y, Double_t& z) const
       x = TRACKR.spausr[0];
       y = TRACKR.spausr[1];
       z = TRACKR.spausr[2];
+  }
+  else if (caller == kMGNewTrack) {
+    Int_t ist  = FLKSTK.npflka;
+    x = FLKSTK.xflk[ist];
+    y = FLKSTK.yflk[ist];
+    z = FLKSTK.zflk[ist];
   }
   else
       Warning("TrackPosition","position not available");
@@ -1546,7 +1558,7 @@ void TFluka::TrackMomentum(TLorentzVector& momentum) const
       momentum.SetPz(0.);
       momentum.SetE(TrackMass());
       
-  } else if (caller == kSODRAW) {
+  } else if (caller == kSODRAW || caller == kMGNewTrack) {
       Int_t ist  = FLKSTK.npflka;
       Double_t p = FLKSTK.pmoflk[ist];
       Int_t ifl  = FLKSTK.iloflk[ist];
@@ -1631,7 +1643,7 @@ void TFluka::TrackMomentum(Double_t& px, Double_t& py, Double_t& pz, Double_t& e
       py = 0.;
       pz = 0.;
       e  = TrackMass();
-  } else if (caller == kSODRAW) {
+  } else if (caller == kSODRAW || caller == kMGNewTrack) {
       Int_t ist  = FLKSTK.npflka;
       Double_t p = FLKSTK.pmoflk[ist];
       Int_t ifl  = FLKSTK.iloflk[ist];
@@ -1690,7 +1702,7 @@ Double_t TFluka::TrackStep() const
     } else if (caller == kBXEntering || caller == kBXExiting || 
 	       caller == kENDRAW     || caller == kUSDRAW || 
 	       caller == kUSTCKV     || caller == kMGResumedTrack ||
-	       caller == kSODRAW)
+	       caller == kSODRAW     || caller == kMGNewTrack)
     {
 	return 0.0;
     } else {
@@ -1717,7 +1729,7 @@ Double_t TFluka::TrackLength() const
       return TRACKR.cmtrck;
   else if (caller == kMGResumedTrack) 
       return TRACKR.spausr[8];
-  else if (caller == kSODRAW)
+  else if (caller == kSODRAW || caller == kMGNewTrack)
       return 0.0;
   else {
       Warning("TrackLength", "track length not available for caller %5d \n", caller);
@@ -1742,11 +1754,11 @@ Double_t TFluka::TrackTime() const
       }
   } else if (caller == kBXEntering || caller == kBXExiting || 
 	     caller == kENDRAW     || caller == kUSDRAW    || 
-	     caller == kUSTCKV)
+	     caller == kUSTCKV )
     return TRACKR.atrack;
   else if (caller == kMGResumedTrack)
     return TRACKR.spausr[3];
-  else if (caller == kSODRAW) {
+  else if (caller == kSODRAW || kMGNewTrack) {
       return (FLKSTK.agestk[FLKSTK.npflka]);
   }
   else {
@@ -1775,7 +1787,7 @@ Double_t TFluka::Edep() const
     
   if (caller == kBXExiting || caller == kBXEntering || 
       caller == kUSDRAW    || caller == kMGResumedTrack ||
-      caller == kSODRAW) 
+      caller == kSODRAW    || caller == kMGNewTrack) 
       return 0.0;
   Double_t sum = 0;
   Int_t i = -1;
@@ -1840,7 +1852,7 @@ Int_t TFluka::TrackPid() const
   if (caller != kEEDRAW && caller != kSODRAW) {
      return PDGFromId( CorrectFlukaId() );
   }
-  else if (caller == kSODRAW) {
+  else if (caller == kSODRAW || caller == kMGNewTrack) {
       return PDGFromId(FLKSTK.iloflk[FLKSTK.npflka]);
   }
   else
@@ -1871,9 +1883,9 @@ Double_t TFluka::TrackMass() const
 // PAPROP.am = particle mass in GeV
 // TRACKR.jtrack = identity number of the particle
   FlukaCallerCode_t caller = GetCaller();
-  if (caller != kEEDRAW && caller != kSODRAW)
+  if (caller != kEEDRAW && caller != kSODRAW && caller != kMGNewTrack)
      return PAPROP.am[CorrectFlukaId()+6];
-  else if (caller == kSODRAW) {
+  else if (caller == kSODRAW || caller == kMGNewTrack) {
       Int_t ifl =  FLKSTK.iloflk[FLKSTK.npflka];
       return PAPROP.am[ifl + 6];
   }
@@ -1887,7 +1899,7 @@ Double_t TFluka::Etot() const
 // TRACKR.etrack = total energy of the particle
   FlukaCallerCode_t  caller = GetCaller();
   FlukaProcessCode_t icode  = GetIcode();
-  if (caller != kEEDRAW && caller != kSODRAW && caller != kUSDRAW)
+  if (caller != kEEDRAW && caller != kSODRAW && caller != kUSDRAW && caller != kMGNewTrack)
   {
       return TRACKR.etrack;
   } else if (caller == kUSDRAW) {
@@ -1906,7 +1918,7 @@ Double_t TFluka::Etot() const
       }
       
   }
-  else if (caller == kSODRAW) {
+  else if (caller == kSODRAW || caller == kMGNewTrack) {
       Int_t ist  = FLKSTK.npflka;
       Double_t p = FLKSTK.pmoflk[ist];
       Int_t ifl  = FLKSTK.iloflk[ist];
@@ -1946,7 +1958,7 @@ Bool_t   TFluka::IsTrackInside() const
 // it will be shortened to reach only the boundary.
 // Therefore IsTrackInside() is always true.
   FlukaCallerCode_t caller = GetCaller();
-  if (caller == kBXEntering || caller == kBXExiting)
+  if (caller == kBXEntering || caller == kBXExiting || caller == kMGNewTrack || caller == kMGResumedTrack)
     return 0;
   else
     return 1;
@@ -1958,7 +1970,7 @@ Bool_t   TFluka::IsTrackEntering() const
 // True if this is the first step of the track in the current volume
 
   FlukaCallerCode_t caller = GetCaller();
-  if (caller == kBXEntering)
+  if ((caller == kBXEntering) || (caller == kMGNewTrack) || (caller == kMGResumedTrack))
     return 1;
   else return 0;
 }

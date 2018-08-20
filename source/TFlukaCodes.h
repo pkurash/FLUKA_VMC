@@ -62,7 +62,8 @@ typedef enum {
     kBXEntering     = 11,      // Stepping called from bxdraw (entering track) 
     kBXExiting      = 12,      // Stepping called from bxdraw (exiting  track) 
     kMGResumedTrack = 40,      // Stepping called from mgdraw (resumed  track) 
-    kUSTCKV         = 50       // Stepping called from ustckv 
+    kUSTCKV         = 50,      // Stepping called from ustckv
+    kMGNewTrack     = 60       // Stepping called from mgdraw for new track
 }
 FlukaCallerCode_t;	  
 

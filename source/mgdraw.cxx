@@ -98,7 +98,13 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 		 << std::endl;
 	         
 	}
-
+	  if ( FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6] == 0) {
+	    // first step of new particle
+	    fluka->SetTrackIsNew(kTRUE);
+	    fluka->SetCaller(kMGNewTrack);
+	    (TVirtualMCApplication::Instance())->Stepping();
+	    FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6]++;
+	  }
 	if (msd > 0) {
 //
 // Primary ionsiations
@@ -115,8 +121,10 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 	    fluka->PrimaryIonisationStepping(nprim);
 	} else {
 	    // Single step
-	    (TVirtualMCApplication::Instance())->Stepping();
-	    fluka->SetTrackIsNew(kFALSE);
+	  fluka->SetCaller(kMGDRAW);
+	  fluka->SetTrackIsNew(kFALSE);
+	  (TVirtualMCApplication::Instance())->Stepping();
+	  FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6]++;
 	}
 	
     } else {
@@ -130,7 +138,7 @@ void mgdraw(Int_t& icode, Int_t& mreg)
         fluka->SetTrackIsNew(kTRUE);
         fluka->SetCaller(kMGResumedTrack);
         (TVirtualMCApplication::Instance())->Stepping();
-
+	FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6]++;
         // Reset flag and stored values
         TRACKR.ispusr[mkbmx2 - 2] = 0;
         for (Int_t i = 0; i < 9; i++) TRACKR.spausr[i] = -1.;

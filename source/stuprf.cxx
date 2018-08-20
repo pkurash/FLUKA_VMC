@@ -70,11 +70,11 @@ extern "C" {
   FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 3] = TRACKR.jtrack;              // fluka particle id
   FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 4] = TRACKR.ispusr[mkbmx2 - 1];  // current track number
   FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 5] = npprmr;                     // flag npprmr>0
+  FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6] = 0;                          // number of steps
 
 
   Int_t verbosityLevel = fluka->GetVerbosityLevel();
   Bool_t debug = (verbosityLevel>=3)? kTRUE:kFALSE;
-  
   fluka->SetTrackIsNew(kTRUE);
 //  TVirtualMC* fluka = TFluka::GetMC();
 // Get the stack produced from the generator

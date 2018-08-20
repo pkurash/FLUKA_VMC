@@ -557,26 +557,24 @@ void TFlukaConfigOption::ProcessLOSS()
     Float_t stra = (Float_t) fProcessFlag[kSTRA];
     
 
-    if (fProcessFlag[kLOSS] == 1 || fProcessFlag[kLOSS] == 3) {
+    if ((fProcessFlag[kLOSS] == 1 || fProcessFlag[kLOSS] == 3) && fProcessFlag[kSTRA]!=4) {
 //
 // Restricted energy loss fluctuations 
 //
        fprintf(fgFile,"IONFLUCT  %10.1f%10.1f%10.1f%10.1f%10.1f\n", 1., 1., stra, fCMatMin, fCMatMax);
        fprintf(fgFile,"DELTARAY  %10.4g%10.1f%10.1f%10.1f%10.1f%10.1f\n", cutM, 0., 0., fCMatMin, fCMatMax, 1.);
-    } else if (fProcessFlag[kLOSS] > 10) {
+    } else if (fProcessFlag[kSTRA] == 4) {
 //
 // Primary ionisation electron generation
 //
-       // Ionisation model
-       Float_t ioModel = Float_t (fProcessFlag[kLOSS]-10);
-       //  Effective 1st ionisation potential
-       Float_t ePot    = ModelParameter(kPRIMIOE);
-       // Number of primary ionisations per cm for a mip
-       Float_t nPrim   = ModelParameter(kPRIMION);
-       
-       fprintf(fgFile,"IONFLUCT  %10.1f%10.1f%10.1f%10.1f%10.1f\n", 1., 1., stra, fCMatMin, fCMatMax);
-       fprintf(fgFile,"IONFLUCT  %10.1f%10.1f%10.1f%10.1f%10.1f%10.1fPRIM-ION\n", ePot, nPrim, ioModel, fCMatMin, fCMatMax, 1.);
-       fprintf(fgFile,"DELTARAY  %10.4g%10.1f%10.1f%10.1f%10.1f%10.1f\n", cutM, 0., 0., fCMatMin, fCMatMax, 1.);
+      // Ionisation model
+      Float_t ioModel = 1;
+      //  Effective 1st ionisation potential
+      Float_t ePot    = ModelParameter(kPRIMIOE);
+      // Number of primary ionisations per cm for a mip
+      Float_t nPrim   = ModelParameter(kPRIMION);
+      fprintf(fgFile,"IONFLUCT  %10.1f%10.1f%10.1f%10.1f%10.1f%10.1fPRIM-ION\n", ePot, nPrim, ioModel, fCMatMin, fCMatMax, 1.);
+      fprintf(fgFile,"DELTARAY  %10.4g%10.1f%10.1f%10.1f%10.1f%10.1f\n", 1.e-8, 0., 0., fCMatMin, fCMatMax, 1.);
     } else if (fProcessFlag[kLOSS] == 4) {
 //
 // No fluctuations
