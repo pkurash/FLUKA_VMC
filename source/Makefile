@@ -22,7 +22,7 @@ ROOT_BINDIR = $(ROOTSYS)/bin
 ROOT_ETCDIR = $(ROOTSYS)/etc/vmc
 endif
 
-include $(ROOT_ETCDIR)/Makefile.$(PLATFORM)
+include Makefile.$(PLATFORM)
 
 ############################### Sources #######################################
 
