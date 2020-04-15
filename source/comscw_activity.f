@@ -6,9 +6,9 @@
       DOUBLE PRECISION FUNCTION COMSCW ( IJ    , XA    , YA    , ZA    ,
      &                                   MREG  , RULL  , LLO   , ICALL )
 
-      INCLUDE '(DBLPRC)'
-      INCLUDE '(DIMPAR)'
-      INCLUDE '(IOUNIT)'
+      INCLUDE 'dblprc.inc'
+      INCLUDE 'dimpar.inc'
+      INCLUDE 'iounit.inc'
 *                                                                      *
 *----------------------------------------------------------------------*
 *                                                                      *
@@ -92,12 +92,12 @@
 *                Npsoev  = number of the source particles              *
 *----------------------------------------------------------------------*
 *
-      INCLUDE '(FLKMAT)'
-      INCLUDE '(SCOHLP)'
-      INCLUDE '(SOUEVT)'
+      INCLUDE 'flkmat.inc'
+      INCLUDE 'scohlp.inc'
+      INCLUDE 'souevt.inc'
 *
-      INCLUDE '(RSNCCM)'
-      INCLUDE '(USRBIN)'
+      INCLUDE 'rsnccm.inc'
+      INCLUDE 'usrbin.inc'
       DIMENSION IZSCO(MXUSBN),IASCO(MXUSBN),ISSCO(MXUSBN),
      &          LESCO(MXUSBN)
 *
@@ -133,10 +133,10 @@
          LFIRST = .FALSE.
 *
 *----------------------------------------------------------------------*
-* Initialization                               
+* Initialization
 *
 * LE data taken from Appendix 3 column 9,
-* Ordonnance sur la radioprotection (ORaP) du 22 juin 1994 
+* Ordonnance sur la radioprotection (ORaP) du 22 juin 1994
 * (etat au 4 avril 2000)
 *
 * (data file in Bq/kg!)
@@ -172,7 +172,7 @@
                   STOP
                ENDIF
                IF (XLESWS(IZ,IAZ,IS).GT.ZERZER) THEN
-                  WRITE(LUNOUT,*) 
+                  WRITE(LUNOUT,*)
      &               ' COMSCW: warning! two entries for this isotope: ',
      &               CISOIN,IA,XLIMIT
                   STOP
@@ -185,7 +185,7 @@
                GOTO 103
             ENDIF
   102    CONTINUE
-         WRITE(LUNOUT,*) 
+         WRITE(LUNOUT,*)
      &      ' COMSCW: isotope not recognized: ',CISOIN,IA,XLIMIT
          STOP
   103    CONTINUE
@@ -193,7 +193,7 @@
   101    CONTINUE
          CLOSE(20)
 *
-* LE data taken from 
+* LE data taken from
 * Official journal of the European Communities L159, 29 June 1996
 * Council Directive 96/29/Euratom
 *
@@ -228,7 +228,7 @@
                   STOP
                ENDIF
                IF (XLEECO(IZ,IAZ,IS).GT.ZERZER) THEN
-                  WRITE(LUNOUT,*) 
+                  WRITE(LUNOUT,*)
      &               ' COMSCW: warning! two entries for this isotope: ',
      &               CISOIN,IA,XLIMIT
                   STOP
@@ -243,7 +243,7 @@
                GOTO 203
             ENDIF
   202    CONTINUE
-         WRITE(LUNOUT,*) 
+         WRITE(LUNOUT,*)
      &      ' COMSCW: isotope not recognized: ',CISOIN,IA,XLIMIT
          STOP
   203    CONTINUE
@@ -273,7 +273,7 @@
       ENDIF
 *
 *----------------------------------------------------------------------*
-* Online weighting                             
+* Online weighting
 *
       IF ( ISCRNG .EQ. 5 ) THEN
 *
@@ -346,7 +346,7 @@
          ELSEIF ((LESCO(JSCRNG).EQ.1).OR.(LESCO(JSCRNG).EQ.10).OR.
      &           (LESCO(JSCRNG).EQ.100)) THEN
             FACT = 10.0D0/DBLE(LESCO(JSCRNG))
-            IF (XLEO10(JZ,JAZ,JS).GT.ZERZER) 
+            IF (XLEO10(JZ,JAZ,JS).GT.ZERZER)
      &         COMSCW = ONEONE/(FACT*XLEO10(JZ,JAZ,JS))
          ELSEIF (LESCO(JSCRNG).EQ.2) THEN
             IF (XLESWS(JZ,JAZ,JS).GT.ZERZER)

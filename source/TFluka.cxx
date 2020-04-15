@@ -53,6 +53,7 @@
 #include "Falldlt.h"       //(ALLDLT) fluka common
 #include "Fflkmat.h"
 #include "Femfrgn.h"
+#include "Fcomput.h"       //(COMPUT) fluka common
 #include "TVirtualMC.h"
 #include "TMCProcess.h"
 #include "TGeoManager.h"
@@ -315,9 +316,10 @@ void TFluka::BuildPhysics() {
     // Prepare input file with the current physics settings
     
     InitPhysics(); 
-//  Open fortran files    
-    const char* fname = fInputFileName;
-    fluka_openinp(lunin, PASSCHARA(fname));
+//  Assign input file name
+    for (Int_t i = 0; i < 256; i++) strcpy(CHCMPT.chinpf+i, " ");
+    strncpy(CHCMPT.chinpf, fInputFileName.Data(), strlen(fInputFileName.Data()));
+
     fluka_openout(11, PASSCHARA("fluka.out"));
 //  Read input cards    
     std::cout << "==> TFluka::BuildPhysics() Read input cards." << std::endl;

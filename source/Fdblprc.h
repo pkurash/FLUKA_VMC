@@ -91,7 +91,7 @@ const Double_t englgb = -35.23192357547063e+00;
 const Double_t onemns = 0.999999999999999e+00;
 const Double_t onepls = 1.000000000000001e+00;
 const Double_t csnnrm = 2.0e-15;
-const Double_t dmxtrn = 1.0e+08;
+const Double_t dmxtrn = 1.0e+15 * 1.000001378e+00; // 2011.2x.5
 const Double_t rhflmn = 1.0e-10;
 //*
 //*======================================================================*
@@ -402,7 +402,9 @@ typedef struct {
     Int_t    lnminp;
     Int_t    lfrfmt;
     Int_t    ldpmcr;
-    Int_t    lfdrtr;
+    Int_t    lfdrtr; // needed to enable vmc
+    Int_t    lldflr; // 2011.2x.5
+    Int_t    ldpbdy; // 2011.2x.5
     Int_t    kflgeo;
     Int_t    kfldnr;
 } globalCommon;

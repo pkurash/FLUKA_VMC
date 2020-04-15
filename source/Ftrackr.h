@@ -188,13 +188,18 @@ typedef struct {
     Double_t tkniel;
     Double_t tkrnie;
     Double_t tkedpa;
-    Double_t wcinou;  
+    Double_t wcinou;
+    Double_t aftrck;
+    Double_t eptrck;
     Int_t    ntrack;
     Int_t    mtrack;
     Int_t    ifltrk;
     Int_t    jtrack;
     Int_t    j0trck;
     Int_t    ktrack;
+    Int_t    iftrck;
+    Int_t    lftrck;
+    Int_t    iptrck;
     Int_t    mmtrck;
     Int_t    lt1trk;
     Int_t    lt2trk;
@@ -202,6 +207,7 @@ typedef struct {
     Int_t    ltrack;
     Int_t    llouse;
     Int_t    iprodc;
+    Int_t    iaztrk;
     Int_t    ispusr[mkbmx2];
     Int_t    lfsssc;
     Int_t    lpkill;
