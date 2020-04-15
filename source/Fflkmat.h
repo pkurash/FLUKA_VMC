@@ -123,6 +123,7 @@ extern "C" {
 	Int_t    nregcg;
         Int_t    matqlt;
         Int_t    mrgqlt;
+        Int_t    mrgext;
     } flkmatCommon;
 #define FLKMAT COMMON_BLOCK(FLKMAT,flkmat)
     COMMON_BLOCK_DEF(flkmatCommon, FLKMAT);

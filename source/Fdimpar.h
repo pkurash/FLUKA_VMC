@@ -58,12 +58,13 @@ extern "C" {
     const Int_t mxxrgn = 20000;
     const Int_t mxxmdf = 710;
     const Int_t mxxmde = 702;
-    const Int_t mfstck = 40000;
+    const Int_t mfstck = 70000; // 2011.2x.5
     const Int_t mestck = 100;
     const Int_t mostck = 2000;
     const Int_t mxprsn = 100;
     const Int_t mxpdpm = 800;
     const Int_t mxpscs = 60000;
+    const Int_t mxfrag = 25; // 2011.2x.5
     const Int_t mxglwn = 300;
     const Int_t mxoutu = 50;
     const Int_t mxknwc = 45;
@@ -88,8 +89,12 @@ extern "C" {
     const Int_t mkbmx2 = 11;
     const Int_t mxirrd = 2500;
     const Int_t mxtrdc = 1500;
+    const Int_t mxrpns = 100;  // 2011.2x.5
+    const Int_t mxcwdf = 2100; // 2011.2x.5
+    const Int_t nprdfn = 7;    // 2011.2x.5
+    const Int_t nchprs = 60;   // 2011.2x.5
     const Int_t nktl   = 17;
-    const Int_t nblnmx = 60000000;
+    const Int_t nblnmx = 85000000; // 2011.2x.5
 }  
 
 #endif

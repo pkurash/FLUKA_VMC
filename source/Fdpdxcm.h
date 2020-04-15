@@ -200,6 +200,7 @@ extern "C" {
 	Double_t aviont [mxxmdf];
 	Double_t etdpdx [mxxmdf];
 	Double_t almass [mpdpdx];
+        Double_t pthrmx;
 	Double_t frstip [mxxmdf];
 	Double_t anpicm [mxxmdf];
         Double_t aenioc [mxxmdf]; 

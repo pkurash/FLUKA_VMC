@@ -41,28 +41,26 @@ typedef struct {
    Double_t cmpemf[mestck];
    Double_t rdlyem[mestck];
    Double_t dchemf[mestck];
+   Double_t anfemf[mestck];
+   Double_t ekpemf[mestck];
    Double_t espark[mestck][mkbmx1];
-   Int_t    iespak[mestck][mkbmx2];
-   Int_t    ichemf[mestck]; // charge
-   Int_t    iremf[mestck];  // region
    Int_t    irlatt[mestck]; // lattice cell
    Int_t    nhpemf[mestck];
+   Int_t    iremf[mestck];  // region
+   Int_t    iespak[mestck][mkbmx2];
+   Int_t    ichemf[mestck]; // charge
+   Int_t    infemf[mestck];
+   Int_t    lnfemf[mestck];
+   Int_t    ipremf[mestck];
    Int_t    lloemf[mestck]; // generation number
    Int_t    louemf[mestck];
    Int_t    lrdemf[mestck];
    Int_t    lchemf[mestck];
+   Int_t    iazemf[mestck];
    Int_t    npemf;  // number of particles in stack
    Int_t    npstrt; // EMF stack index before the interaction (since
                     // the projectile disappears it is also the starting
                     // index of secondaries)
-//*d === obsolete variable names === *
-//*d     parameter ( idmemf = mestck )
-//*d     dimension e (idmemf), wt (idmemf), iq (idmemf), ir (idmemf)
-//*d     equivalence ( e   (1), etemf  (1) )
-//*d     equivalence ( wt  (1), wtemf  (1) )
-//*d     equivalence ( ir  (1), iremf  (1) )
-//*d     equivalence ( iq  (1), ichemf (1) )
-//*d     equivalence ( np, npemf )
 } emfstkCommon;
 #define EMFSTK COMMON_BLOCK(EMFSTK,emfstk)
 COMMON_BLOCK_DEF(emfstkCommon,EMFSTK);
