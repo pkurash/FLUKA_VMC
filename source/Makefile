@@ -2,7 +2,7 @@
 
 ############################### fluka_vmc Makefile ###########################
 
-PACKAGE   = fluka
+PACKAGE   = flukavmc
 
 ifeq ($(PLATFORM),)
 PLATFORM = $(shell root-config --arch)
@@ -30,6 +30,11 @@ include Makefile.$(PLATFORM)
 # Rules
 #
 include $(ROOT_ETCDIR)/MakeRules
+
+# Redefine F77 and CXXOPTS
+F77 = $(FLUFOR)
+SHLIB = $(shell root-config --auxlibs)
+CXXOPTS = $(OPT) -fPIC $(shell root-config --cflags)
 
 # Dictionary
 #
@@ -65,8 +70,8 @@ HEADERS	:= $(wildcard *.h)
 
 # Objects
 #
-HIAR1   := $(FLUPRO)/libdpmmvax.a 
-HIAR2   := $(FLUPRO)/librqmdmvax.a   
+HIAR1   := $(FLUPRO)/libdpmjet.a 
+HIAR2   := $(FLUPRO)/librqmd.a   
 
 FOBJ	:= $(patsubst %.f,$(BINDIR)/%.o,$(FSRC))
 CXXOBJ	:= $(patsubst %.cxx,$(BINDIR)/%.o,$(CXXSRC))
@@ -79,14 +84,14 @@ endif
 
 # External libs
 #
-ELIBS   := -L$(FLUPRO) -lflukahp  
+ELIBS   := -L$(FLUPRO) -lfluka  
 ifeq ($(FLUKAWITHDPMJET),YES) 
-ELIBS    := $(ELIBS) -L$(FLUPRO)/interface -L$(FLUPRO)/latestRQMD -ldpmjet3 -lrqmd
+ELIBS    := $(ELIBS) -L$(FLUPRO)/interface -L$(FLUPPRO) -ldpmjet -lrqmd
 endif
 
 # Make include list
 #
-INCDIR  := -I$(FLUPRO)/flukapro
+INCDIR  := -I$(FLUKA_ROOT)/include
 
 # C++ compilation flags
 #
