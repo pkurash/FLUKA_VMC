@@ -253,8 +253,23 @@ class TFluka : public TVirtualMC {
   // dynamic properties
   virtual void     TrackPosition(TLorentzVector& position) const;
   virtual void     TrackPosition(Double_t& x, Double_t& y, Double_t& z) const;
+  virtual void     TrackPosition(Float_t &x, Float_t &y, Float_t &z) const {
+    Double_t dbx, dby, dbz;
+    TrackPosition(dbx, dby, dbz);
+    x = dbx;
+    y = dby;
+    z = dbz;
+  }
   virtual void     TrackMomentum(TLorentzVector& momentum) const;
   virtual void     TrackMomentum(Double_t& px, Double_t& py, Double_t& pz, Double_t& e) const;
+  virtual void     TrackMomentum(Float_t &px, Float_t &py, Float_t &pz, Float_t &etot) const {
+    Double_t dbpx, dbpy, dbpz, dbetot;
+    TrackMomentum(dbpx, dbpy, dbpz, dbetot);
+    px = dbpx;
+    py = dbpy;
+    pz = dbpz;
+    etot = dbetot;
+  }
   virtual Double_t TrackStep() const;
   virtual Double_t TrackLength() const;
   virtual Double_t TrackTime() const;
