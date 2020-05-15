@@ -32,7 +32,7 @@ include Makefile.$(PLATFORM)
 include $(ROOT_ETCDIR)/MakeRules
 
 # Redefine F77 and CXXOPTS
-F77 = $(FLUFOR)
+F77 = $(FC)
 SHLIB = $(shell root-config --auxlibs)
 CXXOPTS = $(OPT) -fPIC $(shell root-config --cflags)
 
