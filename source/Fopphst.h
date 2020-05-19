@@ -74,7 +74,7 @@ typedef struct {
     Double_t anfopp [mostck];
     Double_t ekpopp [mostck];
     Double_t sparok [mostck][mkbmx1];
-    Int_t    nlatop [mostck];
+    Long64_t nlatop [mostck];
     Int_t    ispork [mostck][mkbmx2];
     Int_t    loopph [mostck];
     Int_t    louopp [mostck];
