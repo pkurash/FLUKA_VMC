@@ -143,6 +143,7 @@ TFluka::TFluka()
    fStopped(kFALSE),
    fStopEvent(kFALSE),
    fStopRun(kFALSE),
+   fIsEventStart(kFALSE),
    fPrimaryElectronIndex(-1),
    fLowEnergyNeutronTransport(kFALSE),
    fMaterials(0),
@@ -186,6 +187,7 @@ TFluka::TFluka(const char *title, Int_t verbosity, Bool_t isRootGeometrySupporte
    fStopped(kFALSE),
    fStopEvent(kFALSE),
    fStopRun(kFALSE),
+   fIsEventStart(kFALSE),
    fPrimaryElectronIndex(-1),
    fLowEnergyNeutronTransport(kFALSE),
    fMaterials(0),
@@ -349,6 +351,7 @@ void TFluka::ProcessEvent() {
     if (fVerbosityLevel >=3)
         std::cout << "==> TFluka::ProcessEvent() called." << std::endl;
     fApplication->GeneratePrimaries();
+    SetEventStart(kTRUE);
     SOURCM.lsouit = true;
     flukam(1);
     if (fVerbosityLevel >=3)
