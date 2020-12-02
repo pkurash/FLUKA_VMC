@@ -2,7 +2,7 @@
 #define TFLUKA_H
 /* Copyright(c) 1998-1999, ALICE Experiment at CERN, All rights reserved. *
  * See cxx source for full Copyright notice                               */
-
+// *
 /* $Id$ */
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -289,7 +289,9 @@ class TFluka : public TVirtualMC {
   virtual Bool_t   IsTrackDisappeared() const;
   virtual Bool_t   IsTrackStop() const;
   virtual Bool_t   IsTrackAlive() const;
- 
+  //
+  Bool_t IsEventStart() {return fIsEventStart;}
+  void   SetEventStart(Bool_t start) {fIsEventStart = start;}
   // Secondaries
   virtual Int_t    NSecondaries() const;
   virtual void     SetNCerenkov(Int_t nc) {fNCerenkov = nc;}
@@ -471,7 +473,8 @@ class TFluka : public TVirtualMC {
   Int_t    fDummyBoundary;        // Flag for crossing dummy boundaries
   Bool_t   fStopped;              // Flag for stopping 
   Bool_t   fStopEvent;            // Flag for stopped event
-  Bool_t   fStopRun;              // Flag for stopped run 
+  Bool_t   fStopRun;              // Flag for stopped run
+  Bool_t   fIsEventStart;         // Flag for event start 
   Int_t    fPrimaryElectronIndex; // Primary electron Index
   Bool_t   fLowEnergyNeutronTransport; // Flag to force low energy neutron transport
   

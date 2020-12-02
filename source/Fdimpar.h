@@ -55,7 +55,7 @@ extern "C" {
 //*                                                                      *
 //*----------------------------------------------------------------------*   
 
-    const Int_t mxxrgn = 20000;
+    const Int_t mxxrgn = 50000;
     const Int_t mxxmdf = 710;
     const Int_t mxxmde = 702;
     const Int_t mfstck = 70000; // 2011.2x.5

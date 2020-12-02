@@ -80,6 +80,7 @@ extern "C" {
 
     Int_t verbosityLevel = fluka->GetVerbosityLevel();
     Bool_t debug = (verbosityLevel>=1)?kTRUE:kFALSE;
+
     if (debug) {
       std::cout << "==> source(" << nomore << ")" << std::endl;
       std::cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << std::endl;
@@ -102,11 +103,12 @@ extern "C" {
 //  Get the next particle from the stack
     particle  = cppstack->PopNextTrack(itrack);
     fluka->SetTrackIsNew(kTRUE);
-    if (itrack == (nprim - 1)) lfirst = true;
+    lfirst = fluka->IsEventStart();
+    fluka->SetEventStart(kFALSE);
 //  Is this a secondary not handled by Fluka, i.e. a particle added by user action ?
 //    lastParticleWasPrimary = particleIsPrimary;
-    
-    if (itrack >= nprim) {
+
+    if ((itrack >= nprim) || ((itrack == -1) && lfirst)) {
         particleIsPrimary = kFALSE;
     } else {
         particleIsPrimary = kTRUE;
