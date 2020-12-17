@@ -12,13 +12,12 @@
 #include "Fopphst.h"  //(OPPHST) fluka common
 #include "Fioiocm.h"  //(IOIOCM) fluka common
 #include "Fbeamcm.h"  //(BEAMCM) fluka common
-//Virutal MC
+#include "Fcaslim.h"  //(CASLIM) fluka common
+//Virtual MC
 #include "TFluka.h"
 #include "TFlukaIon.h"
-
 #include "TVirtualMCStack.h"
-//#include "TVirtualMCApplication.h"
-
+// ROOT
 #include "TParticle.h"
 #include "TVector3.h"
 
@@ -136,6 +135,7 @@ extern "C" {
     if (itrack<0) {
       nomore = 1;
       SOURCM.lsouit = false;
+      if (lfirst) CASLIM.nsouit = 2; // avoid crash in case of empty events (can happen for paralle processing)
       if (debug) {
          std::cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << std::endl;
          std::cout << "\t* No more particles. Exiting..." << std::endl;
