@@ -37,15 +37,18 @@ include_directories(
 #
 ROOT_GENERATE_DICTIONARY(
   ${library_name}_dict
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaCerenkov.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaCodes.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaConfigOption.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFluka.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaMCGeometry.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaScoringOption.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaIon.h
+  TFlukaCerenkov.h
+  TFlukaCodes.h
+  TFlukaConfigOption.h
+  TFluka.h
+  TFlukaMCGeometry.h
+  TFlukaScoringOption.h
+  TFlukaIon.h
   MODULE ${library_name}
-  LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/source/TFlukaLinkDef.h)
+  OPTIONS "-I${CMAKE_INSTALL_PREFIX}/include/${library_name}"
+    -excludePath "${CMAKE_CURRENT_BINARY_DIR}"
+    -excludePath "${PROJECT_SOURCE_DIR}"
+  LINKDEF source/TFlukaLinkDef.h)
 
 # Files produced by the dictionary generation
 SET(root_dict
