@@ -45,7 +45,7 @@ ROOT_GENERATE_DICTIONARY(
   TFlukaScoringOption.h
   TFlukaIon.h
   MODULE ${library_name}
-  OPTIONS "-I${CMAKE_INSTALL_PREFIX}/include/${library_name}"
+  OPTIONS "-I${CMAKE_INSTALL_PREFIX}/include/TFluka"
     -excludePath "${CMAKE_CURRENT_BINARY_DIR}"
     -excludePath "${PROJECT_SOURCE_DIR}"
   LINKDEF source/TFlukaLinkDef.h)
