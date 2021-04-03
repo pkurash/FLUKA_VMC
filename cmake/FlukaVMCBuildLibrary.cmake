@@ -154,15 +154,7 @@ endif()
 #---Add library-----------------------------------------------------------------
 add_library(${library_name} ${fortran_sources} ${cxx_sources}
             ${root_dict} ${headers})
-set(DEPS ${ROOT_DEPS} ${VMC_DEPS})
-if (FLUKAWITHDPMJET)
-  set(DEPS  ${FLUKA_LIB} ${DPMJE_LIB} ${RQMD_LIB} ${ROOT_DEPS} ${VMC_DEPS})
-  target_link_libraries(${library_name} ${FLUKA_LIB} ${DPMJE_LIB} ${RQMD_LIB} ${VMC_DEPS} ${ROOT_DEPS})
-else()
-  set(DEPS  ${FLUKA_LIB} ${ROOT_DEPS} ${VMC_DEPS})
-  target_link_libraries(${library_name} ${FLUKA_LIB} ${VMC_DEPS} ${ROOT_DEPS})
-endif()
-set_target_properties(flukavmc PROPERTIES INTERFACE_LINK_LIBRARIES "${DEPS}")
+target_link_libraries(${library_name} PRIVATE ${FLUKA_DEPS} PUBLIC ${DPMJET_DEPS} ${VMC_DEPS} ${ROOT_DEPS})
 target_include_directories(flukavmc INTERFACE $<INSTALL_INTERFACE:include/TFluka>)
 
 #----Installation---------------------------------------------------------------

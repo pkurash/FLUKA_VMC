@@ -34,19 +34,12 @@ else()
 endif()
 
 #-- Fluka (required) ------------------------------------------------------------
-if(NOT FLUKA_ROOT)
-  message(FATAL_ERROR "Please specify FLUKA_ROOT")
-endif()
+if(NOT FLUKA_FOUND)
+  find_package(FLUKA REQUIRED)
+  set(FLUKA_DEPS FLUKA::fluka)
 
-find_library(FLUKA_LIB libfluka.a PATHS ${FLUKA_ROOT} PATH_SUFFIXES lib)
-message(STATUS "FLUKA_LIB: ${FLUKA_LIB}")
-    
-find_library(DPMJET_LIB libdpmjet.a PATHS ${FLUKA_ROOT} PATH_SUFFIXES lib)
-message(STATUS "DPMJET_LIB: ${DPMJET_LIB}")
-  
-find_library(RQMD_LIB librqmd.a PATHS ${FLUKA_ROOT} PATH_SUFFIXES lib)
-message(STATUS "RQMD_LIB: ${RQMD_LIB}")
-
-if (${FLUKA_LIB} STREQUAL "FLUKA_LIB-NOTFOUND")
-  message(FATAL_ERROR "libfluka.a is not found, please specify FLUKA_ROOT")
+  #-- Dpmjet (optional) ------------------------------------------------------------
+  if (FLUKAWITHDPMJET)
+    set(FLUKA_DEPS FLUKA::fluka FLUKA::dpmjet FLUKA::rqmd)
+  endif()
 endif()

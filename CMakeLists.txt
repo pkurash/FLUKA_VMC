@@ -45,6 +45,7 @@ include(VMCBuildMode)
 
 #--- Options -------------------------------------------------------------------
 option(FlukaVMC_INSTALL_DATA "Install data directory" ON)
+option(FLUKAWITHDPMJET "Link with dpmjet3" OFF)
 option(BUILD_SHARED_LIBS "Build the dynamic libraries" ON)
 
 #--- Enable Fortran ------------------------------------------------------------
