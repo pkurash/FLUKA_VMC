@@ -21,7 +21,6 @@
 
 //Forward declaration
 class TGeoMCGeometry;
-//class TFlukaMCGeometry;
 class TGeoMaterial;
 
 class TFluka : public TVirtualMC {
@@ -379,6 +378,9 @@ class TFluka : public TVirtualMC {
   TString GetInputFileName() const {return fInputFileName;}
   void SetInputFileName(const char* file = "FlukaVmc.inp") {fInputFileName = file;}
 
+  // User scoring file name
+  TString GetUserScoringFileName() const {return fUserScoringFileName;}
+  void SetUserScoringFileName(const char* file) {fUserScoringFileName = file;}
   // - Verbosity level
   Int_t GetVerbosityLevel() const {return fVerbosityLevel;}
   void SetVerbosityLevel(Int_t l) {fVerbosityLevel = l;}
@@ -436,8 +438,16 @@ class TFluka : public TVirtualMC {
   void     SetCurrentPrimaryElectronIndex(Int_t i)  {fPrimaryElectronIndex = i;}
   void     PrimaryIonisationStepping(Int_t nprim);
   void     CalcPrimaryIonisationTime();
+  //
+  // Setters and geters for activation simulations
+  void     SetActivationSimulation(Bool_t set, Float_t hadronCut)
+           {fIsActivationSimulation = set; fActivationHadronCut = hadronCut;}
+  Bool_t   IsActivationSimulation() {return fIsActivationSimulation;}
+  Float_t  ActivationHadronCut() {return fActivationHadronCut;}
+  // User Stepping
+  void     SetUserStepping(Bool_t set) {fUserStepping = set;}
+  Bool_t   UserStepping() {return fUserStepping;}
  private:
-   
   // Copy constructor and operator= declared but not implemented (-Weff++ flag)
   TFluka(const TFluka &mc); //: TVirtualMC(mc) {;}
   TFluka & operator=(const TFluka &); // {return (*this);}
@@ -452,9 +462,9 @@ class TFluka : public TVirtualMC {
   //
   Int_t   fVerbosityLevel; //Verbosity level (0 lowest - 3 highest)
   Int_t   fNEvent;         //Current event number
-  TString fInputFileName;     //Name of the real input file 
-  TString fCoreInputFileName; //Name of the input file 
-
+  TString fInputFileName;       //Name of the real input file 
+  TString fCoreInputFileName;   //Name of the input file 
+  TString fUserScoringFileName; //User scoring input file 
   FlukaCallerCode_t     fCaller;           // Parameter to indicate who is the caller of the Fluka Draw
   FlukaProcessCode_t    fIcode;            // Fluka Draw procedures formal parameter 
   Int_t                 fNewReg;           // Fluka Draw procedures formal parameter
@@ -495,7 +505,11 @@ class TFluka : public TVirtualMC {
   Bool_t               fUserIons;    // User requests ion transport
   
   //
-
+  // Use of FLUKA for activation calculation
+  Bool_t   fIsActivationSimulation;
+  Float_t  fActivationHadronCut;
+  // Possibility to suppress user stepping
+  Bool_t   fUserStepping;
   ClassDef(TFluka,1)                 // C++ interface to Fluka montecarlo
 
 

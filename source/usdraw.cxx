@@ -98,7 +98,7 @@ void usdraw(Int_t& icode, Int_t& mreg,
   TVirtualMCStack* cppstack = fluka->GetStack();
   cppstack->SetCurrentTrack( TRACKR.ispusr[mkbmx2-1] );
 
-  (TVirtualMCApplication::Instance())->Stepping();
+  if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
   fluka->SetTrackIsNew(kFALSE);
 
  

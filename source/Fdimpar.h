@@ -64,7 +64,7 @@ extern "C" {
     const Int_t mxprsn = 100;
     const Int_t mxpdpm = 800;
     const Int_t mxpscs = 60000;
-    const Int_t mxfrag = 25; // 2011.2x.5
+    const Int_t mxfrag = 30; // 2011.2x.5
     const Int_t mxglwn = 300;
     const Int_t mxoutu = 50;
     const Int_t mxknwc = 45;
