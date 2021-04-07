@@ -1,6 +1,7 @@
 // Fortran 
 #include "TCallf77.h"
 
+
 // Fluka commons
 #include "Fdblprc.h"  //(DBLPRC) fluka common
 #include "Fdimpar.h"  //(DIMPAR) fluka parameters
@@ -50,7 +51,7 @@ extern "C" {
   void type_of_call geocrs(Double_t &, Double_t &, Double_t &);
   void type_of_call georeg(Double_t &, Double_t &, Double_t &, 
                            Int_t &, Int_t &);
-  void type_of_call geohsm(Int_t &, Int_t &, Int_t &, Int_t &);
+  void type_of_call geohsm(Long64_t &, Int_t &, Int_t &, Long64_t &);
   void type_of_call soevsv();
   void type_of_call dcdion(Int_t &);
   void type_of_call setion(Int_t &);
@@ -109,6 +110,7 @@ extern "C" {
 
     if ((itrack >= nprim) || ((itrack == -1) && lfirst)) {
         particleIsPrimary = kFALSE;
+	if (lfirst) CASLIM.nsouit = 2; // avoid crash in case of empty events (can happen for paralle processing)
     } else {
         particleIsPrimary = kTRUE;
     }
@@ -135,7 +137,6 @@ extern "C" {
     if (itrack<0) {
       nomore = 1;
       SOURCM.lsouit = false;
-      if (lfirst) CASLIM.nsouit = 2; // avoid crash in case of empty events (can happen for paralle processing)
       if (debug) {
          std::cout << "\t* SOURCM.lsouit = " << (SOURCM.lsouit?'T':'F') << std::endl;
          std::cout << "\t* No more particles. Exiting..." << std::endl;

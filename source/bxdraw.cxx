@@ -77,7 +77,7 @@ void bxdraw(Int_t& icode, Int_t& mreg, Int_t& newreg,
 	    cppstack->SetCurrentTrack( TRACKR.ispusr[mkbmx2-1] );
 	}
 	
-	(TVirtualMCApplication::Instance())->Stepping();
+	if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
     }
     if (newreg != fluka->GetDummyRegion()) {
 	if (debug) printf("bxdraw (en) \n");
@@ -111,7 +111,7 @@ void bxdraw(Int_t& icode, Int_t& mreg, Int_t& newreg,
 	    cppstack->SetCurrentTrack( TRACKR.ispusr[mkbmx2-1] );
 	}
 	
-	(TVirtualMCApplication::Instance())->Stepping();
+	if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
     }
 
 } // end of bxdraw

@@ -76,11 +76,11 @@ extern "C" {
 *
 *      CHARACTER COMPTR*50 , INPFIL*200, PWDDIR*200, HFLDIR*200,
 *     &          HOMDIR*200, HOSTNM*200, USRFLK*200, GRPFLK*200,
-*     &          INPNAM*200
+*     &          INPNAM*200, CHINPF*256, HFPATH*200
 *      COMMON / COMPUT / CPUSPE, CPUJOB, KOMPUT, KINPNM, KPWDIR, KFLDIR,
 *     &                  KHMDIR, MXFTNU
 *      COMMON / CHCMPT / COMPTR, INPFIL, PWDDIR, HFLDIR, HOMDIR, HOSTNM,
-*     &                  USRFLK, GRPFLK, INPNAM
+*     &                  USRFLK, GRPFLK, INPNAM, CHINPF, HFPATH
 *      SAVE / COMPUT /
 *      SAVE / CHCMPT /
 */
@@ -95,6 +95,7 @@ extern "C" {
       Char_t grpflk[200];
       Char_t inpnam[200];
       Char_t chinpf[256];
+      Char_t hfpath[256];
     } chcmptCommon;
 #define CHCMPT  COMMON_BLOCK(CHCMPT,chcmpt)
     COMMON_BLOCK_DEF(chcmptCommon,CHCMPT);

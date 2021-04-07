@@ -79,7 +79,7 @@ typedef struct {
    Double_t agsoev[mxsoev];
    Double_t aksoev[mxsoev];
    Double_t rdsoev[mxsoev];
-   Double_t dcsoev[mxsoev];
+   Double_t ecsoev[mxsoev];
    Double_t afsoev[mxsoev];
    Double_t epsoev[mxsoev];
    Double_t ussoev[mkbmx1][mxsoev];
@@ -87,13 +87,13 @@ typedef struct {
    Int_t    ijsoev[mxsoev];
    Int_t    igsoev[mxsoev];
    Int_t    nrsoev[mxsoev];
-   Int_t    nlsoev[mxsoev];
+   Long64_t nlsoev[mxsoev];
+   Int_t    kcsoev[mxsoev];
    Int_t    ifsoev[mxsoev];
    Int_t    lfsoev[mxsoev];
    Int_t    ipsoev[mxsoev];
    Int_t    iasoev[mxsoev];
    Int_t    lrsoev[mxsoev];   
-   Int_t    lcsoev[mxsoev];   
    Int_t    losoev[mxsoev];
    Int_t    npsoev;
 

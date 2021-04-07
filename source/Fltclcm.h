@@ -1,5 +1,5 @@
 #ifndef FLTCLCM_H
-#define FLTCLCM_H 1
+#define FLTCLCM_H
 
 #include "cfortran.h"
 #include "Rtypes.h"
@@ -24,12 +24,12 @@ extern "C" {
 //*
 
 typedef struct {
-   Int_t    mlattc;
-   Int_t    newlat;
-   Int_t    mlatld;
-   Int_t    mlatm1;
-   Int_t    mltsen;
-   Int_t    mltsm1;
+   Long64_t    mlattc;
+   Long64_t    newlat;
+   Long64_t    mlatld;
+   Long64_t    mlatm1;
+   Long64_t    mltsen;
+   Long64_t    mltsm1;
 } ltclcmCommon;
 #define LTCLCM COMMON_BLOCK(LTCLCM,ltclcm)
 COMMON_BLOCK_DEF(ltclcmCommon,LTCLCM);

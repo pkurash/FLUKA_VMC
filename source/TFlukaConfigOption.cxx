@@ -180,27 +180,33 @@ void TFlukaConfigOption::WriteFlukaInputCards()
        fProcessFlag[kBREM] = DefaultProcessFlag(kBREM);
     if (DefaultProcessFlag(kDRAY) > 0 && fProcessFlag[kDRAY] == -1 && (fCutValue[kDCUTE]  >= 0. || fCutValue[kDCUTM] >= 0.)) 
        fProcessFlag[kDRAY] = DefaultProcessFlag(kDRAY);
+    
 //    
 //
+   
     if (fProcessFlag[kDCAY] != -1) ProcessDCAY();
-    if (fProcessFlag[kPAIR] != -1) ProcessPAIR();
-    if (fProcessFlag[kBREM] != -1) ProcessBREM();
-    if (fProcessFlag[kCOMP] != -1) ProcessCOMP();
-    if (fProcessFlag[kPHOT] != -1) ProcessPHOT();
+    if (!((TFluka*)gMC)->IsActivationSimulation()) {
+      if (fProcessFlag[kPAIR] != -1) ProcessPAIR();
+      if (fProcessFlag[kBREM] != -1) ProcessBREM();
+      if (fProcessFlag[kCOMP] != -1) ProcessCOMP();
+      if (fProcessFlag[kPHOT] != -1) ProcessPHOT();
+      if (fProcessFlag[kANNI] != -1) ProcessANNI();
+      if ((fMedium == -1 && fProcessFlag[kCKOV] > 0) || (fMedium > -1 && fProcessFlag[kCKOV] != -1)) ProcessCKOV();
+      if (fProcessFlag[kRAYL] != -1) ProcessRAYL();
+    }
     if (fProcessFlag[kPFIS] != -1) ProcessPFIS();
-    if (fProcessFlag[kANNI] != -1) ProcessANNI();
     if (fProcessFlag[kMUNU] != -1) ProcessMUNU();
     if (fProcessFlag[kHADR] != -1) ProcessHADR();
     if (fProcessFlag[kMULS] != -1) ProcessMULS();
-    if (fProcessFlag[kRAYL] != -1) ProcessRAYL();
-
     if (fProcessFlag[kLOSS] != -1 || fProcessFlag[kDRAY] != -1)                                    ProcessLOSS();
-    if ((fMedium == -1 && fProcessFlag[kCKOV] > 0) || (fMedium > -1 && fProcessFlag[kCKOV] != -1)) ProcessCKOV();
+
 //
 // Handle Cuts
 //
-    if (fCutValue[kCUTGAM] >= 0.) ProcessCUTGAM();
-    if (fCutValue[kCUTELE] >= 0.) ProcessCUTELE();
+    if (!((TFluka*)gMC)->IsActivationSimulation()) {
+      if (fCutValue[kCUTGAM] >= 0.) ProcessCUTGAM();
+      if (fCutValue[kCUTELE] >= 0.) ProcessCUTELE();
+    }
     if (fCutValue[kCUTNEU] >= 0.) ProcessCUTNEU();
     if (fCutValue[kCUTHAD] >= 0.) ProcessCUTHAD();
     if (fCutValue[kCUTMUO] >= 0.) ProcessCUTMUO();
@@ -545,6 +551,10 @@ void TFlukaConfigOption::ProcessLOSS()
            fCutValue[kDCUTM] = 1.e10;
        }
     }
+    if (((TFluka*)gMC)->IsActivationSimulation()) {
+      fProcessFlag[kLOSS] = 2;
+      fProcessFlag[kDRAY] = 0;
+    }
     
     if (fCutValue[kDCUTE] == -1.) fCutValue[kDCUTE] = fgDCutValue[kDCUTE];
     if (fCutValue[kDCUTM] == -1.) fCutValue[kDCUTM] = fgDCutValue[kDCUTM];    
@@ -615,8 +625,8 @@ void TFlukaConfigOption::ProcessCUTGAM()
     //
     //  FUDGEM paramter. The parameter takes into account th contribution of atomic electrons to multiple scattering.
     //  For production and transport cut-offs larger than 100 keV it must be set = 1.0, while in the keV region it must be
-    Float_t parFudgem = (fCutValue[kCUTGAM] > 1.e-4)? 1.0 : 0.0 ;
-    fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.1f%10.1f%10.1f%10.1fPROD-CUT\n", 
+    Float_t parFudgem = (fCutValue[kCUTGAM] > 1.e-4)? 1.0 : 1.e-5 ;
+    fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.4g%10.1f%10.1f%10.1fPROD-CUT\n", 
            0., fCutValue[kCUTGAM], parFudgem, fCMatMin, fCMatMax, 1.);
 }
 
@@ -642,18 +652,21 @@ void TFlukaConfigOption::ProcessCUTELE()
     //
     //  FUDGEM paramter. The parameter takes into account th contribution of atomic electrons to multiple scattering.
     //  For production and transport cut-offs larger than 100 keV it must be set = 1.0, while in the keV region it must be
-    Float_t parFudgem = (fCutValue[kCUTELE] > 1.e-4)? 1.0 : 0.0;
-    fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.1f%10.1f%10.1f%10.1fPROD-CUT\n", 
+    Float_t parFudgem = (fCutValue[kCUTELE] > 1.e-4)? 1.0 : 1.e-5;
+    fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.4g%10.1f%10.1f%10.1fPROD-CUT\n", 
            -fCutValue[kCUTELE], 0., parFudgem, fCMatMin, fCMatMax, 1.);
 }
 
 void TFlukaConfigOption::ProcessCUTNEU()
 {
   // Cut on neutral hadrons
-  fprintf(fgFile,"*\n*Cut for neutral hadrons. CUTNEU = %13.4g\n", fCutValue[kCUTNEU]);
-  
-  // Cut on neutral hadrons
-  fprintf(fgFile,"*\n*Cut for neutral hadrons. CUTNEU = %13.4g\n", fCutValue[kCUTNEU]);
+  Float_t cut = fCutValue[kCUTNEU];
+  TFluka* fluka = (TFluka*) gMC;
+  if (fluka->IsActivationSimulation()) {
+    cut = fluka->ActivationHadronCut();
+  }
+
+  fprintf(fgFile,"*\n*Cut for neutral hadrons. CUTNEU = %13.4g\n", cut);
   
   // Energy group structure of the 72-neutron ENEA data set:
 /*
@@ -699,8 +712,6 @@ void TFlukaConfigOption::ProcessCUTNEU()
       2.826153E-10, 1.929290E-10, 1.317041E-10, 8.990856E-11, 6.137660E-11, 4.189910E-11, 2.860266E-11, 1.952578E-11, 1.332938E-11, 9.099382E-12,
       6.211746E-12, 4.240485E-12, 2.894792E-12, 1.976147E-12, 1.349028E-12, 9.209218E-13, 6.286727E-13, 4.291671E-13, 2.929734E-13, 2.000000E-13
   };
-
-  Float_t cut = fCutValue[kCUTNEU];
   //
   // 8.0 = Neutron
   // 9.0 = Antineutron
@@ -715,18 +726,22 @@ void TFlukaConfigOption::ProcessCUTNEU()
       if (cut > neutronGroupUpLimit260[i]) break;
     }
     groupCut = i+1;
-  } 
-  
+  } else {
+    groupCut = 1;
+  }
+   
   if (fMedium == -1) {
-        Float_t cutV = fCutValue[kCUTNEU];
+        Float_t cutV = cut;
         // 8.0 = Neutron
         // 9.0 = Antineutron
 	// obsolete
-	if (groupCut > 0) {
-	  fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
-		  Float_t(groupCut), 0., 0.95, 2., Float_t(fgGeom->NofVolumes()), 1.);
-	} else {
-	  fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -cutV, 8.0, 9.0);
+	if (!(fluka->LowEnergyNeutronTransport())) {
+	  if (groupCut > 0) {
+	    fprintf(fgFile,"LOW-BIAS  %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
+		    Float_t(groupCut), 0., 0.95, 2., Float_t(fgGeom->NofVolumes()), 1.);
+	  } else {
+	    fprintf(fgFile,"PART-THR  %10.4g%10.1f%10.1f\n", -cutV, 8.0, 9.0);
+	  }
 	}
        //
        //
@@ -781,8 +796,13 @@ void TFlukaConfigOption::ProcessCUTNEU()
 void TFlukaConfigOption::ProcessCUTHAD()
 {
     // Cut on charged hadrons
-    fprintf(fgFile,"*\n*Cut for charge hadrons. CUTHAD = %13.4g\n", fCutValue[kCUTHAD]);
     Float_t cut = fCutValue[kCUTHAD];
+    TFluka* fluka = (TFluka*) gMC;
+    if (fluka->IsActivationSimulation()) {
+      cut = fluka->ActivationHadronCut();
+    }
+    fprintf(fgFile,"*\n*Cut for charge hadrons. CUTHAD = %13.4g\n", cut);
+
     if (fMedium == -1) {
        // 1.0 = Proton
        // 2.0 = Antiproton

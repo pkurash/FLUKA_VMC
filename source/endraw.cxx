@@ -93,7 +93,7 @@ void endraw(Int_t& icode, Int_t& mreg, Double_t& rull, Double_t& xsco, Double_t&
           cppstack->SetCurrentTrack(TRACKR.ispusr[mkbmx2-1] );
       }
 
-      (TVirtualMCApplication::Instance())->Stepping();
+      if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
       
   } else {
   //
@@ -104,7 +104,7 @@ void endraw(Int_t& icode, Int_t& mreg, Double_t& rull, Double_t& xsco, Double_t&
       
       fluka->SetRull(edep);
       fluka->SetIcode((FlukaProcessCode_t) icode);
-      (TVirtualMCApplication::Instance())->Stepping();
+      if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
       fluka->SetTrackIsNew(kFALSE);
 //      fluka->SetIcode((FlukaProcessCode_t)icode);
 //      fluka->SetRull(0.);

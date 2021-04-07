@@ -102,7 +102,7 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 	    // first step of new particle
 	    fluka->SetTrackIsNew(kTRUE);
 	    fluka->SetCaller(kMGNewTrack);
-	    (TVirtualMCApplication::Instance())->Stepping();
+	    if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
 	    FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6]++;
 	  }
 	if (msd > 0) {
@@ -123,7 +123,7 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 	    // Single step
 	  fluka->SetCaller(kMGDRAW);
 	  fluka->SetTrackIsNew(kFALSE);
-	  (TVirtualMCApplication::Instance())->Stepping();
+	  if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
 	  FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6]++;
 	}
 	
@@ -137,7 +137,7 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 
         fluka->SetTrackIsNew(kTRUE);
         fluka->SetCaller(kMGResumedTrack);
-        (TVirtualMCApplication::Instance())->Stepping();
+        if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
 	FLKSTK.ispark[FLKSTK.npflka][mkbmx2 - 6]++;
         // Reset flag and stored values
         TRACKR.ispusr[mkbmx2 - 2] = 0;
@@ -152,7 +152,7 @@ void mgdraw(Int_t& icode, Int_t& mreg)
         fluka->SetTrackIsNew(kFALSE);
         fluka->SetCaller(kMGDRAW);
 	if (msd == 0) {
-	    (TVirtualMCApplication::Instance())->Stepping();
+	    if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
 	} else {
 	    Int_t nprim = ALLDLT.nalldl;
 // Protection against nprim > mxalld

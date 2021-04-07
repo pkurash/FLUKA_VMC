@@ -42,7 +42,7 @@ extern "C" {
 *        Agestk = age of the particle (seconds)                        *
 *        Aknshr = Kshort component of K0/K0bar                         *
 *        Frcphn = cross section for force photonuclear interaction (if *
-*                 < 0), distance to a forced photonuclear interaction  *
+v*                 < 0), distance to a forced photonuclear interaction  *
 *                (if > 0)                                              *
 *        Lfrphn = flag for forced photonuclear interaction             *
 *        Raddly = delay (s) in production wrt the nominal primary "0"  *
@@ -117,27 +117,27 @@ typedef struct {
    Double_t raddly[mfstck+1];         //(0:MFSTCK)
    Double_t cmpath[mfstck+1];         //(0:MFSTCK)
    Double_t frcphn[mfstck+1];         //(0:MFSTCK)
-   Double_t dchflk[mfstck+1];         //(0:MFSTCK)
+   Double_t ecrflk[mfstck+1];         //(0:MFSTCK)
    Double_t anfstk[mfstck+1];         //(0:MFSTCK)
    Double_t ekpstk[mfstck+1];         //(0:MFSTCK)
    Double_t sparek[mfstck+1][mkbmx1]; //(MKBMX1,0:MFSTCK)
+   Long64_t nlattc[mfstck+1];         //(0:MFSTCK)
+   Long64_t nhspnt[mfstck+1];         //(0:MFSTCK)
    Int_t    ispark[mfstck+1][mkbmx2]; //(MKBMX2,0:MFSTCK)
    Int_t    infstk[mfstck+1];         //(MFSTCK)
    Int_t    lnfstk[mfstck+1];         //(MFSTCK)
    Int_t    iloflk[mfstck+1];         //(0:MFSTCK)
    Int_t    igroup[mfstck+1];         //(0:MFSTCK)
    Int_t    iprstk[mfstck+1];         //(0:MFSTCK)
+   Int_t    kchflk[mfstck+1];         //(0:MFSTCK)
    Int_t    loflk[mfstck+1];          //(0:MFSTCK)
    Int_t    louse[mfstck+1];          //(0:MFSTCK)
    Int_t    nrgflk[mfstck+1];         //(0:MFSTCK)
-   Int_t    nlattc[mfstck+1];         //(0:MFSTCK)
-   Int_t    nhspnt[mfstck+1];         //(0:MFSTCK)
    Int_t    nevent[mfstck+1];         //(0:MFSTCK)
    Int_t    numpar[mfstck+1];         //(0:MFSTCK)
    Int_t    irdazm[mfstck+1];         //(0:MFSTCK)
    Int_t    lraddc[mfstck+1];         //(0:MFSTCK)
    Int_t    lfrphn[mfstck+1];         //(0:MFSTCK)
-   Int_t    lchflk[mfstck+1];         //(0:MFSTCK)
    Int_t    nparma;
    Int_t    nstmax;
    Int_t    npflka;
@@ -147,5 +147,4 @@ typedef struct {
 #define FLKSTK COMMON_BLOCK(FLKSTK,flkstk)
 COMMON_BLOCK_DEF(flkstkCommon,FLKSTK);
 }
-
 #endif

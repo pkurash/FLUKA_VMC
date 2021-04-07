@@ -3,6 +3,7 @@
 
 #include "Fdimpar.h"
 
+
 extern "C" {
   
 /*
@@ -155,7 +156,7 @@ extern "C" {
       SAVE / TRACKR /
 */
     
-const Int_t mxtrck = 2500;
+const Int_t mxtrck = 5000;
 
 typedef struct {
     Double_t xtrack[mxtrck+1];
@@ -201,9 +202,9 @@ typedef struct {
     Int_t    lftrck;
     Int_t    iptrck;
     Int_t    mmtrck;
-    Int_t    lt1trk;
-    Int_t    lt2trk;
-    Int_t    ihspnt;
+    Long64_t lt1trk;
+    Long64_t lt2trk;
+    Long64_t ihspnt;
     Int_t    ltrack;
     Int_t    llouse;
     Int_t    iprodc;

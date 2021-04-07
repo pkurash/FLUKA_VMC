@@ -125,6 +125,7 @@ TFluka::TFluka()
    fNEvent(0),
    fInputFileName(""),
    fCoreInputFileName(""),
+   fUserScoringFileName(""),
    fCaller(kNoCaller),
    fIcode(kNoProcess),
    fNewReg(-1),
@@ -154,7 +155,10 @@ TFluka::TFluka()
    fMCGeo(0),
    fUserConfig(0), 
    fUserScore(0),
-   fUserIons(0)
+   fUserIons(0),
+   fIsActivationSimulation(kFALSE),
+   fActivationHadronCut(0.003),
+   fUserStepping(kTRUE)
 { 
   //
   // Default constructor
@@ -169,6 +173,7 @@ TFluka::TFluka(const char *title, Int_t verbosity, Bool_t isRootGeometrySupporte
    fNEvent(0),
    fInputFileName(""),
    fCoreInputFileName(""),
+   fUserScoringFileName(""),
    fCaller(kNoCaller),
    fIcode(kNoProcess),
    fNewReg(-1),
@@ -198,7 +203,10 @@ TFluka::TFluka(const char *title, Int_t verbosity, Bool_t isRootGeometrySupporte
    fMCGeo(0),
    fUserConfig(new TObjArray(100)),
    fUserScore(new TObjArray(100)),
-   fUserIons(0)
+   fUserIons(0),
+   fIsActivationSimulation(kFALSE),
+   fActivationHadronCut(0.003),
+   fUserStepping(kTRUE)
 {
   // create geometry interface
     for (Int_t i = 0; i < 4; i++) fPint[i] = 0.;
@@ -1235,11 +1243,11 @@ void TFluka::InitPhysics()
 // Physics initialisation with preparation of FLUKA input cards
 //
 // Construct file names
-    FILE *pFlukaVmcCoreInp, *pFlukaVmcFlukaMat, *pFlukaVmcInp;
+    FILE *pFlukaVmcCoreInp, *pFlukaVmcFlukaMat, *pFlukaVmcInp, *pUserScoreInp;
     TString sFlukaVmcTmp = "flukaMat.inp";
     TString sFlukaVmcInp = GetInputFileName();
     TString sFlukaVmcCoreInp = GetCoreInputFileName();
-    
+    TString sUserScoreInp = GetUserScoringFileName();    
 // Open files 
     if ((pFlukaVmcCoreInp = fopen(sFlukaVmcCoreInp.Data(),"r")) == NULL) {
         Warning("InitPhysics", "\nCannot open file %s\n",sFlukaVmcCoreInp.Data());
@@ -1250,8 +1258,15 @@ void TFluka::InitPhysics()
         exit(1);
     }
     if ((pFlukaVmcInp = fopen(sFlukaVmcInp.Data(),"w")) == NULL) {
-        Warning("InitPhysics", "\nCannot open file %s\n",sFlukaVmcInp.Data());
+        Warning("InitPhysics", "\nCannot open file %sx\n",sFlukaVmcInp.Data());
         exit(1);
+    }
+
+    if (sUserScoreInp != "") {
+      if ((pUserScoreInp = fopen(sUserScoreInp.Data(),"r")) == NULL) {
+        Warning("InitPhysics", "\nCannot open user scoring input file %s\n",sUserScoreInp.Data());
+        exit(1);
+      }
     }
 
 // Copy core input file 
@@ -1285,8 +1300,16 @@ void TFluka::InitPhysics()
  fin:
 
     
-// Pass information to configuration objects
-    
+    // Pass information to configuration objects
+    // Special action for activation simulation    
+    if (fIsActivationSimulation) {
+      // low energy neutron transport
+      SetLowEnergyNeutronTransport(kTRUE);
+      // switch electromagnetic interactions off
+      fprintf(pFlukaVmcInp,"EMF               0.        0.        0.        0.        0.        0.EMF-OFF\n");
+      SetUserStepping(kFALSE);
+    }
+    //				   
     Float_t fLastMaterial = fGeom->GetLastMaterialIndex();
     TFlukaConfigOption::SetStaticInfo(pFlukaVmcInp, 3, fLastMaterial, fGeom);
     
@@ -1342,7 +1365,14 @@ void TFluka::InitPhysics()
     } else {
       //      fprintf(pFlukaVmcInp,"EVENTYPE          0.        0.        0.        0.        0.        0.      \n");
     }
-
+// User defined scoring card
+    if (sUserScoreInp != "") {
+      // Copy score input 
+      Char_t sLine[255];
+      while ((fgets(sLine,255,pUserScoreInp)) != NULL) {
+	fprintf(pFlukaVmcInp,"%s", sLine);
+      }
+    }
 // Add START and STOP card
     fprintf(pFlukaVmcInp,"START     %10.1f\n",fEventsPerRun);
     fprintf(pFlukaVmcInp,"STOP      \n");
@@ -2612,7 +2642,7 @@ extern "C" {
 
 
 
-        (TVirtualMCApplication::Instance())->Stepping();
+   if (fluka->UserStepping()) (TVirtualMCApplication::Instance())->Stepping();
     }
 }
 
@@ -2715,24 +2745,27 @@ void  TFluka::PrimaryIonisationStepping(Int_t nprim)
 // Call Stepping for primary ionisation electrons
 // Protection against nprim > mxalld
 // Multiple steps for nprim > 0
+  if (fUserStepping) {
     Int_t i;
     fNPI = nprim;
     if (nprim > 0) {
-	CalcPrimaryIonisationTime();
-	for (i = 0; i < nprim; i++) {
-	    SetCurrentPrimaryElectronIndex(i);
-	    (TVirtualMCApplication::Instance())->Stepping();
-	    if (i == 0) SetTrackIsNew(kFALSE);
-	}	
-    } else {
-	// No primary electron ionisation
-	// Call Stepping anyway but flag nprim = 0 as index = -2
-	SetCurrentPrimaryElectronIndex(-2);
+      CalcPrimaryIonisationTime();
+      for (i = 0; i < nprim; i++) {
+	SetCurrentPrimaryElectronIndex(i);
 	(TVirtualMCApplication::Instance())->Stepping();
+	if (i == 0) SetTrackIsNew(kFALSE);
+      }	
+    } else {
+      // No primary electron ionisation
+      // Call Stepping anyway but flag nprim = 0 as index = -2
+      SetCurrentPrimaryElectronIndex(-2);
+      (TVirtualMCApplication::Instance())->Stepping();
     }
-    // Reset the index
-    SetCurrentPrimaryElectronIndex(-1);
+  }
+  // Reset the index
+  SetCurrentPrimaryElectronIndex(-1);
 }
+  
 
 //______________________________________________________________________
 Float_t* TFluka::CreateFloatArray(Double_t* array, Int_t size) const
