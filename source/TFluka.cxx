@@ -894,7 +894,8 @@ Bool_t TFluka::GetMedium(const TString &volumeName,TString &name,
 
 //______________________________________________________________________________ 
 void TFluka::SetCerenkov(Int_t itmed, Int_t npckov, Float_t* ppckov,
-                         Float_t* absco, Float_t* effic, Float_t* rindex) {
+                         Float_t* absco, Float_t* effic, Float_t* rindex,
+                         Bool_t /*aspline*/, Bool_t /*rspline*/) {
 //
 // Set Cerenkov properties for medium itmed
 //
@@ -941,7 +942,8 @@ void TFluka::SetCerenkov(Int_t itmed, Int_t npckov, Float_t* ppckov,
 
 //______________________________________________________________________________ 
 void TFluka::SetCerenkov(Int_t itmed, Int_t npckov, Double_t *ppckov,
-                         Double_t *absco, Double_t *effic, Double_t *rindex) {
+                         Double_t *absco, Double_t *effic, Double_t *rindex,
+                         Bool_t /*aspline*/, Bool_t /*rspline*/) {
 //
 // Set Cerenkov properties for medium itmed
 //

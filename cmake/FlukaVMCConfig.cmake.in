@@ -7,7 +7,7 @@
 # Contact: root-vmc@cern.ch
 #-------------------------------------------------
 
-# Configuration file for CMake build for Geant4 VMC packages.
+# Configuration file for CMake build for Fluka VMC packages.
 # It defines the following variables
 #  FlukaVMC_INCLUDE_DIRS         - include directories for Geant4VMC
 #  FlukaVMC_LIBRARIES            - libraries to link against
