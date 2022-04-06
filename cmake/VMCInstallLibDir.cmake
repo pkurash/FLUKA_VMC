@@ -72,7 +72,7 @@
 
 # $Id$
 #
-# Define installation lib directory for Geant4VMC.
+# Define installation lib directory for FlukaVMC.
 # According to Geant4InstallDirs.cmake.
 #
 # I. Hrivnacova, 04/06/2014

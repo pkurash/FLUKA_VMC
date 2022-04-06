@@ -124,9 +124,13 @@ class TFluka : public TVirtualMC {
 	         TArrayD& par);
     
   virtual void   SetCerenkov(Int_t itmed, Int_t npckov, Float_t *ppckov,
-			     Float_t *absco, Float_t *effic, Float_t *rindex);
+			     Float_t *absco, Float_t *effic, Float_t *rindex,
+           Bool_t aspline = false, Bool_t rspline = false);
+
   virtual void   SetCerenkov(Int_t itmed, Int_t npckov, Double_t *ppckov,
-			     Double_t *absco, Double_t *effic, Double_t *rindex);
+			     Double_t *absco, Double_t *effic, Double_t *rindex,
+           Bool_t aspline = false, Bool_t rspline = false);
+
   virtual void   SetCerenkov(Int_t itmed, Int_t npckov, Float_t *ppckov,
 			     Float_t *absco, Float_t *effic, Float_t *rindex, Float_t *rfl);
   virtual void   SetCerenkov(Int_t itmed, Int_t npckov, Double_t *ppckov,
@@ -142,11 +146,13 @@ class TFluka : public TVirtualMC {
   
   virtual void  SetSkinSurface(const char* name, const char* volName, const char* opSurfaceName);
   
-  virtual void  SetMaterialProperty(Int_t itmed, const char* propertyName, Int_t np, Double_t* pp, Double_t* values);
+  virtual void  SetMaterialProperty(Int_t itmed, const char* propertyName, Int_t np, Double_t* pp, Double_t* values,
+                                    Bool_t createNewKey = false, Bool_t spline = false);
 
   virtual void  SetMaterialProperty(Int_t itmed, const char* propertyName, Double_t value);
 
-  virtual void  SetMaterialProperty(const char* surfaceName, const char* propertyName, Int_t np, Double_t* pp, Double_t* values);
+  virtual void  SetMaterialProperty(const char* surfaceName, const char* propertyName, Int_t np, Double_t* pp, Double_t* values,
+                                    Bool_t createNewKey = false, Bool_t spline = false);
 
   // Functions for drawing
   virtual void   DrawOneSpec(const char* /*name*/)
@@ -157,6 +163,12 @@ class TFluka : public TVirtualMC {
 		       Double_t /*ul = 0.01*/, Double_t /*vl = 0.01*/)
       {Warning("Gdraw", "Not yet implemented !\n");}
   
+  // methods for sensitive detectors
+  // not yet supported
+  virtual void SetSensitiveDetector(const TString &volName, TVirtualMCSensitiveDetector *sd);
+  virtual TVirtualMCSensitiveDetector *GetSensitiveDetector(const TString &volName) const;
+  virtual void SetExclusiveSDScoring(Bool_t exclusiveSDScoring);
+
   // Euclid
   virtual void   WriteEuclid(const char*, const char*, Int_t, Int_t);
   
@@ -273,6 +285,12 @@ class TFluka : public TVirtualMC {
   virtual Double_t TrackLength() const;
   virtual Double_t TrackTime() const;
   virtual Double_t Edep() const;
+  virtual Double_t NIELEdep() const;
+  virtual Int_t StepNumber() const;
+  virtual Double_t TrackWeight() const;
+  virtual void TrackPolarization(Double_t &polX, Double_t &polY, Double_t &polZ) const;
+  virtual void TrackPolarization(TVector3 &pol) const;
+
   // Static properties
   virtual Int_t    CorrectFlukaId() const;
   virtual Int_t    TrackPid() const;
@@ -356,6 +374,7 @@ class TFluka : public TVirtualMC {
   virtual void FinishGeometry();
   virtual void BuildPhysics();
   virtual void ProcessEvent();
+  virtual void ProcessEvent(Int_t eventId);
   virtual Bool_t ProcessRun(Int_t nevent);
 
 
@@ -458,6 +477,9 @@ class TFluka : public TVirtualMC {
   Int_t GetSpecialPdg(Int_t number) const;
   
   Float_t* CreateFloatArray(Double_t* array, Int_t size) const;
+
+  virtual void ProcessEvent(Int_t eventId, Bool_t isInterruptible);
+  virtual void InterruptTrack();
   
   //
   Int_t   fVerbosityLevel; //Verbosity level (0 lowest - 3 highest)
@@ -552,7 +574,8 @@ inline void TFluka::SetSkinSurface(const char* /*name*/, const char* /*volName*/
 }
 
   
-inline void TFluka::SetMaterialProperty(Int_t /*itmed*/, const char* /*propertyName*/, Int_t /*np*/, Double_t* /*pp*/, Double_t* /*values*/)
+inline void TFluka::SetMaterialProperty(Int_t /*itmed*/, const char* /*propertyName*/, Int_t /*np*/, Double_t* /*pp*/, Double_t* /*values*/,
+                                        Bool_t /*createNewKey*/, Bool_t /*spline*/)
 {
     Warning("SetMaterialProperty", "New function - not yet implemented."); 
 }
@@ -565,12 +588,68 @@ inline void TFluka::SetMaterialProperty(Int_t /*itmed*/, const char* /*propertyN
 
 
 inline void TFluka::SetMaterialProperty(const char* /*surfaceName*/, const char* /*propertyName*/, Int_t /*np*/,
-					Double_t* /*pp*/, Double_t* /*values*/)
+					Double_t* /*pp*/, Double_t* /*values*/, Bool_t /*createNewKey*/, Bool_t /*spline*/)
 {
     Warning("SetMaterialProperty", "New function - not yet implemented."); 	 
 }
 
+inline void TFluka::SetSensitiveDetector(const TString & /*volName*/, TVirtualMCSensitiveDetector * /*sd*/)
+{
+    Warning("SetSensitiveDetector", "New function - not yet implemented.");
+}
 
+inline TVirtualMCSensitiveDetector *TFluka::GetSensitiveDetector(const TString & /*volName*/) const
+{
+    Warning("GetSensitiveDetector", "New function - not yet implemented.");
+    return 0;
+}
+
+inline void TFluka::SetExclusiveSDScoring(Bool_t exclusiveSDScoring)
+{
+    Warning("SetExclusiveSDScoring", "New function - not yet implemented.");
+}
+
+inline Double_t TFluka::NIELEdep() const
+{
+    Warning("NIELEdep", "New function - not yet implemented.");
+    return 0.;
+}
+
+inline Int_t TFluka::StepNumber() const
+{
+    Warning("StepNumber", "New function - not yet implemented.");
+    return 0;
+}
+
+inline Double_t TFluka::TrackWeight() const
+{
+    Warning("TrackWeight", "New function - not yet implemented.");
+    return 0.;
+}
+
+inline void TFluka::TrackPolarization(Double_t &/*polX*/, Double_t &/*polY*/, Double_t &/*polZ*/) const
+{
+    Warning("TrackPolarization", "New function - not yet implemented.");
+}
+
+inline void TFluka::TrackPolarization(TVector3 &/*pol*/) const
+{
+    Warning("TrackPolarization", "New function - not yet implemented.");
+}
+
+inline void TFluka::ProcessEvent(Int_t /*eventId*/)
+{
+    Warning("SetExclusiveSDScoring", "New function - not yet implemented.");
+}
+
+inline void TFluka::ProcessEvent(Int_t /*eventId*/, Bool_t /*isInterruptible*/)
+{
+    Warning("ProcessEvent", "New function - not yet implemented.");
+}
+
+inline void TFluka::InterruptTrack()
+{
+    Warning("InterruptTrack", "New function - not yet implemented.");
+}
 
 #endif //TFLUKA
-
