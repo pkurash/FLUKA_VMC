@@ -168,6 +168,9 @@ void TFlukaConfigOption::WriteFlukaInputCards()
        fprintf(fgFile,"*\n*Global process and cut settings \n");
        fCMatMin = fgMatMin;
        fCMatMax = fgMatMax;
+       //  Enable call of USRMED for user particle stopping
+       fprintf(fgFile, "*\n* --- Enable usrmed calls \n");
+       fprintf(fgFile,"MAT-PROP  %10.1f%10.1f%10.4g%10.1f%10.1f%10.1fUSERDIRE\n", 1., 0., 0., fCMatMin, fCMatMax, 1.); 
     }
 //
 // Handle Process Flags 
@@ -204,8 +207,9 @@ void TFlukaConfigOption::WriteFlukaInputCards()
 // Handle Cuts
 //
     if (!((TFluka*)gMC)->IsActivationSimulation()) {
-      if (fCutValue[kCUTGAM] >= 0.) ProcessCUTGAM();
-      if (fCutValue[kCUTELE] >= 0.) ProcessCUTELE();
+      if ((fCutValue[kCUTGAM] >= 0.) !=  (fCutValue[kCUTELE] >= 0) )
+	fprintf(fgFile, "* FLUKA_VMC WARNING: inconsistent electron / photon cut values \n");
+      if (fCutValue[kCUTGAM] >= 0. || fCutValue[kCUTELE] >= 0)  ProcessCUTGAMELE();
     }
     if (fCutValue[kCUTNEU] >= 0.) ProcessCUTNEU();
     if (fCutValue[kCUTHAD] >= 0.) ProcessCUTHAD();
@@ -244,7 +248,6 @@ void TFlukaConfigOption::ProcessPAIR()
     } else {
        fprintf(fgFile,"EMFCUT    %10.1f%10.1f%10.4g%10.1f%10.1f%10.1fPHOT-THR\n",0., 0., 1e10,               fCMatMin, fCMatMax, 1.);
     }
-    
     //
     // Direct pair production by Muons and Hadrons
     //
@@ -290,6 +293,7 @@ void TFlukaConfigOption::ProcessPAIR()
 
     fprintf(fgFile,"PAIRBREM  %10.1f%10.4g%10.4g%10.1f%10.1f\n",flag, cutP, cutB, fCMatMin, fCMatMax);
 }
+
 
 
 void TFlukaConfigOption::ProcessBREM()
@@ -601,14 +605,14 @@ void TFlukaConfigOption::ProcessLOSS()
 }
 
 
-void TFlukaConfigOption::ProcessCUTGAM()
+void TFlukaConfigOption::ProcessCUTGAMELE()
 {
 // Cut on gammas
 //
     fprintf(fgFile,"*\n*Cut for Gammas. CUTGAM = %13.4g\n", fCutValue[kCUTGAM]);
     if (fMedium == -1) {
        fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n",
-              0., fCutValue[kCUTGAM], 0., 0., Float_t(fgGeom->NofVolumes()), 1.);
+             -fCutValue[kCUTELE], fCutValue[kCUTGAM], 0., 0., Float_t(fgGeom->NofVolumes()), 1.);
 
     } else {
        Int_t nreg, *reglist;
@@ -617,7 +621,7 @@ void TFlukaConfigOption::ProcessCUTGAM()
        // Loop over regions of a given material
        for (Int_t k = 0; k < nreg; k++) {
            ireg = reglist[k];
-           fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n", 0.,fCutValue[kCUTGAM], 0., ireg, ireg, 1.);
+           fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.1f%10.1f%10.1f%10.1f\n", -fCutValue[kCUTELE], fCutValue[kCUTGAM], 0., ireg, ireg, 1.);
        }
     }
     
@@ -625,9 +629,9 @@ void TFlukaConfigOption::ProcessCUTGAM()
     //
     //  FUDGEM paramter. The parameter takes into account th contribution of atomic electrons to multiple scattering.
     //  For production and transport cut-offs larger than 100 keV it must be set = 1.0, while in the keV region it must be
-    Float_t parFudgem = (fCutValue[kCUTGAM] > 1.e-4)? 1.0 : 1.e-5 ;
+    Float_t parFudgem = (fCutValue[kCUTELE] > 1.e-4)? 1.0 : 1.e-5 ;
     fprintf(fgFile,"EMFCUT    %10.4g%10.4g%10.4g%10.1f%10.1f%10.1fPROD-CUT\n", 
-           0., fCutValue[kCUTGAM], parFudgem, fCMatMin, fCMatMax, 1.);
+           -fCutValue[kCUTELE], fCutValue[kCUTGAM], parFudgem, fCMatMin, fCMatMax, 1.);
 }
 
 void TFlukaConfigOption::ProcessCUTELE()
