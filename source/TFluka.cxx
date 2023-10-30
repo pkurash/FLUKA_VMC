@@ -1121,7 +1121,7 @@ void TFluka::StopTrack()
     // Works for photons and charged particles
     fStopped = kTRUE;
 }
-  
+
 //_____________________________________________________________________________
 // methods for physics management
 //____________________________________________________________________________ 
@@ -2078,7 +2078,9 @@ Bool_t   TFluka::IsTrackStop() const
       icode == kKASNEUstopping  || // neutron below threshold
       icode == kKASNEUtimekill  || // time kill
       icode == kKASHEAtimekill  || // time kill
-      icode == kKASOPHtimekill) return 1; // time kill
+      icode == kKASOPHtimekill  || // time kill
+      icode == kKASHEAstopping     // heavy fragment below user-defined cut-off
+      ) return 1; // time kill
   else return 0;
 }
 

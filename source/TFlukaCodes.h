@@ -41,7 +41,8 @@ typedef enum {
     kKASNEUhadronic    = 300,  // neutron interaction
     kKASHEA            =   4,  // KASHEA code first digit
     kKASHEAescape      =  40,  // escape
-    kKASHEAtimekill    =  41,  // time kill 
+    kKASHEAtimekill    =  41,  // time kill
+    kKASHEAstopping    =  44,  // below user cut-off (exists only in FLUKA_VMC, set by mgdraw)
     kKASHEAboundary    =  49,  // boundary crossing
     kKASHEAdray        = 400,  // delta ray generation
     kKASOPH            =   5,  // KASOPH code first digit

@@ -64,7 +64,7 @@ public:
     void     ProcessMULS();
     void     ProcessLOSS();
     
-    void     ProcessCUTGAM();
+    void     ProcessCUTGAMELE();
     void     ProcessCUTELE();
     void     ProcessCUTNEU();
     void     ProcessCUTHAD();

@@ -96,6 +96,7 @@ set(cxx_sources
   ${PROJECT_SOURCE_DIR}/source/TFlukaMCGeometry.cxx
   ${PROJECT_SOURCE_DIR}/source/TFlukaScoringOption.cxx
   ${PROJECT_SOURCE_DIR}/source/usdraw.cxx
+  ${PROJECT_SOURCE_DIR}/source/usrmed.cxx
   )
 if("${COMSCW}" STREQUAL "ACTIVITY")
   list(APPEND cxx_sources ${PROJECT_SOURCE_DIR}/source/comscw.cxx)
@@ -115,6 +116,7 @@ set(headers
   ${PROJECT_SOURCE_DIR}/source/Fdrawcalls.h
   ${PROJECT_SOURCE_DIR}/source/Femfrgn.h
   ${PROJECT_SOURCE_DIR}/source/Femfstk.h
+  ${PROJECT_SOURCE_DIR}/source/Femftrn.h
   ${PROJECT_SOURCE_DIR}/source/Fevtflg.h
   ${PROJECT_SOURCE_DIR}/source/Ffheavy.h
   ${PROJECT_SOURCE_DIR}/source/Fflkmat.h

@@ -10,6 +10,7 @@
 #include "Ftrackr.h"  //(TRACKR) 
 #include "Fopphst.h"  //(OPPHST) 
 #include "Fflkstk.h"  //(FLKSTK) 
+#include "Femftrn.h"  //(FEMFTRN)
 #include "Fltclcm.h"  //(LTCLCM) 
 #include "Fpaprop.h"  //(PAPROP) 
 #include "Falldlt.h"  //(ALLDLT) 
@@ -61,7 +62,11 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 //    
     Int_t mlttc = TRACKR.lt1trk; // LTCLCM.mlatm1;
     fluka->SetMreg(mreg, mlttc);
-    fluka->SetIcode((FlukaProcessCode_t) icode);
+    if ((icode == 4) && (TRACKR.ptrack == 0.)) {
+      fluka->SetIcode(kKASHEAstopping);
+    } else {
+      fluka->SetIcode((FlukaProcessCode_t) icode);
+    }
     fluka->SetCaller(kMGDRAW);
 
     Int_t nodeId;
@@ -168,6 +173,11 @@ void mgdraw(Int_t& icode, Int_t& mreg)
 	    fluka->PrimaryIonisationStepping(nprim);
 	} // primary ionisation switched on
     } // tracking resumed
+    if (fluka->GetStoppingCondition()) {
+      TRACKR.lpkill = kTRUE;
+      EMFTRN.idisc = -1;
+      fluka->ResetStoppingCondition();
+    }
 } // end of mgdraw
 } // end of extern "C"
 

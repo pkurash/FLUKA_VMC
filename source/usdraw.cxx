@@ -7,6 +7,7 @@
 #include "Ftrackr.h"  //(TRACKR) fluka common
 #include "Fltclcm.h"  //(LTCLCM) fluka common
 #include "Femfstk.h"  //(EMFSTK) fluka common
+#include "Femftrn.h"  //(EMFTRN) fluka common
 #include "Fflkstk.h"  //(FLKSTK) fluka common
 #ifndef WIN32
 # define usdraw usdraw_
@@ -48,7 +49,12 @@ void usdraw(Int_t& icode, Int_t& mreg,
               EMFSTK.espark[npnw][7] = p[3];               // e
               EMFSTK.espark[npnw][8] = gMC->TrackLength(); // Length
           } // Track found in stack
-      } // Loop over emf stack 
+      } // Loop over emf stack
+      if (fluka->GetStoppingCondition()) {
+	printf("stopping requested in usdraw elem \n");
+        EMFTRN.idisc = -1;
+	fluka->ResetStoppingCondition();
+      }
   } // Electromagnetic process
 
   if (icode == kKASKADdray || icode == kKASKADpair || icode == kKASKADbrems) {
